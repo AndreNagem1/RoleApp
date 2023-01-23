@@ -132,7 +132,24 @@ class ReviewsPage extends StatelessWidget {
   openAddReviewDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => const Center(child: AddReviewDialog()),
+      builder: (_) =>  Center(
+        child:  Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Container(
+            height: 300,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+                bottomLeft: Radius.circular(30),
+              ),
+              color: Colors.white,
+            ),
+            child: const AddReviewDialog(),
+          ),
+        ),
+      ),
     );
   }
 }
