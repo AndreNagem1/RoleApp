@@ -132,7 +132,7 @@ class ReviewsPage extends StatelessWidget {
   openAddReviewDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => const AddReviewDialog(),
+      builder: (_) => const Center(child: AddReviewDialog()),
     );
   }
 }
