@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rolesp/ColorsRoleSp.dart';
 import 'package:rolesp/reviews_page.dart';
-import 'package:rolesp/round_buttton.dart';
 
 class PlaceDetails extends StatelessWidget {
   final String? nome;
@@ -12,9 +12,12 @@ class PlaceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Container(
-      height: screenHeight * 0.7,
+      height: screenHeight * 0.52,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -30,91 +33,138 @@ class PlaceDetails extends StatelessWidget {
             'assets/images/blackHorse.jpg',
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RoundButton(
-                    height: 40,
-                    width: 110,
-                    onPress: () {
-                      showReviews(context);
-                    },
-                    text: 'Reviews',
-                    backGroundColor: const Color.fromARGB(176, 255, 255, 255),
-                    borderColor: Colors.black,
-                    font: GoogleFonts.roboto(
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      width: 150,
+                      child: Text(
+                        'Black Horse',
+                        style: GoogleFonts.roboto(
+                          textStyle: const TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
+                    ),
+                    const Spacer(),
+                    const SizedBox(height: 5),
+                    Container(
+                      width: 20,
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.arrow_upward_outlined,
+                        color: Colors.grey,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    SizedBox(
+                      width: 35,
+                      child: Text(
+                        '2 Km',
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.acme(
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Pratos, homburguer, cerveja e drinks',
+                    style: GoogleFonts.acme(
+                      textStyle:
+                      const TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                   ),
                 ),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 35,
-                      width: 120,
-                      child: Image.asset(
-                        'assets/images/avaliations.png',
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    showReviews(context);
+                  },
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        width: 100,
+                        child: Image.asset(
+                          'assets/images/avaliations.png',
+                        ),
                       ),
-                    )),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: SizedBox(
-              height: 30,
-              width: double.infinity,
-              child: Text(
-                'Black Horse',
-                style: GoogleFonts.roboto(
-                  textStyle: const TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                      const SizedBox(width: 2),
+                      Container(
+                        height: 20,
+                        width: 100,
+                        alignment: Alignment.center,
+                        child: Text(
+                          '(182 avaliações)',
+                          style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 20.0),
-            child: SizedBox(
-              height: 45,
-              width: double.infinity,
-              child: Text(
-                'Bar, Rock, Cerveja. Hamburguers e pratos especiais.',
-                style: GoogleFonts.acme(
-                  textStyle: const TextStyle(fontSize: 20, color: Colors.white),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text(
+                      'Aberto - ',
+                      style: GoogleFonts.roboto(color: Colors.white),
+                    ),
+                    Text(
+                      '18h -22h30',
+                      style: GoogleFonts.roboto(color: Colors.white),
+                    )
+                  ],
                 ),
-              ),
-            ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: RoundButton(
-              height: 70,
-              width: double.infinity,
-              onPress: () => Navigator.pop(context),
-              text: 'Vamos',
-              backGroundColor: Colors.white,
-              borderColor: Colors.transparent,
-              font: GoogleFonts.roboto(
-                textStyle: const TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(height: 15),
+                Container(
+                  height: 0.5,
+                  width: double.infinity,
+                  color: ColorsRoleSp.perfectPurple,
                 ),
-              ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const SizedBox(width: 40),
+                    Text(
+                      'Menu',
+                      style: GoogleFonts.righteous(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'Info',
+                      style: GoogleFonts.righteous(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 40),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

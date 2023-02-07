@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/add_review_dialog.dart';
@@ -132,22 +131,10 @@ class ReviewsPage extends StatelessWidget {
   openAddReviewDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) =>  Center(
-        child:  Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            height: 300,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-              ),
-              color: Colors.white,
-            ),
-            child: const AddReviewDialog(),
-          ),
+      builder: (_) => const Center(
+        child: SizedBox(
+          height: 300,
+          child: AddReviewDialog(),
         ),
       ),
     );

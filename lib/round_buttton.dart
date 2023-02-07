@@ -28,7 +28,7 @@ class RoundButton extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         borderRadius:  BorderRadius.all(
-          Radius.circular(28),
+          Radius.circular(18),
         ),
       ),
       child: ElevatedButton(
