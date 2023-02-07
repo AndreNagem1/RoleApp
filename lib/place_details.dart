@@ -2,22 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/ColorsRoleSp.dart';
 import 'package:rolesp/reviews_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetails extends StatelessWidget {
   final String? nome;
   final String? image;
+  final Uri _url = Uri.parse('https://theblackhorse.com.br/');
 
-  const PlaceDetails({required Key key, this.nome, this.image})
-      : super(key: key);
+  PlaceDetails({required Key key, this.nome, this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
     return Container(
-      height: screenHeight * 0.52,
+      height: 400,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -87,7 +84,7 @@ class PlaceDetails extends StatelessWidget {
                     'Pratos, homburguer, cerveja e drinks',
                     style: GoogleFonts.acme(
                       textStyle:
-                      const TextStyle(fontSize: 18, color: Colors.grey),
+                          const TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                   ),
                 ),
@@ -127,11 +124,11 @@ class PlaceDetails extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Aberto - ',
+                      'Aberto -',
                       style: GoogleFonts.roboto(color: Colors.white),
                     ),
                     Text(
-                      '18h -22h30',
+                      '18h - 22h30',
                       style: GoogleFonts.roboto(color: Colors.white),
                     )
                   ],
@@ -142,15 +139,20 @@ class PlaceDetails extends StatelessWidget {
                   width: double.infinity,
                   color: ColorsRoleSp.perfectPurple,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     const SizedBox(width: 40),
-                    Text(
-                      'Menu',
-                      style: GoogleFonts.righteous(
-                        color: Colors.white,
-                        fontSize: 20,
+                    GestureDetector(
+                      onTap: () {
+                        _launchUrl();
+                      },
+                      child: Text(
+                        'Menu',
+                        style: GoogleFonts.righteous(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                     const Spacer(),
@@ -170,6 +172,12 @@ class PlaceDetails extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 
   showReviews(BuildContext context) {
