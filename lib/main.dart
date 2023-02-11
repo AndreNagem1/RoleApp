@@ -7,10 +7,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  runApp(RoleSpApp());
+  runApp(const RoleSpApp());
 }
 
 class RoleSpApp extends StatelessWidget {
+  const RoleSpApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
