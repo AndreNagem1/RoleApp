@@ -5,7 +5,6 @@ import 'package:rolesp/map_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   runApp(const RoleSpApp());
 }
