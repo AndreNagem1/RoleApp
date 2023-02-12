@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/ColorsRoleSp.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InfoDialog extends StatelessWidget {
   const InfoDialog({Key? key}) : super(key: key);
@@ -148,33 +149,43 @@ class InfoDialog extends StatelessWidget {
               child: Row(
                 children: [
                   const SizedBox(width: 30),
-                  SizedBox(
-                    width: 200,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 15),
-                        Text(
-                          'Ligar',
-                          style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri(
+                          scheme: 'tel',
+                          path: '+551142085038',
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      width: 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 15),
+                          Text(
+                            'Ligar',
+                            style: GoogleFonts.roboto(
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '+55 11 4208-5038',
-                          style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
+                          const SizedBox(height: 2),
+                          Text(
+                            '+55 11 4208-5038',
+                            style: GoogleFonts.roboto(
+                              textStyle: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const Spacer(),
