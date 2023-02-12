@@ -9,8 +9,6 @@ class ReviewsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     ReviewModel firstReview = ReviewModel(
       userName: 'João',
       reviewText: 'Muito bom, a cerveja está sempre gelada',
@@ -47,7 +45,7 @@ class ReviewsPage extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: screenHeight * 0.7,
+          height: 400,
           width: double.infinity,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -81,7 +79,7 @@ class ReviewsPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: SizedBox(
-                  height: screenHeight * 0.6,
+                  height: 350,
                   width: double.infinity,
                   child: ListView.builder(
                     itemBuilder: (context, position) {
@@ -111,7 +109,7 @@ class ReviewsPage extends StatelessWidget {
           ),
         ),
         Container(
-          height: screenHeight * 0.7,
+          height: 400,
           width: double.infinity,
           alignment: Alignment.bottomRight,
           child: Padding(
