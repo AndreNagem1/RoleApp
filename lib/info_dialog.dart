@@ -146,19 +146,19 @@ class InfoDialog extends StatelessWidget {
             ),
             SizedBox(
               height: 70,
-              child: Row(
-                children: [
-                  const SizedBox(width: 30),
-                  GestureDetector(
-                    onTap: () {
-                      launchUrl(
-                        Uri(
-                          scheme: 'tel',
-                          path: '+551142085038',
-                        ),
-                      );
-                    },
-                    child: SizedBox(
+              child: GestureDetector(
+                onTap: () {
+                  launchUrl(
+                    Uri(
+                      scheme: 'tel',
+                      path: '+551142085038',
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    const SizedBox(width: 30),
+                    SizedBox(
                       width: 200,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,11 +187,11 @@ class InfoDialog extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.phone),
-                  const SizedBox(width: 30),
-                ],
+                    const Spacer(),
+                    const Icon(Icons.phone),
+                    const SizedBox(width: 30),
+                  ],
+                ),
               ),
             ),
           ],
