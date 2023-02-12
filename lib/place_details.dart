@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/ColorsRoleSp.dart';
+import 'package:rolesp/info_dialog.dart';
 import 'package:rolesp/reviews_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -156,11 +157,16 @@ class PlaceDetails extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      'Info',
-                      style: GoogleFonts.righteous(
-                        color: Colors.white,
-                        fontSize: 20,
+                    GestureDetector(
+                      onTap: (){
+                        openAddReviewDialog(context);
+                      },
+                      child: Text(
+                        'Info',
+                        style: GoogleFonts.righteous(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 40),
@@ -188,6 +194,18 @@ class PlaceDetails extends StatelessWidget {
       builder: (BuildContext bc) {
         return const ReviewsPage();
       },
+    );
+  }
+
+  openAddReviewDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => const Center(
+        child: SizedBox(
+          height: 300,
+          child: InfoDialog(),
+        ),
+      ),
     );
   }
 }
