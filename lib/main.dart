@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rolesp/home_page.dart';
 import 'package:rolesp/map_page.dart';
 
 void main() async {
@@ -24,7 +25,7 @@ class RoleSpApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      home: const MapPage(key: Key('')),
+      home: const HomePage(key: Key('')),
     );
   }
 }
