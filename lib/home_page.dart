@@ -109,10 +109,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -125,10 +124,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -141,10 +139,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -162,10 +159,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -178,10 +174,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -194,10 +189,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -215,10 +209,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -231,10 +224,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
@@ -247,10 +239,9 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         width: 90,
                         height: 75,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                        decoration: const BoxDecoration(
                           color: ColorsRoleSp.blackIcon,
-                          borderRadius: const BorderRadius.all(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
