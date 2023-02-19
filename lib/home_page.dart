@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolesp/ColorsRoleSp.dart';
 import 'package:rolesp/map_page.dart';
@@ -16,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.black,
+        color: ColorsRoleSp.background,
         child: Column(
           children: [
             SizedBox(
@@ -30,8 +29,8 @@ class _HomePageState extends State<HomePage> {
                     height: 350,
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 120),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -58,8 +57,8 @@ class _HomePageState extends State<HomePage> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Colors.black12,
-                              Colors.black87,
+                              ColorsRoleSp.background12,
+                              ColorsRoleSp.background,
                             ],
                           ),
                         ),
@@ -80,10 +79,13 @@ class _HomePageState extends State<HomePage> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 50,
+                      height: 60,
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1),
-                        color: Colors.white,
+                        border: Border.all(
+                          width: 2,
+                          color: ColorsRoleSp.searchBorder,
+                        ),
+                        color: ColorsRoleSp.blackIcon,
                         borderRadius: const BorderRadius.all(
                           Radius.circular(10),
                         ),
@@ -93,7 +95,8 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(width: 10),
                           Icon(
                             Icons.search,
-                            size: 25,
+                            size: 30,
+                            color: ColorsRoleSp.white,
                           ),
                         ],
                       ),
@@ -108,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -124,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -140,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -161,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -177,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -193,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -214,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -230,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -246,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                         height: 75,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: Colors.white,
+                          color: ColorsRoleSp.blackIcon,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(15),
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rolesp/ColorsRoleSp.dart';
 
 class HomeIcon extends StatelessWidget {
   final IconData icon;
@@ -19,11 +20,15 @@ class HomeIcon extends StatelessWidget {
         Icon(
           icon,
           size: 30,
+            color: ColorsRoleSp.whiteLetter
         ),
         const SizedBox(height: 2),
         Text(
           title,
-          style: const TextStyle(fontSize: 15),
+          style: const TextStyle(
+            fontSize: 15,
+            color: ColorsRoleSp.whiteLetter
+          ),
         ),
       ],
     );
