@@ -16,13 +16,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.black87,
+        color: Colors.black,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               height: 350,
-              color: Colors.red,
               child: Stack(
                 children: [
                   Image.asset(
@@ -30,9 +29,42 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.fill,
                     height: 350,
                   ),
-                  Image.asset(
-                    'assets/images/big_logo.png',
-                    height: 350,
+                  Column(
+                    children: [
+                      const SizedBox(height: 120),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/big_logo.png',
+                            height: 100,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 250,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black12,
+                              Colors.black87,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -188,8 +220,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         child: const HomeIcon(
-                          icon: Icons.wallet_travel_outlined,
-                          title: 'Turismo',
+                          icon: Icons.local_drink_outlined,
+                          title: 'Bar',
                         ),
                       ),
                       const SizedBox(width: 5),
@@ -204,8 +236,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         child: const HomeIcon(
-                          icon: Icons.hotel_rounded,
-                          title: 'Hotel',
+                          icon: Icons.map_outlined,
+                          title: 'Mapa',
                         ),
                       ),
                       const SizedBox(width: 5),
