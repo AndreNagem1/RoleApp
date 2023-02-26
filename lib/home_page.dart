@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rolesp/ColorsRoleSp.dart';
 import 'package:rolesp/map_page.dart';
 import 'package:rolesp/widgets/home_icon.dart';
+import 'package:rolesp/widgets/home_search_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -73,34 +74,10 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
+                  HomeSearchBar(
+                    navigateToHome: () {
                       _navigateToMapScreen(context);
                     },
-                    child: Container(
-                      width: double.infinity,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                          color: ColorsRoleSp.searchBorder,
-                        ),
-                        color: ColorsRoleSp.blackIcon,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(
-                        children: const [
-                          SizedBox(width: 10),
-                          Icon(
-                            Icons.search,
-                            size: 30,
-                            color: ColorsRoleSp.white,
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 30),
                   Row(
