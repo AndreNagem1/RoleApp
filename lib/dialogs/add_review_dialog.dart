@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rolesp/round_buttton.dart';
+import 'package:rolesp/widgets/round_buttton.dart';
 
 class AddReviewDialog extends StatefulWidget {
   const AddReviewDialog({Key? key}) : super(key: key);

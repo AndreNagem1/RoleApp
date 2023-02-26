@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rolesp/ColorsRoleSp.dart';
-import 'package:rolesp/info_dialog.dart';
-import 'package:rolesp/reviews_page.dart';
+import 'package:rolesp/BottomSheets/reviews_page.dart';
+import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/dialogs/info_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetails extends StatelessWidget {

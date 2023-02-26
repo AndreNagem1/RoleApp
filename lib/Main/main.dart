@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:rolesp/home_page.dart';
-import 'package:rolesp/map_page.dart';
+import 'package:rolesp/Screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

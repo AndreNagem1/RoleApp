@@ -12,12 +12,12 @@ class FilterDialog extends StatelessWidget {
       children: [
         Obx(
           () => Slider(
-            value: CafesController.to.raio.value,
+            value: MapController.to.raio.value,
             min: 0,
             max: 10,
             divisions: 10000,
-            label: CafesController.to.distancia,
-            onChanged: (value) => CafesController.to.raio.value = value,
+            label: MapController.to.distancia,
+            onChanged: (value) => MapController.to.raio.value = value,
           ),
         ),
         Padding(
@@ -26,7 +26,7 @@ class FilterDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: () => CafesController.to.filtrarCafes(),
+                onPressed: () => MapController.to.filtrarCafes(),
                 child: const Text('Filtrar'),
               ),
               TextButton(
@@ -40,7 +40,7 @@ class FilterDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CafesController());
+    final controller = Get.put(MapController());
 
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +54,7 @@ class FilterDialog extends StatelessWidget {
           ),
         ],
       ),
-      body: GetBuilder<CafesController>(
+      body: GetBuilder<MapController>(
         init: controller,
         builder: (value) => GoogleMap(
           mapType: MapType.normal,

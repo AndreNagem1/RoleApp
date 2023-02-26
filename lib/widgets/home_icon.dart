@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rolesp/ColorsRoleSp.dart';
+import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
 class HomeIcon extends StatelessWidget {
   final IconData icon;
