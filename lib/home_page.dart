@@ -105,150 +105,60 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.restaurant,
-                          title: 'Restaurante',
-                        ),
+                    children: const [
+                      HomeIcon(
+                        icon: Icons.restaurant,
+                        title: 'Restaurante',
                       ),
-                      const SizedBox(width: 5),
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.fastfood_rounded,
-                          title: 'FastFood',
-                        ),
+                      SizedBox(width: 5),
+                      HomeIcon(
+                        icon: Icons.fastfood_rounded,
+                        title: 'FastFood',
                       ),
-                      const SizedBox(width: 5),
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.coffee_rounded,
-                          title: 'Cafés',
-                        ),
+                      SizedBox(width: 5),
+                      HomeIcon(
+                        icon: Icons.coffee_rounded,
+                        title: 'Cafés',
                       ),
                     ],
                   ),
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.directions_run,
-                          title: 'Ar livre',
-                        ),
+                    children: const [
+                      HomeIcon(
+                        icon: Icons.directions_run,
+                        title: 'Ar livre',
                       ),
-                      const SizedBox(width: 5),
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.event_available,
-                          title: 'Eventos',
-                        ),
+                      SizedBox(width: 5),
+                      HomeIcon(
+                        icon: Icons.event_available,
+                        title: 'Eventos',
                       ),
-                      const SizedBox(width: 5),
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.shopping_bag_outlined,
-                          title: 'Shopping',
-                        ),
+                      SizedBox(width: 5),
+                      HomeIcon(
+                        icon: Icons.shopping_bag_outlined,
+                        title: 'Shopping',
                       ),
                     ],
                   ),
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.local_drink_outlined,
-                          title: 'Bar',
-                        ),
+                    children: const [
+                      HomeIcon(
+                        icon: Icons.local_drink_outlined,
+                        title: 'Bar',
                       ),
-                      const SizedBox(width: 5),
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.map_outlined,
-                          title: 'Mapa',
-                        ),
+                      SizedBox(width: 5),
+                      HomeIcon(
+                        icon: Icons.map_outlined,
+                        title: 'Mapa',
                       ),
-                      const SizedBox(width: 5),
-                      Container(
-                        width: 90,
-                        height: 75,
-                        decoration: const BoxDecoration(
-                          color: ColorsRoleSp.blackIcon,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                        child: const HomeIcon(
-                          icon: Icons.star,
-                          title: 'Favoritos',
-                        ),
+                      SizedBox(width: 5),
+                      HomeIcon(
+                        icon: Icons.star,
+                        title: 'Favoritos',
                       ),
                     ],
                   )

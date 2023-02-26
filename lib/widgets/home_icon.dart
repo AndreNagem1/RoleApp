@@ -14,23 +14,27 @@ class HomeIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          size: 30,
-            color: ColorsRoleSp.whiteLetter
+    return Container(
+      width: 90,
+      height: 75,
+      decoration: const BoxDecoration(
+        color: ColorsRoleSp.blackIcon,
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
         ),
-        const SizedBox(height: 2),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 15,
-            color: ColorsRoleSp.whiteLetter
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 30, color: ColorsRoleSp.whiteLetter),
+          const SizedBox(height: 2),
+          Text(
+            title,
+            style:
+                const TextStyle(fontSize: 15, color: ColorsRoleSp.whiteLetter),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
