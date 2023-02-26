@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Database/db.dart';
 
-import '../BottomSheets/place_details.dart';
+import '../BottomSheets/place_details_bottom_sheet.dart';
 
 class MapController extends GetxController {
   final latitude = 0.0.obs;
@@ -108,7 +108,7 @@ class MapController extends GetxController {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext bc) {
-        return PlaceDetails(
+        return PlaceDetailsBottomSheet(
           key: const Key(''),
           nome: marker.markerId.value,
           image: '',

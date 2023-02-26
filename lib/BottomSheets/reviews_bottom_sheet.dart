@@ -4,8 +4,8 @@ import 'package:rolesp/dialogs/add_review_dialog.dart';
 import 'package:rolesp/models/review_model.dart';
 import 'package:rolesp/widgets/review_widget.dart';
 
-class ReviewsPage extends StatelessWidget {
-  const ReviewsPage({Key? key}) : super(key: key);
+class ReviewsPageBottomSheet extends StatelessWidget {
+  const ReviewsPageBottomSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

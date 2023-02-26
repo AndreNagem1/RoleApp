@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
-import 'package:rolesp/Screens/map_page.dart';
+import 'package:rolesp/Screens/map_screen.dart';
 import 'package:rolesp/widgets/home_gradient_effect.dart';
 import 'package:rolesp/widgets/home_icon.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
   _navigateToMapScreen(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const MapPage()),
+      MaterialPageRoute(builder: (context) => const MapScreen()),
     );
   }
 }

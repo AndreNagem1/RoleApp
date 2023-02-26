@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 
-class MapPage extends StatelessWidget {
-  const MapPage({ Key? key}) : super(key: key);
+class MapScreen extends StatelessWidget {
+  const MapScreen({ Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
