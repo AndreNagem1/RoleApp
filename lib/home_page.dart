@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rolesp/ColorsRoleSp.dart';
 import 'package:rolesp/map_page.dart';
+import 'package:rolesp/widgets/home_gradient_effect.dart';
 import 'package:rolesp/widgets/home_icon.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';
 
@@ -29,43 +30,14 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.fill,
                     height: 350,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/big_logo.png',
-                            height: 100,
-                          ),
-                        ],
-                      ),
-                    ],
+                  Container(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      'assets/images/big_logo.png',
+                      height: 100,
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        height: 250,
-                        width: double.infinity,
-                        color: Colors.black12,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              ColorsRoleSp.background12,
-                              ColorsRoleSp.background,
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  const HomeGradientEffect(),
                 ],
               ),
             ),
