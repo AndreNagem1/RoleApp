@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Database/db.dart';
+import 'package:rolesp/models/places_nearby_response.dart';
 
 import '../BottomSheets/place_details_bottom_sheet.dart';
 
@@ -73,22 +74,12 @@ class MapController extends GetxController {
   onMapCreated(GoogleMapController gmc) async {
     _mapsController = gmc;
     getPosition();
-    loadPlaces();
 
     var style = await rootBundle.loadString('assets/mapDecoration.txt');
     _mapsController.setMapStyle(style);
   }
 
-  loadPlaces() async {
-    FirebaseFirestore db = DB.get();
-    final cafes = await db.collection('cafes').get();
-
-    for (var cafe in cafes.docs) {
-      // addMarker(cafe);
-    }
-  }
-
-  addMarker(Marker marker, BuildContext context) async {
+  addMarker(Marker marker, BuildContext context, Results results) async {
     markers.add(
       Marker(
           markerId: MarkerId(marker.markerId.value),
@@ -96,13 +87,13 @@ class MapController extends GetxController {
           infoWindow: InfoWindow(title: marker.markerId.value),
           icon: BitmapDescriptor.defaultMarker,
           onTap: () {
-            showDetails(marker, context);
+            showDetails(marker, context, results);
           }),
     );
     update();
   }
 
-  showDetails(Marker marker, BuildContext context) {
+  showDetails(Marker marker, BuildContext context, Results results) {
     showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,

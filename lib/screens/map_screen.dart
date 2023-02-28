@@ -63,11 +63,6 @@ class MapScreen extends StatelessWidget {
           markers: controller.markers,
           onTap: (geoLocation) {
             getNearByPlaces(controller, context);
-            var marker = Marker(
-              markerId: const MarkerId('1'),
-              position: LatLng(geoLocation.latitude, geoLocation.longitude),
-            );
-            controller.addMarker(marker, context);
           },
         ),
       ),
@@ -95,19 +90,20 @@ class MapScreen extends StatelessWidget {
     if (nearbyPlacesResponse.results != null) {
       var index = 0;
       while (index < nearbyPlacesResponse.results!.length) {
-        var id = nearbyPlacesResponse.results![index].name!;
-        var lat = nearbyPlacesResponse.results![index].geometry!.location!.lat!;
-        var lng = nearbyPlacesResponse.results![index].geometry!.location!.lng!;
-
-        print("MEU PRINT" + id);
-        print("MEU PRINT" + lat.toString());
-        print("MEU PRINT" + lng.toString());
+        var response = nearbyPlacesResponse.results![index];
+        var id = response.name!;
+        var lat = response.geometry!.location!.lat!;
+        var lng = response.geometry!.location!.lng!;
 
         var marker = Marker(
           markerId: MarkerId(id),
           position: LatLng(lat, lng),
         );
-        controller.addMarker(marker, context);
+        controller.addMarker(
+          marker,
+          context,
+          response
+        );
         index++;
       }
     }
