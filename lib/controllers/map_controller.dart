@@ -93,7 +93,7 @@ class MapController extends GetxController {
       Marker(
           markerId: MarkerId(marker.markerId.value),
           position: LatLng(marker.position.latitude, marker.position.longitude),
-          infoWindow: const InfoWindow(title: 'Black Horse'),
+          infoWindow: InfoWindow(title: marker.markerId.value),
           icon: BitmapDescriptor.defaultMarker,
           onTap: () {
             showDetails(marker, context);

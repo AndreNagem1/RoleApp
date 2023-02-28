@@ -41,7 +41,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       height: 30,
                       width: 150,
                       child: Text(
-                        'Black Horse',
+                        nome!,
                         style: GoogleFonts.roboto(
                           textStyle: const TextStyle(
                             fontSize: 25,
