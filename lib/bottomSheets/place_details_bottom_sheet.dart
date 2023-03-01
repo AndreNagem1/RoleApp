@@ -3,14 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/BottomSheets/reviews_bottom_sheet.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/dialogs/info_dialog.dart';
+import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailsBottomSheet extends StatelessWidget {
-  final String? nome;
-  final String? image;
+  final Results results;
   final Uri _url = Uri.parse('https://theblackhorse.com.br/');
 
-  PlaceDetailsBottomSheet({required Key key, this.nome, this.image}) : super(key: key);
+  PlaceDetailsBottomSheet({
+    required Key key,
+    required this.results,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       height: 30,
                       width: 150,
                       child: Text(
-                        nome!,
+                        results.name!,
                         style: GoogleFonts.roboto(
                           textStyle: const TextStyle(
                             fontSize: 25,
@@ -99,9 +102,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       SizedBox(
                         height: 20,
                         width: 100,
-                        child: Image.asset(
-                          'assets/images/avaliations.png',
-                        ),
+                        child: Image.asset(getAvaliationsImage(results.rating)),
                       ),
                       const SizedBox(width: 2),
                       Container(
@@ -109,7 +110,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                         width: 100,
                         alignment: Alignment.center,
                         child: Text(
-                          '(182 avaliações)',
+                          getNumberOfAvaliations(results.userRatingsTotal),
                           style: GoogleFonts.roboto(
                             textStyle: const TextStyle(
                               fontSize: 12,
@@ -158,7 +159,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                     const Spacer(),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         openAddReviewDialog(context);
                       },
                       child: Text(
@@ -178,6 +179,52 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getNumberOfAvaliations(int? userRatingsTotal) {
+    if (userRatingsTotal == null) {
+      return 'Sem avaliações';
+    }
+    return '(${results.userRatingsTotal} avaliações)';
+  }
+
+  String getAvaliationsImage(dynamic rating) {
+    print("MEU PRINT" + rating.toString());
+    if (rating == null) {
+      return 'assets/images/avaliations0.png';
+    }
+    if (rating <= 0.5) {
+      return 'assets/images/avaliations1.png';
+    }
+    if (rating >= 0.5 && rating < 1.0) {
+      return 'assets/images/avaliations2.png';
+    }
+    if (rating >= 1.0 && rating < 1.5) {
+      return 'assets/images/avaliations3.png';
+    }
+    if (rating >= 1.5 && rating < 2.0) {
+      return 'assets/images/avaliations4.png';
+    }
+    if (rating >= 2.0 && rating < 2.5) {
+      return 'assets/images/avaliations5.png';
+    }
+    if (rating >= 2.5 && rating < 3.0) {
+      return 'assets/images/avaliations6.png';
+    }
+    if (rating >= 3.0 && rating < 3.5) {
+      return 'assets/images/avaliations7.png';
+    }
+    if (rating >= 3.5 && rating < 4.0) {
+      return 'assets/images/avaliations8.png';
+    }
+    if (rating >= 4.0 && rating < 4.5) {
+      return 'assets/images/avaliations9.png';
+    }
+    if (rating >= 4.5) {
+      return 'assets/images/avaliations10.png';
+    }
+
+    return 'assets/images/avaliations0.png';
   }
 
   Future<void> _launchUrl() async {

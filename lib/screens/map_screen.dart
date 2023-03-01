@@ -88,24 +88,24 @@ class MapScreen extends StatelessWidget {
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
     if (nearbyPlacesResponse.results != null) {
-      var index = 0;
-      while (index < nearbyPlacesResponse.results!.length) {
-        var response = nearbyPlacesResponse.results![index];
-        var id = response.name!;
-        var lat = response.geometry!.location!.lat!;
-        var lng = response.geometry!.location!.lng!;
+      addPlacesToMap(controller, context);
+    }
+  }
 
-        var marker = Marker(
-          markerId: MarkerId(id),
-          position: LatLng(lat, lng),
-        );
-        controller.addMarker(
-          marker,
-          context,
-          response
-        );
-        index++;
-      }
+  void addPlacesToMap(MapController controller, BuildContext context) {
+    var index = 0;
+    while (index < nearbyPlacesResponse.results!.length) {
+      var response = nearbyPlacesResponse.results![index];
+      var id = response.name!;
+      var lat = response.geometry!.location!.lat!;
+      var lng = response.geometry!.location!.lng!;
+
+      var marker = Marker(
+        markerId: MarkerId(id),
+        position: LatLng(lat, lng),
+      );
+      controller.addMarker(marker, context, response);
+      index++;
     }
   }
 }

@@ -101,8 +101,7 @@ class MapController extends GetxController {
       builder: (BuildContext bc) {
         return PlaceDetailsBottomSheet(
           key: const Key(''),
-          nome: marker.markerId.value,
-          image: '',
+          results: results
         );
       },
     );

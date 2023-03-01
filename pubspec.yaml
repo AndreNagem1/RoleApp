@@ -70,7 +70,17 @@ flutter:
     - assets/images/blackHorse.jpg
     - assets/images/stars.jpg
     - assets/mapDecoration.txt
-    - assets/avaliations.png
+    - assets/avaliations0.png
+    - assets/avaliations1.png
+    - assets/avaliations2.png
+    - assets/avaliations3.png
+    - assets/avaliations4.png
+    - assets/avaliations5.png
+    - assets/avaliations6.png
+    - assets/avaliations7.png
+    - assets/avaliations8.png
+    - assets/avaliations9.png
+    - assets/avaliations10.png
     - assets/images/logo.png
     - assets/images/big_logo.png
     - assets/images/city.jpg
