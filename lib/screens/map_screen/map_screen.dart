@@ -12,8 +12,7 @@ import 'package:rolesp/models/places_nearby_response.dart';
 class MapScreen extends StatelessWidget {
   MapScreen({Key? key}) : super(key: key);
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
-
-  NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse();
+  final NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse();
 
   @override
   Widget build(BuildContext context) {
