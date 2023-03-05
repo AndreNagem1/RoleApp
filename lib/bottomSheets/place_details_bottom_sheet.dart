@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 class PlaceDetailsBottomSheet extends StatelessWidget {
   final Results results;
   final Uri _url = Uri.parse('https://theblackhorse.com.br/');
+  final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   PlaceDetailsBottomSheet({
     required Key key,
@@ -17,6 +18,16 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var imageVisibility = false;
+    var imageUrl = '';
+    if (results.photos?[0] != null) {
+      imageUrl =
+          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
+              results.photos![0].photoReference! +
+              '&key=' +
+              apiKey;
+      imageVisibility = true;
+    }
     return Container(
       height: 400,
       clipBehavior: Clip.hardEdge,
@@ -30,8 +41,18 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
-            'assets/images/blackHorse.jpg',
+          Visibility(
+            visible: imageVisibility,
+            child: SizedBox(
+              height: 200,
+              child: Image(
+                image: NetworkImage(imageUrl),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: !imageVisibility,
+            child: Image.asset('assets/image/blackHorse.jpg'),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -189,7 +210,6 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
   }
 
   String getAvaliationsImage(dynamic rating) {
-    print("MEU PRINT" + rating.toString());
     if (rating == null) {
       return 'assets/images/avaliations0.png';
     }
