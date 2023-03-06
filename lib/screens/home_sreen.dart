@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
-import 'package:rolesp/Screens/map_screen.dart';
+import 'package:rolesp/screens/map_screen/map_screen.dart';
 import 'package:rolesp/widgets/home_gradient_effect.dart';
 import 'package:rolesp/widgets/home_icon.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';

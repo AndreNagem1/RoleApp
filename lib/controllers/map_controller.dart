@@ -93,16 +93,31 @@ class MapController extends GetxController {
     update();
   }
 
+  addPlacesToMap(
+      NearbyPlacesResponse nearbyPlacesResponse, BuildContext context) {
+    var index = 0;
+    while (index < nearbyPlacesResponse.results!.length) {
+      var response = nearbyPlacesResponse.results![index];
+      var id = response.name!;
+      var lat = response.geometry!.location!.lat!;
+      var lng = response.geometry!.location!.lng!;
+
+      var marker = Marker(
+        markerId: MarkerId(id),
+        position: LatLng(lat, lng),
+      );
+      addMarker(marker, context, response);
+      index++;
+    }
+  }
+
   showDetails(Marker marker, BuildContext context, Results results) {
     showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext bc) {
-        return PlaceDetailsBottomSheet(
-          key: const Key(''),
-          results: results
-        );
+        return PlaceDetailsBottomSheet(key: const Key(''), results: results);
       },
     );
   }

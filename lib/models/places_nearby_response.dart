@@ -1,8 +1,8 @@
 class NearbyPlacesResponse {
+  NearbyPlacesResponse({this.results, this.status});
+
   List<Results>? results;
   String? status;
-
-  NearbyPlacesResponse({this.results, this.status});
 
   NearbyPlacesResponse.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
