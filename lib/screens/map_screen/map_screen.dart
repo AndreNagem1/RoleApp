@@ -46,33 +46,35 @@ class MapScreen extends StatelessWidget {
         backgroundColor: const Color(0x44000000),
         elevation: 0.0,
       ),
-      body: BlocBuilder<MapCubit, MapScreenState>(builder: (context, state) {
-        if (state is MapsLoading) {
-          cubit.getNearByPlaces();
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state is MapsSetNearbyPlaces) {
-          controller.addPlacesToMap(state.nearbyPlacesResponse, context);
-          return GetBuilder<MapController>(
-            init: controller,
-            builder: (value) => GoogleMap(
-              mapType: MapType.normal,
-              zoomControlsEnabled: false,
-              initialCameraPosition: CameraPosition(
-                target: controller.position,
-                zoom: 13,
-              ),
-              onMapCreated: controller.onMapCreated,
-              myLocationEnabled: true,
-              markers: controller.markers,
-              onTap: (geoLocation) {},
-            ),
-          );
-        }
-        return Container();
-      }),
+      body: BlocBuilder<MapCubit, MapScreenState>(
+          bloc: cubit,
+          builder: (context, state) {
+            if (state is MapsLoading) {
+              cubit.getNearByPlaces();
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is MapsSetNearbyPlaces) {
+              controller.addPlacesToMap(state.nearbyPlacesResponse, context);
+              return GetBuilder<MapController>(
+                init: controller,
+                builder: (value) => GoogleMap(
+                  mapType: MapType.normal,
+                  zoomControlsEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: controller.position,
+                    zoom: 13,
+                  ),
+                  onMapCreated: controller.onMapCreated,
+                  myLocationEnabled: true,
+                  markers: controller.markers,
+                  onTap: (geoLocation) {},
+                ),
+              );
+            }
+            return Container();
+          }),
     );
   }
 }
