@@ -14,6 +14,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(MapController());
     final cubit = MapCubit();
+    cubit.getNearByPlaces();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -50,7 +51,7 @@ class MapScreen extends StatelessWidget {
           bloc: cubit,
           builder: (context, state) {
             if (state is MapsLoading) {
-              cubit.getNearByPlaces();
+              controller.getPosition();
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -72,6 +73,9 @@ class MapScreen extends StatelessWidget {
                   onTap: (geoLocation) {},
                 ),
               );
+            }
+            if (state is ErrorState) {
+              return Container();
             }
             return Container();
           }),

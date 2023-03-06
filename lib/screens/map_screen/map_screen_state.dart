@@ -6,6 +6,10 @@ class MapsLoading extends MapScreenState {
   List<Object> get props => [];
 }
 
+class ErrorState extends MapScreenState {
+  List<Object> get props => [];
+}
+
 class MapsSetNearbyPlaces extends MapScreenState {
   MapsSetNearbyPlaces(this.nearbyPlacesResponse);
 
