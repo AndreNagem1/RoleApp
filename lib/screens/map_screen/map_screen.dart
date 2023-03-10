@@ -68,6 +68,7 @@ class MapScreen extends StatelessWidget {
                   ),
                   onMapCreated: controller.onMapCreated,
                   myLocationEnabled: true,
+                  rotateGesturesEnabled: false,
                   markers: controller.markers,
                   onTap: (geoLocation) {},
                 ),
