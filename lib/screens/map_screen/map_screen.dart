@@ -51,7 +51,6 @@ class MapScreen extends StatelessWidget {
           bloc: cubit,
           builder: (context, state) {
             if (state is MapsLoading) {
-              controller.getPosition();
               return const Center(
                 child: CircularProgressIndicator(),
               );

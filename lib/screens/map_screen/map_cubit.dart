@@ -11,8 +11,7 @@ class MapCubit extends Cubit<MapScreenState> {
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   void getNearByPlaces() async {
-    print("MEU PRINT - Começou getNearby");
-    var position = await Geolocator.getCurrentPosition();
+    //var position = await Geolocator.getCurrentPosition();
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
             '-23.486456' +
@@ -30,10 +29,8 @@ class MapCubit extends Cubit<MapScreenState> {
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
     if (nearbyPlacesResponse.results != null) {
-      print("MEU PRINT - deu bom");
       emit(MapsSetNearbyPlaces(nearbyPlacesResponse));
     } else {
-      print("MEU PRINT - deu ruim");
       emit(ErrorState());
     }
   }
