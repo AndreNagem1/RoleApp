@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -11,6 +12,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Database/db.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:http/http.dart' as http;
+
 
 import '../BottomSheets/place_details_bottom_sheet.dart';
 
@@ -18,6 +21,7 @@ class MapController extends GetxController {
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
   final raio = 0.0.obs;
+  final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   late StreamSubscription<Position> positionStream;
   final LatLng _position = const LatLng(-23.4944928, -46.8575523);
@@ -30,9 +34,10 @@ class MapController extends GetxController {
 
   get position => _position;
 
-  String get distancia => raio.value < 1
-      ? '${(raio.value * 1000).toStringAsFixed(0)} m'
-      : '${(raio.value).toStringAsFixed(1)} km';
+  String get distancia =>
+      raio.value < 1
+          ? '${(raio.value * 1000).toStringAsFixed(0)} m'
+          : '${(raio.value).toStringAsFixed(1)} km';
 
   Future<Uint8List?> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -93,8 +98,32 @@ class MapController extends GetxController {
     update();
   }
 
-  addPlacesToMap(
-      NearbyPlacesResponse nearbyPlacesResponse, BuildContext context) {
+
+  getNearByPlaces(BuildContext context) async {
+    var position = await Geolocator.getCurrentPosition();
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+            position.latitude.toString() +
+            ',' +
+            position.longitude.toString() +
+            '&type=restaurant' +
+            '&radius=' +
+            '2000' +
+            '&key=' +
+            apiKey);
+
+    var response = await http.post(url);
+
+    var nearbyPlacesResponse =
+    NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+
+    if (nearbyPlacesResponse.results != null) {
+      addPlacesToMap(nearbyPlacesResponse, context);
+    }
+  }
+
+  addPlacesToMap(NearbyPlacesResponse nearbyPlacesResponse,
+      BuildContext context) {
     var index = 0;
     while (index < nearbyPlacesResponse.results!.length) {
       var response = nearbyPlacesResponse.results![index];

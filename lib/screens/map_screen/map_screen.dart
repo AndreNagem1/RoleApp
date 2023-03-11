@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
-import 'package:rolesp/screens/map_screen/map_cubit.dart';
-import 'package:rolesp/screens/map_screen/map_screen_state.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -13,8 +10,7 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(MapController());
-    final cubit = MapCubit();
-    cubit.getNearByPlaces();
+    controller.getNearByPlaces(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -47,38 +43,22 @@ class MapScreen extends StatelessWidget {
         backgroundColor: const Color(0x44000000),
         elevation: 0.0,
       ),
-      body: BlocBuilder<MapCubit, MapScreenState>(
-          bloc: cubit,
-          builder: (context, state) {
-            if (state is MapsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state is MapsSetNearbyPlaces) {
-              controller.addPlacesToMap(state.nearbyPlacesResponse, context);
-              return GetBuilder<MapController>(
-                init: controller,
-                builder: (value) => GoogleMap(
-                  mapType: MapType.normal,
-                  zoomControlsEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                    target: controller.position,
-                    zoom: 13,
-                  ),
-                  onMapCreated: controller.onMapCreated,
-                  myLocationEnabled: true,
-                  rotateGesturesEnabled: false,
-                  markers: controller.markers,
-                  onTap: (geoLocation) {},
-                ),
-              );
-            }
-            if (state is ErrorState) {
-              return Container();
-            }
-            return Container();
-          }),
+      body: GetBuilder<MapController>(
+        init: controller,
+        builder: (value) => GoogleMap(
+          mapType: MapType.normal,
+          zoomControlsEnabled: false,
+          initialCameraPosition: CameraPosition(
+            target: controller.position,
+            zoom: 13,
+          ),
+          onMapCreated: controller.onMapCreated,
+          myLocationEnabled: true,
+          rotateGesturesEnabled: false,
+          markers: controller.markers,
+          onTap: (geoLocation) {},
+        ),
+      ),
     );
   }
 }
