@@ -14,7 +14,6 @@ import 'package:rolesp/Database/db.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:http/http.dart' as http;
 
-
 import '../BottomSheets/place_details_bottom_sheet.dart';
 
 class MapController extends GetxController {
@@ -34,10 +33,9 @@ class MapController extends GetxController {
 
   get position => _position;
 
-  String get distancia =>
-      raio.value < 1
-          ? '${(raio.value * 1000).toStringAsFixed(0)} m'
-          : '${(raio.value).toStringAsFixed(1)} km';
+  String get distancia => raio.value < 1
+      ? '${(raio.value * 1000).toStringAsFixed(0)} m'
+      : '${(raio.value).toStringAsFixed(1)} km';
 
   Future<Uint8List?> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -82,6 +80,11 @@ class MapController extends GetxController {
 
     var style = await rootBundle.loadString('assets/mapDecoration.txt');
     _mapsController.setMapStyle(style);
+    zoomIn();
+  }
+
+  zoomIn() {
+    _mapsController.moveCamera(CameraUpdate.zoomBy(0.8));
   }
 
   addMarker(Marker marker, BuildContext context, Results results) async {
@@ -97,7 +100,6 @@ class MapController extends GetxController {
     );
     update();
   }
-
 
   getNearByPlaces(BuildContext context) async {
     var position = await Geolocator.getCurrentPosition();
@@ -115,15 +117,15 @@ class MapController extends GetxController {
     var response = await http.post(url);
 
     var nearbyPlacesResponse =
-    NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+        NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
     if (nearbyPlacesResponse.results != null) {
       addPlacesToMap(nearbyPlacesResponse, context);
     }
   }
 
-  addPlacesToMap(NearbyPlacesResponse nearbyPlacesResponse,
-      BuildContext context) {
+  addPlacesToMap(
+      NearbyPlacesResponse nearbyPlacesResponse, BuildContext context) {
     var index = 0;
     while (index < nearbyPlacesResponse.results!.length) {
       var response = nearbyPlacesResponse.results![index];
