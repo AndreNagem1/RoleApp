@@ -10,9 +10,9 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:rolesp/Database/db.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:http/http.dart' as http;
 
 import '../BottomSheets/place_details_bottom_sheet.dart';
 
@@ -127,7 +127,9 @@ class MapController extends GetxController {
   }
 
   addPlacesToMap(
-      NearbyPlacesResponse nearbyPlacesResponse, BuildContext context) {
+    NearbyPlacesResponse nearbyPlacesResponse,
+    BuildContext context,
+  ) {
     var index = 0;
     while (index < nearbyPlacesResponse.results!.length) {
       var response = nearbyPlacesResponse.results![index];
@@ -150,7 +152,11 @@ class MapController extends GetxController {
     }
   }
 
-  showDetails(Marker marker, BuildContext context, Results results) {
+  showDetails(
+    Marker marker,
+    BuildContext context,
+    Results results,
+  ) {
     showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,
