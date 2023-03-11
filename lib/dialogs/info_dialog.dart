@@ -5,7 +5,14 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoDialog extends StatelessWidget {
-  const InfoDialog({Key? key}) : super(key: key);
+  final String vicinity;
+  final String phone;
+
+  const InfoDialog({
+    Key? key,
+    required this.vicinity,
+    required this.phone,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +76,7 @@ class InfoDialog extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Av. Copacabana, 148 - Alphaville, Barueri.',
+                          vicinity,
                           style: GoogleFonts.roboto(
                             textStyle: const TextStyle(
                               fontSize: 14,
@@ -176,7 +183,7 @@ class InfoDialog extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            '+55 11 4208-5038',
+                            phone,
                             style: GoogleFonts.roboto(
                               textStyle: const TextStyle(
                                 fontSize: 14,

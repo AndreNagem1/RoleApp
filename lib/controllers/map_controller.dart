@@ -104,7 +104,9 @@ class MapController extends GetxController {
   getNearByPlaces(BuildContext context) async {
     var position = await Geolocator.getCurrentPosition();
     var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
+            'fields=2Cformatted_phone_number&' +
+            'location=' +
             position.latitude.toString() +
             ',' +
             position.longitude.toString() +
@@ -137,7 +139,13 @@ class MapController extends GetxController {
         markerId: MarkerId(id),
         position: LatLng(lat, lng),
       );
-      addMarker(marker, context, response);
+      var addNewMarker = true;
+      if (response.permanentlyClosed == true) {
+        addNewMarker = false;
+      }
+      if (addNewMarker) {
+        addMarker(marker, context, response);
+      }
       index++;
     }
   }

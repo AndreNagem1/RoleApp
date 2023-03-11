@@ -106,7 +106,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    'Pratos, homburguer, cerveja e drinks',
+                    getDescription(results.types ?? ['Restautante']),
                     style: GoogleFonts.acme(
                       textStyle:
                           const TextStyle(fontSize: 18, color: Colors.grey),
@@ -147,11 +147,11 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Aberto -',
+                      getPlaceStatus(results.openingHours?.openNow),
                       style: GoogleFonts.roboto(color: Colors.white),
                     ),
                     Text(
-                      '18h - 22h30',
+                      getFunctionHours(results?.openingHours),
                       style: GoogleFonts.roboto(color: Colors.white),
                     )
                   ],
@@ -181,7 +181,11 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        openAddReviewDialog(context);
+                        openAddInfoDialog(
+                          context,
+                          results.vicinity ?? '',
+                          results.phone ?? 'Sem telefone',
+                         );
                       },
                       child: Text(
                         'Info',
@@ -200,6 +204,72 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getFunctionHours(OpeningHours? openingHours) {
+    var status = '';
+
+    results.openingHours.toString();
+    return status;
+  }
+
+  String getPlaceStatus(bool? open) {
+    var status = 'Aberto ';
+    if (open == null) {
+      status = 'Sem informação ';
+    }
+    if (open == false) {
+      status = 'Fechado ';
+    }
+    if (status.contains('')) {}
+    return status;
+  }
+
+  String getDescription(List<String> types) {
+    var description = '';
+    var index = 0;
+    while (index < 3) {
+      var type = types[index];
+      type = translate(type);
+      var separator = ' |';
+      if (index == 2) {
+        separator = '';
+      }
+      description += ' ' + type + separator;
+      index++;
+    }
+    return description;
+  }
+
+  String translate(String type) {
+    if (type.contains('meal')) {
+      return 'Delivery';
+    }
+    if (type.contains('food')) {
+      return 'Comida';
+    }
+    if (type.contains('bakery')) {
+      return 'Padaria';
+    }
+    if (type.contains('cafe')) {
+      return 'Café';
+    }
+    if (type.contains('bar')) {
+      return 'Bar';
+    }
+    if (type.contains('restaurant')) {
+      return 'Restaurante';
+    }
+    if (type.contains('health')) {
+      return 'Saudável';
+    }
+    if (type.contains('point')) {
+      return 'Lazer';
+    }
+    if (type.contains('store')) {
+      return 'Loja';
+    }
+    return type;
   }
 
   String getNumberOfAvaliations(int? userRatingsTotal) {
@@ -264,13 +334,16 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     );
   }
 
-  openAddReviewDialog(BuildContext context) {
+  openAddInfoDialog(BuildContext context, String address, String phone) {
     showDialog(
       context: context,
-      builder: (_) => const Center(
+      builder: (_) => Center(
         child: SizedBox(
           height: 300,
-          child: InfoDialog(),
+          child: InfoDialog(
+            vicinity: address,
+            phone: phone,
+          ),
         ),
       ),
     );

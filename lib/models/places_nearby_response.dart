@@ -41,6 +41,8 @@ class Results {
   PlusCode? plusCode;
   dynamic rating;
   int? userRatingsTotal;
+  String? phone;
+  bool? permanentlyClosed;
 
   Results(
       {this.geometry,
@@ -58,9 +60,13 @@ class Results {
       this.openingHours,
       this.plusCode,
       this.rating,
-      this.userRatingsTotal});
+      this.userRatingsTotal,
+      this.phone,
+      this.permanentlyClosed});
 
   Results.fromJson(Map<String, dynamic> json) {
+    print('MEU PRRIIINT');
+    print(json);
     geometry =
         json['geometry'] != null ? Geometry.fromJson(json['geometry']) : null;
     icon = json['icon'];
@@ -86,6 +92,8 @@ class Results {
         json['plus_code'] != null ? PlusCode.fromJson(json['plus_code']) : null;
     rating = json['rating'];
     userRatingsTotal = json['user_ratings_total'];
+    phone = json['formatted_phone_number'];
+    permanentlyClosed = json['permanently_closed'];
   }
 
   Map<String, dynamic> toJson() {
@@ -214,11 +222,13 @@ class Photos {
 
 class OpeningHours {
   bool? openNow;
+  dynamic periods;
 
   OpeningHours({this.openNow});
 
   OpeningHours.fromJson(Map<String, dynamic> json) {
     openNow = json['open_now'];
+    periods = json['periods'];
   }
 
   Map<String, dynamic> toJson() {
