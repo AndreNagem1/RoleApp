@@ -33,6 +33,7 @@ class MapScreen extends StatelessWidget {
           myLocationEnabled: true,
           rotateGesturesEnabled: false,
           markers: controller.markers,
+          myLocationButtonEnabled: false,
           onTap: (geoLocation) {},
         ),
       ),
