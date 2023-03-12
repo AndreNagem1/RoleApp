@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
   _navigateToMapScreen(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) =>  MapScreen()),
+      MaterialPageRoute(builder: (context) => const MapScreen()),
     );
   }
 }

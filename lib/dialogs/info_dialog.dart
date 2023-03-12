@@ -108,15 +108,15 @@ class InfoDialog extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
-            SizedBox(
-              height: 70,
-              child: GestureDetector(
-                onTap: () {
-                  if (results?.openingHours?.daysOpeningHours != null) {
-                    openOpenHoursDialog(context,
-                        results?.openingHours?.daysOpeningHours ?? ['']);
-                  }
-                },
+            GestureDetector(
+              onTap: () {
+                if (results?.openingHours?.daysOpeningHours != null) {
+                  openOpenHoursDialog(
+                      context, results?.openingHours?.daysOpeningHours ?? ['']);
+                }
+              },
+              child: SizedBox(
+                height: 70,
                 child: Row(
                   children: [
                     const SizedBox(width: 30),
@@ -165,12 +165,12 @@ class InfoDialog extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
-            SizedBox(
-              height: 70,
-              child: GestureDetector(
-                onTap: () {
-                  makePhoneCall();
-                },
+            GestureDetector(
+              onTap: () {
+                makePhoneCall();
+              },
+              child: SizedBox(
+                height: 70,
                 child: Row(
                   children: [
                     const SizedBox(width: 30),
