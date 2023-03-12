@@ -36,7 +36,7 @@ class MapScreen extends StatelessWidget {
               rotateGesturesEnabled: false,
               markers: controller.markers,
               myLocationButtonEnabled: false,
-              onTap: (geoLocation) {},
+              onCameraMove: controller.onCameraMove,
             ),
           ),
           SizedBox(
@@ -46,10 +46,15 @@ class MapScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 100),
                 Row(
-                  children: const [
-                    Spacer(),
-                    RefreshButton(),
-                    SizedBox(width: 20),
+                  children: [
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        refreshPlaces(context, controller);
+                      },
+                      child: const RefreshButton(),
+                    ),
+                    const SizedBox(width: 20),
                   ],
                 ),
               ],
@@ -58,5 +63,9 @@ class MapScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  refreshPlaces(BuildContext context, MapController controller) {
+    controller.getNewPlaces(context);
   }
 }

@@ -3,15 +3,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:rolesp/Database/db.dart';
 import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 
@@ -24,7 +21,7 @@ class MapController extends GetxController {
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   late StreamSubscription<Position> positionStream;
-  final LatLng _position = const LatLng(-23.4944928, -46.8575523);
+  LatLng _position = const LatLng(-23.4944928, -46.8575523);
   late GoogleMapController _mapsController;
   final markers = <Marker>{};
 
@@ -48,31 +45,8 @@ class MapController extends GetxController {
         .asUint8List();
   }
 
-  filtrarCafes() {
-    final geo = Geoflutterfire();
-    final db = DB.get();
-
-    GeoFirePoint center = geo.point(
-      latitude: latitude.value,
-      longitude: longitude.value,
-    );
-
-    CollectionReference<Map<String, dynamic>> ref = db.collection('cafes');
-
-    String field = 'position';
-
-    Stream<List<DocumentSnapshot>> stream = geo
-        .collection(collectionRef: ref)
-        .within(center: center, radius: raio.value, field: field);
-
-    stream.listen((List<DocumentSnapshot> cafes) {
-      markers.clear();
-      cafes.forEach((cafe) {
-        // addMarker(cafe);
-        update();
-      });
-      Get.back();
-    });
+  void onCameraMove(CameraPosition position) {
+    _position = position.target;
   }
 
   onMapCreated(GoogleMapController gmc) async {
@@ -100,6 +74,31 @@ class MapController extends GetxController {
           }),
     );
     update();
+  }
+
+  getNewPlaces(BuildContext context) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
+            'location=' +
+            _position.latitude.toString() +
+            ',' +
+            _position.longitude.toString() +
+            '&type=restaurant' +
+            '&radius=' +
+            '2000' +
+            '&key=' +
+            apiKey);
+
+    var response = await http.post(url);
+
+    var nearbyPlacesResponse =
+        NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+
+    print(nearbyPlacesResponse.results);
+
+    if (nearbyPlacesResponse.results != null) {
+      addPlacesDetails(nearbyPlacesResponse, context);
+    }
   }
 
   getNearByPlaces(BuildContext context) async {
