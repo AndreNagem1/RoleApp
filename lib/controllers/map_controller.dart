@@ -77,6 +77,8 @@ class MapController extends GetxController {
   }
 
   getNewPlaces(BuildContext context) async {
+    markers.clear();
+
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
             'location=' +
