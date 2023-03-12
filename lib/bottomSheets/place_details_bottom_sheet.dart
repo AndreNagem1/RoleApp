@@ -151,7 +151,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       style: GoogleFonts.roboto(color: Colors.white),
                     ),
                     Text(
-                      getFunctionHours(results?.openingHours),
+                      getFunctionHours(results.openingHours),
                       style: GoogleFonts.roboto(color: Colors.white),
                     )
                   ],
@@ -185,7 +185,8 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                           context,
                           results.vicinity ?? '',
                           results.phone ?? 'Sem telefone',
-                         );
+                          results,
+                        );
                       },
                       child: Text(
                         'Info',
@@ -207,10 +208,16 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
   }
 
   String getFunctionHours(OpeningHours? openingHours) {
-    var status = '';
+    String? status;
+    final weekDayIndex = DateTime.now().weekday - 1;
 
-    results.openingHours.toString();
-    return status;
+    status = results.openingHours?.daysOpeningHours?[weekDayIndex];
+    final startIndex = status?.indexOf(':');
+    if (startIndex != -1) {
+      status = status?.substring(startIndex!);
+    }
+    status = status?.replaceAll('Closed', '');
+    return status ??= '';
   }
 
   String getPlaceStatus(bool? open) {
@@ -334,7 +341,8 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     );
   }
 
-  openAddInfoDialog(BuildContext context, String address, String phone) {
+  openAddInfoDialog(
+      BuildContext context, String address, String phone, Results? results) {
     showDialog(
       context: context,
       builder: (_) => Center(
@@ -343,6 +351,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
           child: InfoDialog(
             vicinity: address,
             phone: phone,
+            results: results,
           ),
         ),
       ),

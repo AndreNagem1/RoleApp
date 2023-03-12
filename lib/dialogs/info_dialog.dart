@@ -1,17 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoDialog extends StatelessWidget {
   final String vicinity;
   final String phone;
+  final Results? results;
 
   const InfoDialog({
     Key? key,
     required this.vicinity,
     required this.phone,
+    this.results,
   }) : super(key: key);
 
   @override
@@ -125,7 +129,7 @@ class InfoDialog extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Aberto - 15h30 - 23h00',
+                          getFunctionHours(results),
                           style: GoogleFonts.roboto(
                             textStyle: const TextStyle(
                               fontSize: 14,
@@ -155,12 +159,7 @@ class InfoDialog extends StatelessWidget {
               height: 70,
               child: GestureDetector(
                 onTap: () {
-                  launchUrl(
-                    Uri(
-                      scheme: 'tel',
-                      path: '+551142085038',
-                    ),
-                  );
+                  makePhoneCall();
                 },
                 child: Row(
                   children: [
@@ -205,5 +204,41 @@ class InfoDialog extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  makePhoneCall() {
+    launchUrl(
+      Uri(
+        scheme: 'tel',
+        path: phone.removeAllWhitespace,
+      ),
+    );
+  }
+
+  String getFunctionHours(Results? result) {
+    String? status;
+    status = getPlaceStatus(result?.openingHours?.openNow) + ' ';
+
+    final weekDayIndex = DateTime.now().weekday - 1;
+    final startIndex =
+        results?.openingHours?.daysOpeningHours?[weekDayIndex].indexOf(':');
+    status += results?.openingHours?.daysOpeningHours?[weekDayIndex]
+            .substring(startIndex ?? 0) ??
+        '';
+
+    status = status.replaceAll('Closed', '');
+    return status ??= '';
+  }
+
+  String getPlaceStatus(bool? open) {
+    var status = 'Aberto ';
+    if (open == null) {
+      status = 'Sem informação ';
+    }
+    if (open == false) {
+      status = 'Fechado ';
+    }
+    if (status.contains('')) {}
+    return status;
   }
 }

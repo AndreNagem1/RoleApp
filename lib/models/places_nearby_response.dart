@@ -1,8 +1,9 @@
 class NearbyPlacesResponse {
-  NearbyPlacesResponse({this.results, this.status});
+  NearbyPlacesResponse({this.results, this.result, this.status});
 
   List<Results>? results;
   String? status;
+  Results? result;
 
   NearbyPlacesResponse.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
@@ -14,12 +15,18 @@ class NearbyPlacesResponse {
     status = json['status'];
   }
 
-  Map<String, dynamic> toJson() {
+  NearbyPlacesResponse.fromJsonDetails(Map<String, dynamic> json) {
+    if (json['result'] != null) {
+      result = Results();
+      result = Results.fromJsonOpeningHours(json['result']);
+    }
+  }
+
+  Map<String, dynamic> toJsonDetails() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (results != null) {
-      data['results'] = results!.map((v) => v.toJson()).toList();
+      data['opening_hours'] = results!.map((v) => v.toJson()).toList();
     }
-    data['status'] = status;
     return data;
   }
 }
@@ -64,9 +71,13 @@ class Results {
       this.phone,
       this.permanentlyClosed});
 
+  Results.fromJsonOpeningHours(Map<String, dynamic> json) {
+    openingHours = json['opening_hours'] != null
+        ? OpeningHours.fromJson(json['opening_hours'])
+        : null;
+  }
+
   Results.fromJson(Map<String, dynamic> json) {
-    print('MEU PRRIIINT');
-    print(json);
     geometry =
         json['geometry'] != null ? Geometry.fromJson(json['geometry']) : null;
     icon = json['icon'];
@@ -223,17 +234,21 @@ class Photos {
 class OpeningHours {
   bool? openNow;
   dynamic periods;
+  List<String>? daysOpeningHours;
 
   OpeningHours({this.openNow});
 
   OpeningHours.fromJson(Map<String, dynamic> json) {
     openNow = json['open_now'];
     periods = json['periods'];
+    daysOpeningHours = json['weekday_text'] as List<String>?;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['open_now'] = openNow;
+    data['periods'] = periods;
+    data['weekday_text'] = daysOpeningHours;
     return data;
   }
 }

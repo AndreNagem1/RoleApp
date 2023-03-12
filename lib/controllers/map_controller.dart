@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:rolesp/Database/db.dart';
+import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 
 import '../BottomSheets/place_details_bottom_sheet.dart';
@@ -105,7 +106,6 @@ class MapController extends GetxController {
     var position = await Geolocator.getCurrentPosition();
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
-            'fields=2Cformatted_phone_number&' +
             'location=' +
             position.latitude.toString() +
             ',' +
@@ -122,31 +122,71 @@ class MapController extends GetxController {
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
     if (nearbyPlacesResponse.results != null) {
-      addPlacesToMap(nearbyPlacesResponse, context);
+      addPlacesDetails(nearbyPlacesResponse, context);
     }
   }
 
-  addPlacesToMap(
+  getNearByPlacesDetails(
+    BuildContext context,
+    Results results,
+  ) async {
+    final placeId = results.placeId;
+
+    if (placeId != null) {
+      var call = 'https://maps.googleapis.com/maps/api/place/details/json?' +
+          'fields=opening_hours/weekday_text,formatted_phone_number&' +
+          '&place_id=' +
+          placeId +
+          '&key=' +
+          apiKey;
+
+      var url = Uri.parse(call);
+      var response = await http.post(url);
+
+      var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
+
+      if (details.result?.openingHours != null) {
+        results.openingHours?.daysOpeningHours =
+            details.result?.openingHours?.weekdayText;
+      }
+      if (details.result?.formattedPhoneNumber != null) {
+        results.phone = details.result?.formattedPhoneNumber;
+      }
+    }
+
+    addPlaceMarker(context, results);
+  }
+
+  addPlaceMarker(BuildContext context, Results response) {
+    var id = response.name!;
+    var lat = response.geometry!.location!.lat!;
+    var lng = response.geometry!.location!.lng!;
+
+    var marker = Marker(
+      markerId: MarkerId(id),
+      position: LatLng(lat, lng),
+    );
+    var addNewMarker = true;
+    if (response.permanentlyClosed == true) {
+      addNewMarker = false;
+    }
+    if (addNewMarker) {
+      addMarker(marker, context, response);
+    }
+  }
+
+  addPlacesDetails(
     NearbyPlacesResponse nearbyPlacesResponse,
     BuildContext context,
   ) {
     var index = 0;
     while (index < nearbyPlacesResponse.results!.length) {
-      var response = nearbyPlacesResponse.results![index];
-      var id = response.name!;
-      var lat = response.geometry!.location!.lat!;
-      var lng = response.geometry!.location!.lng!;
-
-      var marker = Marker(
-        markerId: MarkerId(id),
-        position: LatLng(lat, lng),
-      );
-      var addNewMarker = true;
-      if (response.permanentlyClosed == true) {
-        addNewMarker = false;
-      }
-      if (addNewMarker) {
-        addMarker(marker, context, response);
+      final response = nearbyPlacesResponse.results?[index];
+      if (response != null) {
+        getNearByPlacesDetails(
+          context,
+          response,
+        );
       }
       index++;
     }
