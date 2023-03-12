@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoDialog extends StatelessWidget {
@@ -109,42 +110,50 @@ class InfoDialog extends StatelessWidget {
             ),
             SizedBox(
               height: 70,
-              child: Row(
-                children: [
-                  const SizedBox(width: 30),
-                  SizedBox(
-                    width: 200,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 15),
-                        Text(
-                          'Horário',
-                          style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+              child: GestureDetector(
+                onTap: () {
+                  if (results?.openingHours?.daysOpeningHours != null) {
+                    openOpenHoursDialog(context,
+                        results?.openingHours?.daysOpeningHours ?? ['']);
+                  }
+                },
+                child: Row(
+                  children: [
+                    const SizedBox(width: 30),
+                    SizedBox(
+                      width: 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 15),
+                          Text(
+                            'Horário',
+                            style: GoogleFonts.roboto(
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          getFunctionHours(results),
-                          style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
+                          const SizedBox(height: 2),
+                          Text(
+                            getFunctionHours(results),
+                            style: GoogleFonts.roboto(
+                              textStyle: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.arrow_forward),
-                  const SizedBox(width: 30),
-                ],
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward),
+                    const SizedBox(width: 30),
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -241,5 +250,19 @@ class InfoDialog extends StatelessWidget {
     }
     if (status.contains('')) {}
     return status;
+  }
+
+  openOpenHoursDialog(BuildContext context, List<String> openingHours) {
+    showDialog(
+      context: context,
+      builder: (_) => Center(
+        child: SizedBox(
+          height: 300,
+          child: OpeningHoursDialog(
+            daysOpeningHours: openingHours,
+          ),
+        ),
+      ),
+    );
   }
 }
