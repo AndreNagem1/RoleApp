@@ -96,8 +96,6 @@ class MapController extends GetxController {
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
-    print(nearbyPlacesResponse.results);
-
     if (nearbyPlacesResponse.results != null) {
       addPlacesDetails(nearbyPlacesResponse, context);
     }
