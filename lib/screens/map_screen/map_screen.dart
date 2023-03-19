@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
+import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
 
 class MapScreen extends StatelessWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  final NearbyPlacesResponse? places;
+
+  const MapScreen({Key? key, required this.places}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(MapController());
-    controller.getNearByPlaces(context);
+    controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
+    if (places == null) {
+      controller.getNearByPlaces(context);
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,

@@ -179,19 +179,21 @@ class MapController extends GetxController {
   }
 
   addPlacesDetails(
-    NearbyPlacesResponse nearbyPlacesResponse,
+    NearbyPlacesResponse places,
     BuildContext context,
   ) {
-    var index = 0;
-    while (index < nearbyPlacesResponse.results!.length) {
-      final response = nearbyPlacesResponse.results?[index];
-      if (response != null) {
-        getNearByPlacesDetails(
-          context,
-          response,
-        );
+    if (places.results != null) {
+      var index = 0;
+      while (index < places.results!.length) {
+        final response = places.results?[index];
+        if (response != null) {
+          getNearByPlacesDetails(
+            context,
+            response,
+          );
+        }
+        index++;
       }
-      index++;
     }
   }
 

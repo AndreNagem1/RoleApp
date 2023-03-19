@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/home_screen/home_cubit.dart';
 import 'package:rolesp/screens/home_screen/home_screen_state.dart';
 import 'package:rolesp/screens/map_screen/map_screen.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return const LoadingScreen();
           }
           if (state is NavigateToMap) {
-            _navigateToMapScreen(context);
+            _navigateToMapScreen(context, state.nearbyPlacesResponse);
             bloc.setInitialState();
             return const LoadingScreen();
           }
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     HomeSearchBar(
                       navigateToHome: () {
-                        _navigateToMapScreen(context);
+                        _navigateToMapScreen(context, null);
                       },
                     ),
                     const SizedBox(height: 30),
@@ -122,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.map_outlined,
                           title: 'Mapa',
                           onItemClick: () {
-                            _navigateToMapScreen(context);
+                            _navigateToMapScreen(context, null);
                           },
                         ),
                         const SizedBox(width: 5),
@@ -149,11 +150,11 @@ class _HomeScreenState extends State<HomeScreen> {
     cubit.getNearByPlaces(category);
   }
 
-  _navigateToMapScreen(BuildContext context) {
+  _navigateToMapScreen(BuildContext context, NearbyPlacesResponse? places) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const MapScreen()),
+        MaterialPageRoute(builder: (context) => MapScreen(places: places)),
       );
     });
   }

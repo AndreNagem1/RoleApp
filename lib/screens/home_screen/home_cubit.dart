@@ -29,7 +29,21 @@ class HomeCubit extends Cubit<HomeScreenState> {
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
-    var filteredPlaces = NearbyPlacesResponse();
+    var filteredPlaces =
+        filterPlacesWithCategory(nearbyPlacesResponse, category);
+
+    if (filteredPlaces.results != null) {
+      emit(NavigateToMap(filteredPlaces));
+    } else {
+      emit(ErrorState());
+    }
+  }
+
+  NearbyPlacesResponse filterPlacesWithCategory(
+    NearbyPlacesResponse nearbyPlacesResponse,
+    String category,
+  ) {
+    final filteredPlaces = NearbyPlacesResponse();
 
     nearbyPlacesResponse.results?.forEach((place) {
       place.types?.forEach((type) {
@@ -38,12 +52,7 @@ class HomeCubit extends Cubit<HomeScreenState> {
         }
       });
     });
-
-    if (nearbyPlacesResponse.results != null) {
-      emit(NavigateToMap(filteredPlaces));
-    } else {
-      emit(ErrorState());
-    }
+    return filteredPlaces;
   }
 
   void setInitialState() {
