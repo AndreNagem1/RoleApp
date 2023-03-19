@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/screens/home_screen/home_cubit.dart';
@@ -17,16 +18,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final bloc = HomeCubit();
+
   @override
   Widget build(BuildContext context) {
-    final bloc = HomeCubit();
     return Scaffold(
       backgroundColor: ColorsRoleSp.background,
       body: BlocBuilder<HomeCubit, HomeScreenState>(
         bloc: bloc,
         builder: (context, state) {
           if (state is Loading) {
-            const LoadingScreeen();
+            return const LoadingScreen();
+          }
+          if (state is NavigateToMap) {
+            _navigateToMapScreen(context);
+            bloc.setInitialState();
+            return const LoadingScreen();
           }
           return Column(
             children: [
@@ -49,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.restaurant,
                           title: 'Restaurante',
                           onItemClick: () {
-                            _onItemClick('Restaurante', bloc);
+                            _onItemClick('restaurant', bloc);
                           },
                         ),
                         const SizedBox(width: 5),
@@ -57,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.fastfood_rounded,
                           title: 'FastFood',
                           onItemClick: () {
-                            _onItemClick('FastFood', bloc);
+                            _onItemClick('restaurant', bloc);
                           },
                         ),
                         const SizedBox(width: 5),
@@ -65,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.coffee_rounded,
                           title: 'Cafés',
                           onItemClick: () {
-                            _onItemClick('Cafés', bloc);
+                            _onItemClick('bakery', bloc);
                           },
                         ),
                       ],
@@ -78,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.directions_run,
                           title: 'Ar livre',
                           onItemClick: () {
-                            _onItemClick('Ar livre', bloc);
+                            _onItemClick('restaurant', bloc);
                           },
                         ),
                         const SizedBox(width: 5),
@@ -86,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.event_available,
                           title: 'Eventos',
                           onItemClick: () {
-                            _onItemClick('Eventos', bloc);
+                            _onItemClick('restaurant', bloc);
                           },
                         ),
                         const SizedBox(width: 5),
@@ -94,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.shopping_bag_outlined,
                           title: 'Shopping',
                           onItemClick: () {
-                            _onItemClick('Shopping', bloc);
+                            _onItemClick('restaurant', bloc);
                           },
                         ),
                       ],
@@ -138,12 +145,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _onItemClick(String category, Cubit cubit) {}
+  _onItemClick(String category, HomeCubit cubit) {
+    cubit.getNearByPlaces(category);
+  }
 
   _navigateToMapScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const MapScreen()),
-    );
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MapScreen()),
+      );
+    });
   }
 }

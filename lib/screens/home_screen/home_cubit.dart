@@ -6,11 +6,12 @@ import 'package:rolesp/screens/home_screen/home_screen_state.dart';
 import 'package:http/http.dart' as http;
 
 class HomeCubit extends Cubit<HomeScreenState> {
-  HomeCubit() : super(Loading());
+  HomeCubit() : super(InitialState());
 
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
-  void getNearByPlaces() async {
+  Future<void> getNearByPlaces(String category) async {
+    emit(Loading());
     var position = await Geolocator.getCurrentPosition();
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
@@ -28,10 +29,24 @@ class HomeCubit extends Cubit<HomeScreenState> {
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
+    var filteredPlaces = NearbyPlacesResponse();
+
+    nearbyPlacesResponse.results?.forEach((place) {
+      place.types?.forEach((type) {
+        if (type.contains(category)) {
+          filteredPlaces.results?.add(place);
+        }
+      });
+    });
+
     if (nearbyPlacesResponse.results != null) {
-      emit(SetNearbyPlaces(nearbyPlacesResponse));
+      emit(NavigateToMap(filteredPlaces));
     } else {
       emit(ErrorState());
     }
+  }
+
+  void setInitialState() {
+    emit(InitialState());
   }
 }

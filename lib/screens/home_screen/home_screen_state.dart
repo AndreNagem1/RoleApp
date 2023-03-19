@@ -14,8 +14,8 @@ class ErrorState extends HomeScreenState {
   List<Object> get props => [];
 }
 
-class SetNearbyPlaces extends HomeScreenState {
-  SetNearbyPlaces(this.nearbyPlacesResponse);
+class NavigateToMap extends HomeScreenState {
+  NavigateToMap(this.nearbyPlacesResponse);
 
   final NearbyPlacesResponse nearbyPlacesResponse;
 

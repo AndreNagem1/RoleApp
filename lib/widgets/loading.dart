@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
-class LoadingScreeen extends StatelessWidget {
-  const LoadingScreeen({Key? key}) : super(key: key);
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class LoadingScreeen extends StatelessWidget {
         Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colors.black45,
+          color: ColorsRoleSp.background,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
