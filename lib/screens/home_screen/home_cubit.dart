@@ -32,26 +32,22 @@ class HomeCubit extends Cubit<HomeScreenState> {
     var filteredPlaces =
         filterPlacesWithCategory(nearbyPlacesResponse, category);
 
-    if (filteredPlaces.results != null) {
-      emit(NavigateToMap(filteredPlaces));
-    } else {
-      emit(ErrorState());
-    }
+    emit(NavigateToMap(filteredPlaces));
   }
 
   NearbyPlacesResponse filterPlacesWithCategory(
     NearbyPlacesResponse nearbyPlacesResponse,
     String category,
   ) {
-    final filteredPlaces = NearbyPlacesResponse();
-
+    List<Results> results = [];
     nearbyPlacesResponse.results?.forEach((place) {
       place.types?.forEach((type) {
         if (type.contains(category)) {
-          filteredPlaces.results?.add(place);
+          results.add(place);
         }
       });
     });
+    final filteredPlaces = NearbyPlacesResponse(results: results);
     return filteredPlaces;
   }
 

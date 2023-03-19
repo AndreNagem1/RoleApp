@@ -80,8 +80,12 @@ class MapController extends GetxController {
     update();
   }
 
-  getNewPlaces(BuildContext context) async {
+  cleanPlaces() {
     markers.clear();
+  }
+
+  getNewPlaces(BuildContext context) async {
+    cleanPlaces();
 
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +

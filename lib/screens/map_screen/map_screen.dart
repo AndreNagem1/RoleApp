@@ -14,6 +14,7 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(MapController());
+    controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
     if (places == null) {
       controller.getNearByPlaces(context);
