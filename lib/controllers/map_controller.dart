@@ -55,11 +55,15 @@ class MapController extends GetxController {
 
     var style = await rootBundle.loadString('assets/mapDecoration.txt');
     _mapsController.setMapStyle(style);
-    zoomIn();
   }
 
-  zoomIn() {
-    _mapsController.moveCamera(CameraUpdate.zoomBy(0.8));
+  zoomIn(LatLng position) {
+    _mapsController.moveCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: position),
+      ),
+    );
+    _mapsController.moveCamera(CameraUpdate.zoomBy(11));
   }
 
   addMarker(Marker marker, BuildContext context, Results results) async {
