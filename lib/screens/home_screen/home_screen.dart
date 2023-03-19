@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return const LoadingScreen();
           }
           if (state is NavigateToMap) {
-            _navigateToMapScreen(context, state.nearbyPlacesResponse);
+            _scheduleNavigateToMapScreen(context, state.nearbyPlacesResponse);
             bloc.setInitialState();
             return const LoadingScreen();
           }
@@ -151,11 +151,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _navigateToMapScreen(BuildContext context, NearbyPlacesResponse? places) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MapScreen(places: places)),
+    );
+  }
+
+  _scheduleNavigateToMapScreen(
+      BuildContext context, NearbyPlacesResponse? places) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MapScreen(places: places)),
-      );
+      _navigateToMapScreen(context, places);
     });
   }
 }
