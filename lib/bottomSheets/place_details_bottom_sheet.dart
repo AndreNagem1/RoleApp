@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/BottomSheets/reviews_bottom_sheet.dart';
@@ -18,7 +19,6 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageVisibility = false;
     var imageUrl = '';
     if (results.photos?[0] != null) {
       imageUrl =
@@ -26,7 +26,6 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
               results.photos![0].photoReference! +
               '&key=' +
               apiKey;
-      imageVisibility = true;
     }
     return Container(
       height: 400,
@@ -41,18 +40,21 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Visibility(
-            visible: imageVisibility,
-            child: SizedBox(
-              height: 200,
-              child: Image(
-                image: NetworkImage(imageUrl),
+          Container(
+            height: 200,
+            alignment: Alignment.center,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              placeholder: (context, url) => const SizedBox(
+                child: CircularProgressIndicator(
+                  color: ColorsRoleSp.perfectPurple,
+                ),
+                height: 20,
+                width: 20,
               ),
+              errorWidget: (context, url, error) =>
+                  Image.asset('assets/images/blackHorse.jpg'),
             ),
-          ),
-          Visibility(
-            visible: !imageVisibility,
-            child: Image.asset('assets/image/blackHorse.jpg'),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
