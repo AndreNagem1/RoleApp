@@ -1,33 +1,25 @@
 import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/map_screen/map_screen_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:rolesp/models/auto_complete_response.dart';
+import 'package:rolesp/screens/map_screen/map_screen_state.dart';
 
 class MapCubit extends Cubit<MapScreenState> {
   MapCubit() : super(MapsLoading());
 
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
-  void searchNearByPlaces() async {
+  void searchPlaces() async {
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?' +
-            'input=amoeba' +
+            'input=Iberapuera' +
             '&key=' +
             apiKey);
 
-    print('MEEEU PRRINT');
-    print(url);
     var response = await http.post(url);
 
-    var nearbyPlacesResponse =
-        NearbyPlacesResponse.fromJson(jsonDecode(response.body));
-
-    if (nearbyPlacesResponse.results != null) {
-      emit(MapsSetNearbyPlaces(nearbyPlacesResponse));
-    } else {
-      emit(ErrorState());
-    }
+    var autoCompleteResponse =
+        AutoCompleteResponse.fromJson(jsonDecode(response.body));
   }
 }

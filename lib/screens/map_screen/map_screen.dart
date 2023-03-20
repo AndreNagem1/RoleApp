@@ -84,7 +84,7 @@ class MapScreen extends StatelessWidget {
   }
 
   searchPlaces(MapCubit cubit) {
-    cubit.searchNearByPlaces();
+    cubit.searchPlaces();
   }
 
   refreshPlaces(BuildContext context, MapController controller) {
