@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/screens/map_screen/map_cubit.dart';
 import 'package:rolesp/widgets/app_title.dart';
+import 'package:rolesp/widgets/home_search_bar.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
 
 class MapScreen extends StatelessWidget {
@@ -13,6 +15,7 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = MapCubit();
     final controller = Get.put(MapController());
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
@@ -31,20 +34,21 @@ class MapScreen extends StatelessWidget {
         children: [
           GetBuilder<MapController>(
             init: controller,
-            builder: (value) => GoogleMap(
-              mapType: MapType.normal,
-              zoomControlsEnabled: false,
-              initialCameraPosition: CameraPosition(
-                target: controller.position,
-                zoom: 13,
-              ),
-              onMapCreated: controller.onMapCreated,
-              myLocationEnabled: true,
-              rotateGesturesEnabled: false,
-              markers: controller.markers,
-              myLocationButtonEnabled: false,
-              onCameraMove: controller.onCameraMove,
-            ),
+            builder: (value) =>
+                GoogleMap(
+                  mapType: MapType.normal,
+                  zoomControlsEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: controller.position,
+                    zoom: 13,
+                  ),
+                  onMapCreated: controller.onMapCreated,
+                  myLocationEnabled: true,
+                  rotateGesturesEnabled: false,
+                  markers: controller.markers,
+                  myLocationButtonEnabled: false,
+                  onCameraMove: controller.onCameraMove,
+                ),
           ),
           SizedBox(
             height: double.infinity,
@@ -54,7 +58,14 @@ class MapScreen extends StatelessWidget {
                 const SizedBox(height: 100),
                 Row(
                   children: [
-                    const Spacer(),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: HomeSearchBar(navigateToHome: () {
+                        searchPlaces(cubit);
+                      }
+                      ),
+                    ),
+                    const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () {
                         refreshPlaces(context, controller);
@@ -70,6 +81,10 @@ class MapScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  searchPlaces(MapCubit cubit) {
+    cubit.searchNearByPlaces();
   }
 
   refreshPlaces(BuildContext context, MapController controller) {

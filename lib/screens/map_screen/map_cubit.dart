@@ -10,19 +10,15 @@ class MapCubit extends Cubit<MapScreenState> {
 
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
-  void getNearByPlaces() async {
-    var position = await Geolocator.getCurrentPosition();
+  void searchNearByPlaces() async {
     var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
-            position.latitude.toString() +
-            ',' +
-            position.longitude.toString() +
-            '&type=restaurant' +
-            '&radius=' +
-            '2000' +
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?' +
+            'input=amoeba' +
             '&key=' +
             apiKey);
 
+    print('MEEEU PRRINT');
+    print(url);
     var response = await http.post(url);
 
     var nearbyPlacesResponse =
