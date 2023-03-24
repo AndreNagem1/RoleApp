@@ -15,7 +15,7 @@ class AutoCompleteItem extends StatelessWidget {
     return Container(
       height: 50,
       width: double.infinity,
-      alignment: Alignment.center,
+      alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(

@@ -51,6 +51,9 @@ class MapScreen extends StatelessWidget {
               markers: controller.markers,
               myLocationButtonEnabled: false,
               onCameraMove: controller.onCameraMove,
+              onTap: (latLong) {
+                cubit.setInitialState();
+              },
             ),
           ),
           SizedBox(
@@ -87,51 +90,55 @@ class MapScreen extends StatelessWidget {
                     bloc: cubit,
                     builder: (context, state) {
                       if (state is AutoCompletePredictions) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, right: 20.0, top: 5),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 20.0, top: 5),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                  color: ColorsRoleSp.searchBackground,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.all(0),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, position) {
+                                      return Column(
+                                        children: [
+                                          AutoCompleteItem(
+                                            description: state
+                                                .listPredictions[position]
+                                                .description,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                                top: 2.0,
+                                                right: 8.0,
+                                                bottom: 2.0),
+                                            child: Container(
+                                              color: ColorsRoleSp.whiteLetter,
+                                              height: 0.5,
+                                              width: double.infinity,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    itemCount: state.listPredictions.length,
+                                  ),
+                                ),
                               ),
-                              color: ColorsRoleSp.searchBackground,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: ListView.builder(
-                                padding: const EdgeInsets.all(0),
-                                shrinkWrap: true,
-                                itemBuilder: (context, position) {
-                                  return Column(
-                                    children: [
-                                      AutoCompleteItem(
-                                        description: state
-                                            .listPredictions[position]
-                                            .description,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            top: 2.0,
-                                            right: 8.0,
-                                            bottom: 2.0),
-                                        child: Container(
-                                          color: ColorsRoleSp.whiteLetter,
-                                          height: 0.5,
-                                          width: double.infinity,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                itemCount: state.listPredictions.length,
-                              ),
-                            ),
-                          ),
+                          ],
                         );
                       }
                       return const SizedBox();
