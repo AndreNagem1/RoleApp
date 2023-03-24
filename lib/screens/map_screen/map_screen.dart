@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
+import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/map_cubit.dart';
+import 'package:rolesp/screens/map_screen/map_screen_state.dart';
 import 'package:rolesp/widgets/app_title.dart';
+import 'package:rolesp/widgets/auto_complete_item.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
+import 'package:rolesp/widgets/review_widget.dart';
 
 class MapScreen extends StatelessWidget {
   final NearbyPlacesResponse? places;
@@ -15,7 +20,7 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = MapCubit();
+    final cubit = AutoCompleteCubit();
     final controller = Get.put(MapController());
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
@@ -59,8 +64,10 @@ class MapScreen extends StatelessWidget {
                   children: [
                     const SizedBox(width: 10),
                     Expanded(
-                      child: HomeSearchBar(onSearch: (text) {
-                        searchPlaces(cubit, text);
+                      child: SearchBar(onSearch: (text) {
+                        if (text.length > 3) {
+                          searchPlaces(cubit, text);
+                        }
                       }),
                     ),
                     const SizedBox(width: 10),
@@ -73,6 +80,48 @@ class MapScreen extends StatelessWidget {
                     const SizedBox(width: 20),
                   ],
                 ),
+                BlocBuilder<AutoCompleteCubit, AutoCompleteState>(
+                    bloc: cubit,
+                    builder: (context, state) {
+                      if (state is AutoCompletePredictions) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Container(
+                            height: 350,
+                            alignment: Alignment.topCenter,
+                            color: ColorsRoleSp.blackIcon,
+                            width: double.infinity,
+                            child: ListView.builder(
+                              itemBuilder: (context, position) {
+                                return Column(
+                                  children: [
+                                    AutoCompleteItem(
+                                      description: state
+                                          .listPredictions[position]
+                                          .description,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0,
+                                          top: 2.0,
+                                          right: 8.0,
+                                          bottom: 2.0),
+                                      child: Container(
+                                        color: ColorsRoleSp.whiteLetter,
+                                        height: 0.5,
+                                        width: double.infinity,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                              itemCount: state.listPredictions.length,
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    })
               ],
             ),
           ),
@@ -81,8 +130,8 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-  searchPlaces(MapCubit cubit, String text) {
-    cubit.searchPlaces();
+  searchPlaces(AutoCompleteCubit cubit, String text) {
+    cubit.searchPlaces(text);
   }
 
   refreshPlaces(BuildContext context, MapController controller) {

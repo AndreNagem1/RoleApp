@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
-class HomeSearchBar extends StatelessWidget {
+class SearchBar extends StatelessWidget {
   final Function(String) onSearch;
 
-  const HomeSearchBar({
+  const SearchBar({
     Key? key,
     required this.onSearch,
   }) : super(key: key);

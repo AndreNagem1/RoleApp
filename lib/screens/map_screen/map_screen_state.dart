@@ -1,19 +1,15 @@
-import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/models/auto_complete_response.dart';
 
-abstract class MapScreenState {}
+abstract class AutoCompleteState {}
 
-class MapsLoading extends MapScreenState {
+class AutoCompleteInitialState extends AutoCompleteState {
   List<Object> get props => [];
 }
 
-class ErrorState extends MapScreenState {
-  List<Object> get props => [];
-}
+class AutoCompletePredictions extends AutoCompleteState {
+  AutoCompletePredictions(this.listPredictions);
 
-class MapsSetNearbyPlaces extends MapScreenState {
-  MapsSetNearbyPlaces(this.nearbyPlacesResponse);
+  final List<Predictions> listPredictions;
 
-  final NearbyPlacesResponse nearbyPlacesResponse;
-
-  List<Object> get props => [nearbyPlacesResponse];
+  List<Object> get props => [listPredictions];
 }
