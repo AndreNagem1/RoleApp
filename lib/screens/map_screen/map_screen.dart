@@ -63,11 +63,15 @@ class MapScreen extends StatelessWidget {
                   children: [
                     const SizedBox(width: 10),
                     Expanded(
-                      child: SearchBar(onSearch: (text) {
-                        if (text.length > 3) {
-                          searchPlaces(cubit, text);
-                        }
-                      }),
+                      child: SearchBar(
+                        onSearch: (text) {
+                          if (text.length > 3) {
+                            searchPlaces(cubit, text);
+                            return;
+                          }
+                          cubit.setInitialState();
+                        },
+                      ),
                     ),
                     const SizedBox(width: 10),
                     GestureDetector(
@@ -84,7 +88,8 @@ class MapScreen extends StatelessWidget {
                     builder: (context, state) {
                       if (state is AutoCompletePredictions) {
                         return Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 20.0, top: 5),
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 20.0, top: 5),
                           child: Container(
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(

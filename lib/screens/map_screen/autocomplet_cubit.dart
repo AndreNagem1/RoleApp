@@ -27,4 +27,8 @@ class AutoCompleteCubit extends Cubit<AutoCompleteState> {
       emit(AutoCompletePredictions(autoCompleteResponse.predictions!));
     }
   }
+
+  void setInitialState() {
+    emit(AutoCompleteInitialState());
+  }
 }

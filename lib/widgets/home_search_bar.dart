@@ -38,6 +38,10 @@ class SearchBar extends StatelessWidget {
           Expanded(
             child: TextField(
               cursorColor: ColorsRoleSp.whiteLetter,
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                color: ColorsRoleSp.whiteLetter,
+              ),
               decoration: InputDecoration(
                 hintText: ' Vamonos aonde?',
                 hintStyle: GoogleFonts.righteous(
