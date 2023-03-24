@@ -93,8 +93,10 @@ class MapScreen extends StatelessWidget {
                           child: Container(
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(30),
-                                bottomRight: Radius.circular(30),
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)
                               ),
                               color: ColorsRoleSp.searchBackground,
                             ),
