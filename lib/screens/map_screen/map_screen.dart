@@ -34,21 +34,20 @@ class MapScreen extends StatelessWidget {
         children: [
           GetBuilder<MapController>(
             init: controller,
-            builder: (value) =>
-                GoogleMap(
-                  mapType: MapType.normal,
-                  zoomControlsEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                    target: controller.position,
-                    zoom: 13,
-                  ),
-                  onMapCreated: controller.onMapCreated,
-                  myLocationEnabled: true,
-                  rotateGesturesEnabled: false,
-                  markers: controller.markers,
-                  myLocationButtonEnabled: false,
-                  onCameraMove: controller.onCameraMove,
-                ),
+            builder: (value) => GoogleMap(
+              mapType: MapType.normal,
+              zoomControlsEnabled: false,
+              initialCameraPosition: CameraPosition(
+                target: controller.position,
+                zoom: 13,
+              ),
+              onMapCreated: controller.onMapCreated,
+              myLocationEnabled: true,
+              rotateGesturesEnabled: false,
+              markers: controller.markers,
+              myLocationButtonEnabled: false,
+              onCameraMove: controller.onCameraMove,
+            ),
           ),
           SizedBox(
             height: double.infinity,
@@ -60,10 +59,9 @@ class MapScreen extends StatelessWidget {
                   children: [
                     const SizedBox(width: 10),
                     Expanded(
-                      child: HomeSearchBar(navigateToHome: () {
-                        searchPlaces(cubit);
-                      }
-                      ),
+                      child: HomeSearchBar(onSearch: (text) {
+                        searchPlaces(cubit, text);
+                      }),
                     ),
                     const SizedBox(width: 10),
                     GestureDetector(
@@ -83,7 +81,7 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-  searchPlaces(MapCubit cubit) {
+  searchPlaces(MapCubit cubit, String text) {
     cubit.searchPlaces();
   }
 

@@ -45,9 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     HomeSearchBar(
-                      navigateToHome: () {
-                        _navigateToMapScreen(context, null);
-                      },
+                      onSearch: (text) {},
                     ),
                     const SizedBox(height: 30),
                     Row(
