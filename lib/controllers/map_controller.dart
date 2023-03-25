@@ -64,7 +64,10 @@ class MapController extends GetxController {
   moveCameraToPosition(LatLng position) {
     _mapsController.moveCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: position),
+        CameraPosition(
+          target: position,
+          zoom: 12.0
+        ),
       ),
     );
   }

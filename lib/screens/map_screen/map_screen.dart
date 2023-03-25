@@ -177,6 +177,7 @@ class MapScreen extends StatelessWidget {
     }
     final placeId = listPredictions[0].placeId;
     controller.getPlaceDetails(context, placeId ?? '');
+    cubit.setInitialState();
   }
 
   searchPlaces(AutoCompleteCubit cubit, String text) {
