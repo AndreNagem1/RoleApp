@@ -5,11 +5,6 @@ class PlaceDetailsResponse {
   PlaceDetailsResponse({this.result, this.status});
 
   PlaceDetailsResponse.fromJson(Map<String, dynamic> json) {
-    if (json['html_attributions'] != null) {
-      json['html_attributions'].forEach((v) {
-        //  htmlAttributions!.add(new Null.fromJson(v));
-      });
-    }
     result = json['result'] != null ? Result.fromJson(json['result']) : null;
     status = json['status'];
   }
@@ -25,8 +20,6 @@ class PlaceDetailsResponse {
 }
 
 class Result {
-  String? formattedPhoneNumber;
-  OpeningHours? openingHours;
   List<AddressComponents>? addressComponents;
   String? adrAddress;
   String? formattedAddress;
@@ -45,9 +38,7 @@ class Result {
   String? website;
 
   Result(
-      {this.formattedPhoneNumber,
-      this.openingHours,
-      this.addressComponents,
+      {this.addressComponents,
       this.adrAddress,
       this.formattedAddress,
       this.geometry,
@@ -65,39 +56,60 @@ class Result {
       this.website});
 
   Result.fromJson(Map<String, dynamic> json) {
-    formattedPhoneNumber = json['formatted_phone_number'];
+    if (json['address_components'] != null) {
+      addressComponents = <AddressComponents>[];
+      json['address_components'].forEach((v) {
+        addressComponents!.add(AddressComponents.fromJson(v));
+      });
+    }
+    adrAddress = json['adr_address'];
+    formattedAddress = json['formatted_address'];
     geometry =
         json['geometry'] != null ? Geometry.fromJson(json['geometry']) : null;
-    openingHours = json['opening_hours'] != null
-        ? OpeningHours.fromJson(json['opening_hours'])
-        : null;
+    icon = json['icon'];
+    iconBackgroundColor = json['icon_background_color'];
+    iconMaskBaseUri = json['icon_mask_base_uri'];
+    name = json['name'];
+    if (json['photos'] != null) {
+      photos = <Photos>[];
+      json['photos'].forEach((v) {
+        photos!.add(Photos.fromJson(v));
+      });
+    }
+    placeId = json['place_id'];
+    reference = json['reference'];
+    types = json['types'].cast<String>();
+    url = json['url'];
+    utcOffset = json['utc_offset'];
+    vicinity = json['vicinity'];
+    website = json['website'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['formatted_phone_number'] = formattedPhoneNumber;
-    if (openingHours != null) {
-      data['opening_hours'] = openingHours!.toJson();
+    if (addressComponents != null) {
+      data['address_components'] =
+          addressComponents!.map((v) => v.toJson()).toList();
     }
+    data['adr_address'] = adrAddress;
+    data['formatted_address'] = formattedAddress;
     if (geometry != null) {
       data['geometry'] = geometry!.toJson();
     }
-    return data;
-  }
-}
-
-class OpeningHours {
-  List<String>? weekdayText;
-
-  OpeningHours({this.weekdayText});
-
-  OpeningHours.fromJson(Map<String, dynamic> json) {
-    weekdayText = json['weekday_text'].cast<String>();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['weekday_text'] = weekdayText;
+    data['icon'] = icon;
+    data['icon_background_color'] = iconBackgroundColor;
+    data['icon_mask_base_uri'] = iconMaskBaseUri;
+    data['name'] = name;
+    if (photos != null) {
+      data['photos'] = photos!.map((v) => v.toJson()).toList();
+    }
+    data['place_id'] = placeId;
+    data['reference'] = reference;
+    data['types'] = types;
+    data['url'] = url;
+    data['utc_offset'] = utcOffset;
+    data['vicinity'] = vicinity;
+    data['website'] = website;
     return data;
   }
 }

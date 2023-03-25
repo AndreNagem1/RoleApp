@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/models/auto_complete_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/autocomplet_cubit.dart';
 import 'package:rolesp/screens/map_screen/map_screen_state.dart';
@@ -21,6 +22,8 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = AutoCompleteCubit();
     final controller = Get.put(MapController());
+    List<Predictions> listPredictions = List.empty();
+
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
     if (places == null) {
@@ -74,6 +77,15 @@ class MapScreen extends StatelessWidget {
                           }
                           cubit.setInitialState();
                         },
+                        onSubmitted: (text) {
+                          onSearchSubmitted(
+                            context,
+                            controller,
+                            cubit,
+                            text,
+                            listPredictions,
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -90,6 +102,8 @@ class MapScreen extends StatelessWidget {
                     bloc: cubit,
                     builder: (context, state) {
                       if (state is AutoCompletePredictions) {
+                        listPredictions = state.listPredictions;
+
                         return Column(
                           children: [
                             Padding(
@@ -149,6 +163,20 @@ class MapScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  onSearchSubmitted(
+    BuildContext context,
+    MapController controller,
+    AutoCompleteCubit cubit,
+    String text,
+    List<Predictions> listPredictions,
+  ) {
+    if (listPredictions.isEmpty) {
+      cubit.searchPlaces(text);
+    }
+    final placeId = listPredictions[0].placeId;
+    controller.getPlaceDetails(context, placeId ?? '');
   }
 
   searchPlaces(AutoCompleteCubit cubit, String text) {

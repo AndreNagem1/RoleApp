@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     SearchBar(
                       onSearch: (text) {},
+                      onSubmitted: (text) {},
                     ),
                     const SizedBox(height: 30),
                     Row(

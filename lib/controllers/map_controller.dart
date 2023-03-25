@@ -57,13 +57,16 @@ class MapController extends GetxController {
     _mapsController.setMapStyle(style);
   }
 
-  zoomIn(LatLng position) {
+  zoomIn() {
+    _mapsController.moveCamera(CameraUpdate.zoomBy(11));
+  }
+
+  moveCameraToPosition(LatLng position) {
     _mapsController.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: position),
       ),
     );
-    _mapsController.moveCamera(CameraUpdate.zoomBy(11));
   }
 
   addMarker(Marker marker, BuildContext context, Results results) async {
@@ -106,6 +109,28 @@ class MapController extends GetxController {
 
     if (nearbyPlacesResponse.results != null) {
       addPlacesDetails(nearbyPlacesResponse, context);
+    }
+  }
+
+  getPlaceDetails(BuildContext context, String placeId) async {
+    cleanPlaces();
+
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/details/json?' +
+            'place_id=' +
+            placeId +
+            '&language=pt&key=' +
+            apiKey);
+
+    var response = await http.post(url);
+    var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
+
+    if (details.result != null) {
+      final lat = details.result?.geometry?.location?.lat ?? 0.0;
+      final lng = details.result?.geometry?.location?.lng ?? 0.0;
+
+      LatLng position = LatLng(lat, lng);
+      moveCameraToPosition(position);
     }
   }
 

@@ -5,10 +5,12 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
 class SearchBar extends StatelessWidget {
   final Function(String) onSearch;
+  final Function(String) onSubmitted;
 
   const SearchBar({
     Key? key,
     required this.onSearch,
+    required this.onSubmitted
   }) : super(key: key);
 
   @override
@@ -56,6 +58,7 @@ class SearchBar extends StatelessWidget {
                 ),
               ),
               onChanged: onSearch,
+              onSubmitted: onSubmitted,
             ),
           ),
           const SizedBox(width: 15),
