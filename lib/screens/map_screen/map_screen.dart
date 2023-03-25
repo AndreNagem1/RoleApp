@@ -23,6 +23,7 @@ class MapScreen extends StatelessWidget {
     final cubit = AutoCompleteCubit();
     final controller = Get.put(MapController());
     List<Predictions> listPredictions = List.empty();
+    final TextEditingController textFieldController = TextEditingController();
 
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
@@ -70,6 +71,7 @@ class MapScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: SearchBar(
+                        controller: textFieldController,
                         onSearch: (text) {
                           if (text.length > 3) {
                             searchPlaces(cubit, text);
@@ -132,6 +134,7 @@ class MapScreen extends StatelessWidget {
                                                   .listPredictions[position]
                                                   .description,
                                               onTap: () {
+                                                textFieldController.clear();
                                                 onSearchSubmittedList(
                                                   context,
                                                   controller,

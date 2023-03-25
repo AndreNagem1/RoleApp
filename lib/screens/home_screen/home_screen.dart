@@ -23,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final textController = TextEditingController();
+
     return Scaffold(
       backgroundColor: ColorsRoleSp.background,
       body: BlocBuilder<HomeCubit, HomeScreenState>(
@@ -47,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SearchBar(
                       onSearch: (text) {},
                       onSubmitted: (text) {},
+                      controller: textController,
                     ),
                     const SizedBox(height: 30),
                     Row(

@@ -6,14 +6,17 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 class SearchBar extends StatelessWidget {
   final Function(String) onSearch;
   final Function(String) onSubmitted;
+  final TextEditingController controller;
 
-  const SearchBar({Key? key, required this.onSearch, required this.onSubmitted})
-      : super(key: key);
+  const SearchBar({
+    Key? key,
+    required this.onSearch,
+    required this.onSubmitted,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var _controller = TextEditingController();
-
     return Container(
       width: double.infinity,
       height: 60,
@@ -38,7 +41,7 @@ class SearchBar extends StatelessWidget {
           const SizedBox(width: 5),
           Expanded(
             child: TextField(
-              controller: _controller,
+              controller: controller,
               cursorColor: ColorsRoleSp.whiteLetter,
               style: GoogleFonts.roboto(
                 fontSize: 14,
@@ -59,7 +62,7 @@ class SearchBar extends StatelessWidget {
               ),
               onChanged: onSearch,
               onSubmitted: (text) {
-                _controller.clear();
+                controller.clear();
                 onSubmitted(text);
               },
             ),
