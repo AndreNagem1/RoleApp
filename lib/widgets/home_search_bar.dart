@@ -7,14 +7,13 @@ class SearchBar extends StatelessWidget {
   final Function(String) onSearch;
   final Function(String) onSubmitted;
 
-  const SearchBar({
-    Key? key,
-    required this.onSearch,
-    required this.onSubmitted
-  }) : super(key: key);
+  const SearchBar({Key? key, required this.onSearch, required this.onSubmitted})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var _controller = TextEditingController();
+
     return Container(
       width: double.infinity,
       height: 60,
@@ -39,6 +38,7 @@ class SearchBar extends StatelessWidget {
           const SizedBox(width: 5),
           Expanded(
             child: TextField(
+              controller: _controller,
               cursorColor: ColorsRoleSp.whiteLetter,
               style: GoogleFonts.roboto(
                 fontSize: 14,
@@ -58,7 +58,10 @@ class SearchBar extends StatelessWidget {
                 ),
               ),
               onChanged: onSearch,
-              onSubmitted: onSubmitted,
+              onSubmitted: (text) {
+                _controller.clear();
+                onSubmitted(text);
+              },
             ),
           ),
           const SizedBox(width: 15),
