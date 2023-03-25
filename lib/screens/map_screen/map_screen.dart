@@ -128,10 +128,18 @@ class MapScreen extends StatelessWidget {
                                       return Column(
                                         children: [
                                           AutoCompleteItem(
-                                            description: state
-                                                .listPredictions[position]
-                                                .description,
-                                          ),
+                                              description: state
+                                                  .listPredictions[position]
+                                                  .description,
+                                              onTap: () {
+                                                onSearchSubmittedList(
+                                                  context,
+                                                  controller,
+                                                  cubit,
+                                                  state.listPredictions[
+                                                      position],
+                                                );
+                                              }),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 8.0,
@@ -163,6 +171,17 @@ class MapScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  onSearchSubmittedList(
+    BuildContext context,
+    MapController controller,
+    AutoCompleteCubit cubit,
+    Predictions predictions,
+  ) {
+    final placeId = predictions.placeId;
+    controller.getPlaceDetails(context, placeId ?? '');
+    cubit.setInitialState();
   }
 
   onSearchSubmitted(
