@@ -120,7 +120,7 @@ class MapController extends GetxController {
             '&type=restaurant' +
             '&radius=' +
             '2000' +
-            '&key=' +
+            '&language=pt&key=' +
             apiKey);
 
     var response = await http.post(url);

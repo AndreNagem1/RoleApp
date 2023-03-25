@@ -15,7 +15,7 @@ class AutoCompleteCubit extends Cubit<AutoCompleteState> {
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?' +
             'input=' +
             input +
-            '&key=' +
+            '&language=pt&key=' +
             apiKey);
 
     var response = await http.post(url);
