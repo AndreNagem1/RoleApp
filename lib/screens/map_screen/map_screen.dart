@@ -39,6 +39,7 @@ class MapScreen extends StatelessWidget {
     listPlacesCubit.setListPlaces(places?.results ?? List.empty());
 
     if (places == null) {
+      controller.setListPlaces(places?.results ?? List.empty());
       controller.getNearByPlaces(context);
     }
 
@@ -190,6 +191,9 @@ class MapScreen extends StatelessWidget {
               bloc: listPlacesCubit,
               builder: (context, state) {
                 if (state is ListPlaces) {
+                  controller.setShouldGenerateNewListPlaces(false);
+                  controller.listPlaces = state.listPlaces;
+
                   return Container(
                     height: double.infinity,
                     width: double.infinity,
@@ -210,6 +214,7 @@ class MapScreen extends StatelessWidget {
                     ),
                   );
                 }
+                controller.setShouldGenerateNewListPlaces(true);
                 return const SizedBox();
               }),
         ],

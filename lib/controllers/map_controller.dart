@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -25,7 +26,9 @@ class MapController extends GetxController {
   late GoogleMapController _mapsController;
   late ListPlacesCubit listPlacesCubit;
   late AutoScrollController listPlacesController;
+  late List<Results> listPlaces;
   final markers = <Marker>{};
+  late bool shouldGenerateNewListPLaces = false;
 
   static MapController get to => Get.find<MapController>();
 
@@ -37,12 +40,20 @@ class MapController extends GetxController {
       ? '${(raio.value * 1000).toStringAsFixed(0)} m'
       : '${(raio.value).toStringAsFixed(1)} km';
 
+  void setShouldGenerateNewListPlaces(bool generate) {
+    shouldGenerateNewListPLaces = generate;
+  }
+
   void setListPlacesCubit(ListPlacesCubit cubit) {
     listPlacesCubit = cubit;
   }
 
   void setListPlacesController(AutoScrollController listController) {
     listPlacesController = listController;
+  }
+
+  void setListPlaces(List<Results> listResults) {
+    listPlaces = listResults;
   }
 
   Future<Uint8List?> getBytesFromAsset(String path, int width) async {
@@ -167,6 +178,7 @@ class MapController extends GetxController {
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
     if (nearbyPlacesResponse.results != null) {
+      listPlaces = nearbyPlacesResponse.results ?? List.empty();
       addPlacesDetails(nearbyPlacesResponse, context);
     }
   }
@@ -238,6 +250,9 @@ class MapController extends GetxController {
   }
 
   Future showPlaceOnList(int index) async {
+    if (shouldGenerateNewListPLaces) {
+      listPlacesCubit.setListPlaces(listPlaces);
+    }
     await listPlacesController.scrollToIndex(
       index,
       preferPosition: AutoScrollPosition.begin,
