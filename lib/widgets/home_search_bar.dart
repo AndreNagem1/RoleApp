@@ -6,6 +6,7 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 class SearchBar extends StatelessWidget {
   final Function(String) onSearch;
   final Function(String) onSubmitted;
+  final VoidCallback onTap;
   final TextEditingController controller;
 
   const SearchBar({
@@ -13,6 +14,7 @@ class SearchBar extends StatelessWidget {
     required this.onSearch,
     required this.onSubmitted,
     required this.controller,
+    required this.onTap
   }) : super(key: key);
 
   @override
@@ -41,6 +43,7 @@ class SearchBar extends StatelessWidget {
           const SizedBox(width: 5),
           Expanded(
             child: TextField(
+              onTap: onTap,
               controller: controller,
               cursorColor: ColorsRoleSp.whiteLetter,
               style: GoogleFonts.roboto(

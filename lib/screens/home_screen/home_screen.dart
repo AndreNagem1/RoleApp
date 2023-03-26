@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onSearch: (text) {},
                       onSubmitted: (text) {},
                       controller: textController,
+                      onTap: () {},
                     ),
                     const SizedBox(height: 30),
                     Row(

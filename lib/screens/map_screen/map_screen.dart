@@ -96,6 +96,9 @@ class MapScreen extends StatelessWidget {
                             listPredictions,
                           );
                         },
+                        onTap: () {
+                          listPlacesCubit.setInitialState();
+                        },
                       ),
                     ),
                     const SizedBox(width: 10),
