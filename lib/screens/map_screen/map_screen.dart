@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
@@ -203,6 +204,10 @@ class MapScreen extends StatelessWidget {
                               const SizedBox(width: 15),
                               PlacesListItem(
                                 results: state.listPlaces[position],
+                                onTap: () {
+                                  showDetails(
+                                      context, state.listPlaces[position]);
+                                },
                               )
                             ],
                           );
@@ -256,5 +261,19 @@ class MapScreen extends StatelessWidget {
   ) async {
     List<Results>? listPlaces = await controller.getNewPlaces(context);
     listPlacesCubit.setListPlaces(listPlaces ?? List.empty());
+  }
+
+  showDetails(
+    BuildContext context,
+    Results results,
+  ) {
+    showModalBottomSheet<dynamic>(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext bc) {
+        return PlaceDetailsBottomSheet(key: const Key(''), results: results);
+      },
+    );
   }
 }
