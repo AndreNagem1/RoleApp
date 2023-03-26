@@ -64,10 +64,7 @@ class MapController extends GetxController {
   moveCameraToPosition(LatLng position) {
     _mapsController.moveCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: position,
-          zoom: 12.0
-        ),
+        CameraPosition(target: position, zoom: 12.0),
       ),
     );
   }
@@ -90,7 +87,7 @@ class MapController extends GetxController {
     markers.clear();
   }
 
-  getNewPlaces(BuildContext context) async {
+  Future<List<Results>?> getNewPlaces(BuildContext context) async {
     cleanPlaces();
 
     var url = Uri.parse(
@@ -112,7 +109,9 @@ class MapController extends GetxController {
 
     if (nearbyPlacesResponse.results != null) {
       addPlacesDetails(nearbyPlacesResponse, context);
+      return nearbyPlacesResponse.results;
     }
+    return List.empty();
   }
 
   getPlaceDetails(BuildContext context, String placeId) async {

@@ -32,10 +32,10 @@ class MapScreen extends StatelessWidget {
 
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
+    listPlacesCubit.setListPlaces(places?.results ?? List.empty());
+
     if (places == null) {
       controller.getNearByPlaces(context);
-    } else {
-      listPlacesCubit.setListPlaces(places?.results ?? List.empty());
     }
 
     return Scaffold(
@@ -63,6 +63,7 @@ class MapScreen extends StatelessWidget {
               myLocationButtonEnabled: false,
               onCameraMove: controller.onCameraMove,
               onTap: (latLong) {
+                listPlacesCubit.setInitialState();
                 cubit.setInitialState();
               },
             ),
@@ -100,7 +101,7 @@ class MapScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () {
-                        refreshPlaces(context, controller);
+                        refreshPlaces(context, controller, listPlacesCubit);
                       },
                       child: const RefreshButton(),
                     ),
@@ -198,12 +199,12 @@ class MapScreen extends StatelessWidget {
                             children: [
                               const SizedBox(width: 15),
                               PlacesListItem(
-                                results: places?.results?[position],
+                                results: state.listPlaces[position],
                               )
                             ],
                           );
                         },
-                        itemCount: places?.results?.length,
+                        itemCount: state.listPlaces.length,
                       ),
                     ),
                   );
@@ -245,7 +246,12 @@ class MapScreen extends StatelessWidget {
     cubit.searchPlaces(text);
   }
 
-  refreshPlaces(BuildContext context, MapController controller) {
-    controller.getNewPlaces(context);
+  refreshPlaces(
+    BuildContext context,
+    MapController controller,
+    ListPlacesCubit listPlacesCubit,
+  ) async {
+    List<Results>? listPlaces = await controller.getNewPlaces(context);
+    listPlacesCubit.setListPlaces(listPlaces ?? List.empty());
   }
 }

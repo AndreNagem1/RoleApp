@@ -11,6 +11,12 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     }
   }
 
+  void showPlaceOnList(List<Results> listPlaces) {
+    if (listPlaces.isNotEmpty) {
+      emit(ListPlaces(listPlaces));
+    }
+  }
+
   void setInitialState() {
     emit(ListPlacesInitialState());
   }
