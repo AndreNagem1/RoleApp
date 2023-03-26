@@ -16,6 +16,7 @@ import 'package:rolesp/widgets/auto_complete_item.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';
 import 'package:rolesp/widgets/places_list_item.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class MapScreen extends StatelessWidget {
   final NearbyPlacesResponse? places;
@@ -29,8 +30,10 @@ class MapScreen extends StatelessWidget {
     final controller = Get.put(MapController());
     List<Predictions> listPredictions = List.empty();
     final TextEditingController textFieldController = TextEditingController();
-    final listController = ScrollController();
+    final listController = AutoScrollController(axis: Axis.horizontal);
 
+    controller.setListPlacesController(listController);
+    controller.setListPlacesCubit(listPlacesCubit);
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
     listPlacesCubit.setListPlaces(places?.results ?? List.empty());
@@ -194,23 +197,13 @@ class MapScreen extends StatelessWidget {
                     child: SizedBox(
                       height: 330,
                       child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
                         controller: listController,
                         shrinkWrap: true,
                         padding: const EdgeInsets.only(bottom: 30.0),
-                        scrollDirection: Axis.horizontal,
                         itemBuilder: (context, position) {
-                          return Row(
-                            children: [
-                              const SizedBox(width: 15),
-                              PlacesListItem(
-                                results: state.listPlaces[position],
-                                onTap: () {
-                                  showDetails(
-                                      context, state.listPlaces[position]);
-                                },
-                              )
-                            ],
-                          );
+                          return _getRow(
+                              position, listController, state, context);
                         },
                         itemCount: state.listPlaces.length,
                       ),
@@ -276,4 +269,38 @@ class MapScreen extends StatelessWidget {
       },
     );
   }
+
+  Widget _getRow(
+    int index,
+    AutoScrollController listPLacesController,
+    ListPlaces state,
+    BuildContext context,
+  ) {
+    return _wrapScrollTag(
+        index: index,
+        child: Row(
+          children: [
+            const SizedBox(width: 15),
+            PlacesListItem(
+              results: state.listPlaces[index],
+              onTap: () {
+                showDetails(context, state.listPlaces[index]);
+              },
+            )
+          ],
+        ),
+        listPlacesController: listPLacesController);
+  }
+
+  Widget _wrapScrollTag(
+          {required int index,
+          required Widget child,
+          required AutoScrollController listPlacesController}) =>
+      AutoScrollTag(
+        key: ValueKey(index),
+        controller: listPlacesController,
+        index: index,
+        child: child,
+        highlightColor: Colors.black.withOpacity(0.1),
+      );
 }

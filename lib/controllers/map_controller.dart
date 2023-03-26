@@ -11,8 +11,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-
-import '../BottomSheets/place_details_bottom_sheet.dart';
+import 'package:rolesp/screens/map_screen/list_places_cubit.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class MapController extends GetxController {
   final latitude = 0.0.obs;
@@ -23,6 +23,8 @@ class MapController extends GetxController {
   late StreamSubscription<Position> positionStream;
   LatLng _position = const LatLng(-23.4944928, -46.8575523);
   late GoogleMapController _mapsController;
+  late ListPlacesCubit listPlacesCubit;
+  late AutoScrollController listPlacesController;
   final markers = <Marker>{};
 
   static MapController get to => Get.find<MapController>();
@@ -34,6 +36,14 @@ class MapController extends GetxController {
   String get distancia => raio.value < 1
       ? '${(raio.value * 1000).toStringAsFixed(0)} m'
       : '${(raio.value).toStringAsFixed(1)} km';
+
+  void setListPlacesCubit(ListPlacesCubit cubit) {
+    listPlacesCubit = cubit;
+  }
+
+  void setListPlacesController(AutoScrollController listController) {
+    listPlacesController = listController;
+  }
 
   Future<Uint8List?> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -69,7 +79,8 @@ class MapController extends GetxController {
     );
   }
 
-  addMarker(Marker marker, BuildContext context, Results results) async {
+  addMarker(Marker marker, BuildContext context, Results results,
+      int listIndex) async {
     markers.add(
       Marker(
           markerId: MarkerId(marker.markerId.value),
@@ -77,7 +88,7 @@ class MapController extends GetxController {
           infoWindow: InfoWindow(title: marker.markerId.value),
           icon: BitmapDescriptor.defaultMarker,
           onTap: () {
-            showDetails(marker, context, results);
+            showPlaceOnList(listIndex);
           }),
     );
     update();
@@ -163,6 +174,7 @@ class MapController extends GetxController {
   getNearByPlacesDetails(
     BuildContext context,
     Results results,
+    int listIndex,
   ) async {
     final placeId = results.placeId;
 
@@ -188,10 +200,10 @@ class MapController extends GetxController {
       }
     }
 
-    addPlaceMarker(context, results);
+    addPlaceMarker(context, results, listIndex);
   }
 
-  addPlaceMarker(BuildContext context, Results response) {
+  addPlaceMarker(BuildContext context, Results response, int listIndex) {
     var id = response.name!;
     var lat = response.geometry!.location!.lat!;
     var lng = response.geometry!.location!.lng!;
@@ -205,7 +217,7 @@ class MapController extends GetxController {
       addNewMarker = false;
     }
     if (addNewMarker) {
-      addMarker(marker, context, response);
+      addMarker(marker, context, response, listIndex);
     }
   }
 
@@ -218,29 +230,19 @@ class MapController extends GetxController {
       while (index < places.results!.length) {
         final response = places.results?[index];
         if (response != null) {
-          getNearByPlacesDetails(
-            context,
-            response,
-          );
+          getNearByPlacesDetails(context, response, index);
         }
         index++;
       }
     }
   }
 
-  showDetails(
-    Marker marker,
-    BuildContext context,
-    Results results,
-  ) {
-    showModalBottomSheet<dynamic>(
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext bc) {
-        return PlaceDetailsBottomSheet(key: const Key(''), results: results);
-      },
+  Future showPlaceOnList(int index) async {
+    await listPlacesController.scrollToIndex(
+      index,
+      preferPosition: AutoScrollPosition.begin,
     );
+    listPlacesController.highlight(index);
   }
 
   watchPosition() async {
