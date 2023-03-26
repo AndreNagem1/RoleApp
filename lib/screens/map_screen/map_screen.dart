@@ -7,10 +7,13 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/autocomplet_cubit.dart';
-import 'package:rolesp/screens/map_screen/map_screen_state.dart';
+import 'package:rolesp/screens/map_screen/auto_complete_state.dart';
+import 'package:rolesp/screens/map_screen/list_places_cubit.dart';
+import 'package:rolesp/screens/map_screen/list_places_state.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:rolesp/widgets/auto_complete_item.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';
+import 'package:rolesp/widgets/places_list_item.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
 
 class MapScreen extends StatelessWidget {
@@ -21,14 +24,18 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = AutoCompleteCubit();
+    final listPlacesCubit = ListPlacesCubit();
     final controller = Get.put(MapController());
     List<Predictions> listPredictions = List.empty();
     final TextEditingController textFieldController = TextEditingController();
+    final listController = ScrollController();
 
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
     if (places == null) {
       controller.getNearByPlaces(context);
+    } else {
+      listPlacesCubit.setListPlaces(places?.results ?? List.empty());
     }
 
     return Scaffold(
@@ -101,76 +108,108 @@ class MapScreen extends StatelessWidget {
                   ],
                 ),
                 BlocBuilder<AutoCompleteCubit, AutoCompleteState>(
-                    bloc: cubit,
-                    builder: (context, state) {
-                      if (state is AutoCompletePredictions) {
-                        listPredictions = state.listPredictions;
+                  bloc: cubit,
+                  builder: (context, state) {
+                    if (state is AutoCompletePredictions) {
+                      listPredictions = state.listPredictions;
 
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 20.0, top: 5),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                  ),
-                                  color: ColorsRoleSp.searchBackground,
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 20.0, top: 5),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: ListView.builder(
-                                    padding: const EdgeInsets.all(0),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, position) {
-                                      return Column(
-                                        children: [
-                                          AutoCompleteItem(
-                                              description: state
-                                                  .listPredictions[position]
-                                                  .description,
-                                              onTap: () {
-                                                textFieldController.clear();
-                                                onSearchSubmittedList(
-                                                  context,
-                                                  controller,
-                                                  cubit,
-                                                  state.listPredictions[
-                                                      position],
-                                                );
-                                              }),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0,
-                                                top: 2.0,
-                                                right: 8.0,
-                                                bottom: 2.0),
-                                            child: Container(
-                                              color: ColorsRoleSp.whiteLetter,
-                                              height: 0.5,
-                                              width: double.infinity,
-                                            ),
+                                color: ColorsRoleSp.searchBackground,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: ListView.builder(
+                                  padding: const EdgeInsets.all(0),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, position) {
+                                    return Column(
+                                      children: [
+                                        AutoCompleteItem(
+                                            description: state
+                                                .listPredictions[position]
+                                                .description,
+                                            onTap: () {
+                                              textFieldController.clear();
+                                              onSearchSubmittedList(
+                                                context,
+                                                controller,
+                                                cubit,
+                                                state.listPredictions[position],
+                                              );
+                                            }),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0,
+                                              top: 2.0,
+                                              right: 8.0,
+                                              bottom: 2.0),
+                                          child: Container(
+                                            color: ColorsRoleSp.whiteLetter,
+                                            height: 0.5,
+                                            width: double.infinity,
                                           ),
-                                        ],
-                                      );
-                                    },
-                                    itemCount: state.listPredictions.length,
-                                  ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  itemCount: state.listPredictions.length,
                                 ),
                               ),
                             ),
-                          ],
-                        );
-                      }
-                      return const SizedBox();
-                    })
+                          ),
+                        ],
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
               ],
             ),
           ),
+          BlocBuilder<ListPlacesCubit, ListPlacesState>(
+              bloc: listPlacesCubit,
+              builder: (context, state) {
+                if (state is ListPlaces) {
+                  return Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      height: 330,
+                      child: ListView.builder(
+                        controller: listController,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(bottom: 30.0),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, position) {
+                          return Row(
+                            children: [
+                              const SizedBox(width: 15),
+                              PlacesListItem(
+                                results: places?.results?[position],
+                              )
+                            ],
+                          );
+                        },
+                        itemCount: places?.results?.length,
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox();
+              }),
         ],
       ),
     );

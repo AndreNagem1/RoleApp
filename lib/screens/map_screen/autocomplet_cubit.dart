@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:rolesp/models/auto_complete_response.dart';
-import 'package:rolesp/screens/map_screen/map_screen_state.dart';
+import 'package:rolesp/screens/map_screen/auto_complete_state.dart';
 
 class AutoCompleteCubit extends Cubit<AutoCompleteState> {
   AutoCompleteCubit() : super(AutoCompleteInitialState());
