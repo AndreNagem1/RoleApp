@@ -127,7 +127,21 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                         width: 100,
                         child: Image.asset(getAvaliationsImage(results.rating)),
                       ),
-                      const SizedBox(width: 2),
+                      const SizedBox(width: 10),
+                      Container(
+                        height: 20,
+                        width: 70,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Nota: ' + results.rating.toString() + ' • ',
+                          style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              color: ColorsRoleSp.whiteLetter,
+                            ),
+                          ),
+                        ),
+                      ),
                       Container(
                         height: 20,
                         width: 100,
