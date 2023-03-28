@@ -28,7 +28,7 @@ class PlacesListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 250,
+        width: 350,
         height: 350,
         clipBehavior: Clip.hardEdge,
         decoration: const BoxDecoration(

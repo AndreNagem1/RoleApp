@@ -13,6 +13,7 @@ import 'package:rolesp/screens/map_screen/list_places_cubit.dart';
 import 'package:rolesp/screens/map_screen/list_places_state.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:rolesp/widgets/auto_complete_item.dart';
+import 'package:rolesp/widgets/custom_scroll.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';
 import 'package:rolesp/widgets/places_list_item.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
@@ -201,6 +202,7 @@ class MapScreen extends StatelessWidget {
                     child: SizedBox(
                       height: 330,
                       child: ListView.builder(
+                        physics: const CustomScrollPhysics(snapSize: 360),
                         scrollDirection: Axis.horizontal,
                         controller: listController,
                         shrinkWrap: true,
@@ -285,7 +287,7 @@ class MapScreen extends StatelessWidget {
         index: index,
         child: Row(
           children: [
-            const SizedBox(width: 15),
+            const SizedBox(width: 10),
             PlacesListItem(
               results: state.listPlaces[index],
               onTap: () {
