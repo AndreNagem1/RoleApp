@@ -343,22 +343,48 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
   Future<void> _launchUrl(Results result, BuildContext context) async {
     final Uri _url = Uri.parse(result.website ?? '');
 
-    if(result.website == null){
-      const snackBar = SnackBar(
-        behavior: SnackBarBehavior.floating,
-        content: SizedBox(
-          height: 20,
-          width: double.infinity,
-          child: Text('Site indisponível :/!'),
-        ),
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    if (result.website == null) {
+      _showOverlay(context, text: 'Site indisponível :/');
     }
 
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
+  }
+
+  void _showOverlay(BuildContext context, {required String text}) async {
+    OverlayState? overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+        left: MediaQuery.of(context).size.width * 0.2,
+        top: MediaQuery.of(context).size.height * 0.60,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Material(
+            child: Container(
+              alignment: Alignment.center,
+              color: ColorsRoleSp.whiteLetter,
+              padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Text(
+                text,
+                style: GoogleFonts.righteous(
+                  fontSize: 15,
+                  color: ColorsRoleSp.blackIcon
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    // inserting overlay entry
+    overlayState!.insert(overlayEntry);
+    await Future.delayed(const Duration(seconds: 3))
+        .whenComplete(() => overlayEntry.remove());
   }
 
   showReviews(BuildContext context) {
