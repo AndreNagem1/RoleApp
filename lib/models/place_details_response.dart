@@ -71,6 +71,7 @@ class Result {
     openingHours = json['opening_hours'] != null
         ? OpeningHours.fromJson(json['opening_hours'])
         : null;
+    website = json['website'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,6 +83,7 @@ class Result {
     if (geometry != null) {
       data['geometry'] = geometry!.toJson();
     }
+    data['website'] = website;
     return data;
   }
 }

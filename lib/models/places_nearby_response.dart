@@ -50,6 +50,7 @@ class Results {
   int? userRatingsTotal;
   String? phone;
   bool? permanentlyClosed;
+  String? website;
 
   Results(
       {this.geometry,
@@ -69,7 +70,8 @@ class Results {
       this.rating,
       this.userRatingsTotal,
       this.phone,
-      this.permanentlyClosed});
+      this.permanentlyClosed,
+      this.website});
 
   Results.fromJsonOpeningHours(Map<String, dynamic> json) {
     openingHours = json['opening_hours'] != null
@@ -105,6 +107,7 @@ class Results {
     userRatingsTotal = json['user_ratings_total'];
     phone = json['formatted_phone_number'];
     permanentlyClosed = json['permanently_closed'];
+    website = json['website'];
   }
 
   Map<String, dynamic> toJson() {
@@ -133,6 +136,7 @@ class Results {
     }
     data['rating'] = rating;
     data['user_ratings_total'] = userRatingsTotal;
+    data['website'] = website;
     return data;
   }
 }

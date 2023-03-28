@@ -9,10 +9,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailsBottomSheet extends StatelessWidget {
   final Results results;
-  final Uri _url = Uri.parse('https://theblackhorse.com.br/');
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
-  PlaceDetailsBottomSheet({
+  const PlaceDetailsBottomSheet({
     required Key key,
     required this.results,
   }) : super(key: key);
@@ -180,14 +179,15 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(width: 40),
                     GestureDetector(
                       onTap: () {
-                        _launchUrl();
+                        _launchUrl(results, context);
                       },
                       child: Text(
-                        'Menu',
+                        'Site',
                         style: GoogleFonts.righteous(
                           color: Colors.white,
                           fontSize: 20,
@@ -340,7 +340,22 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     return 'assets/images/avaliations0.png';
   }
 
-  Future<void> _launchUrl() async {
+  Future<void> _launchUrl(Results result, BuildContext context) async {
+    final Uri _url = Uri.parse(result.website ?? '');
+
+    if(result.website == null){
+      const snackBar = SnackBar(
+        behavior: SnackBarBehavior.floating,
+        content: SizedBox(
+          height: 20,
+          width: double.infinity,
+          child: Text('Site indisponível :/!'),
+        ),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }

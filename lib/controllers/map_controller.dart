@@ -192,7 +192,7 @@ class MapController extends GetxController {
 
     if (placeId != null) {
       var call = 'https://maps.googleapis.com/maps/api/place/details/json?' +
-          'fields=opening_hours/weekday_text,formatted_phone_number&' +
+          'fields=website,opening_hours/weekday_text,formatted_phone_number&' +
           '&place_id=' +
           placeId +
           '&key=' +
@@ -209,6 +209,10 @@ class MapController extends GetxController {
       }
       if (details.result?.formattedPhoneNumber != null) {
         results.phone = details.result?.formattedPhoneNumber;
+      }
+
+      if (details.result?.website != null) {
+        results.website = details.result?.website;
       }
     }
 
