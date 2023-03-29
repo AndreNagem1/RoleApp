@@ -37,7 +37,14 @@ class MapScreen extends StatelessWidget {
     controller.setListPlacesCubit(listPlacesCubit);
     controller.cleanPlaces();
     controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
-    listPlacesCubit.setListPlaces(places?.results ?? List.empty());
+    var listPlacesList = <Results>[];
+    places?.results?.forEach((results) {
+      if (results.permanentlyClosed != true) {
+        listPlacesList.add(results);
+      }
+    });
+
+    listPlacesCubit.setListPlaces(listPlacesList);
 
     if (places == null) {
       controller.setListPlaces(places?.results ?? List.empty());
@@ -277,7 +284,13 @@ class MapScreen extends StatelessWidget {
     ListPlacesCubit listPlacesCubit,
   ) async {
     List<Results>? listPlaces = await controller.getNewPlaces(context);
-    listPlacesCubit.setListPlaces(listPlaces ?? List.empty());
+    var listPlacesList = <Results>[];
+    listPlaces?.forEach((results) {
+      if (results.permanentlyClosed != true) {
+        listPlacesList.add(results);
+      }
+    });
+    listPlacesCubit.setListPlaces(listPlacesList);
   }
 
   showDetails(
@@ -296,12 +309,7 @@ class MapScreen extends StatelessWidget {
 
   void focusMarker(Results results, MapController mapController,
       AutoScrollController lisPlacesController) {
-
-    print('MEEU PRRINT');
-    print(results.name);
-
     final markerId = MarkerId(results.name ?? '');
-    print(markerId.value);
     final marker = Marker(markerId: markerId);
     mapController.showInfoFromMarker(marker.markerId);
   }
