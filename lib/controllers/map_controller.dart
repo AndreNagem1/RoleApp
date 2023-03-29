@@ -40,6 +40,10 @@ class MapController extends GetxController {
       ? '${(raio.value * 1000).toStringAsFixed(0)} m'
       : '${(raio.value).toStringAsFixed(1)} km';
 
+  void showInfoFromMarker(MarkerId markerId) {
+    _mapsController.showMarkerInfoWindow(markerId);
+  }
+
   void setShouldGenerateNewListPlaces(bool generate) {
     shouldGenerateNewListPLaces = generate;
   }
@@ -85,7 +89,7 @@ class MapController extends GetxController {
   moveCameraToPosition(LatLng position) {
     _mapsController.moveCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: position, zoom: 12.0),
+        CameraPosition(target: position, zoom: 15.0),
       ),
     );
   }
@@ -253,15 +257,22 @@ class MapController extends GetxController {
     }
   }
 
+  showPositionOnMap(Results results) {
+    final lat = results.geometry?.location?.lat ?? 0.0;
+    final lng = results.geometry?.location?.lng ?? 0.0;
+    final position = LatLng(lat, lng);
+    if (position.latitude != 0.0 && position.longitude != 0.0) {
+      moveCameraToPosition(position);
+    }
+  }
+
   Future showPlaceOnList(int index) async {
     if (shouldGenerateNewListPLaces) {
       listPlacesCubit.setListPlaces(listPlaces);
     }
-    await listPlacesController.scrollToIndex(
-      index,
-      preferPosition: AutoScrollPosition.begin,
-    );
-    listPlacesController.highlight(index);
+
+    final position = index.toDouble() * 360;
+    listPlacesController.jumpTo(position);
   }
 
   watchPosition() async {

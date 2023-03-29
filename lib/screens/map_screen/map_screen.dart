@@ -201,17 +201,34 @@ class MapScreen extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
                       height: 330,
-                      child: ListView.builder(
-                        physics: const CustomScrollPhysics(snapSize: 360),
-                        scrollDirection: Axis.horizontal,
-                        controller: listController,
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        itemBuilder: (context, position) {
-                          return _getRow(
-                              position, listController, state, context);
+                      child: NotificationListener<ScrollNotification>(
+                        onNotification: (scrollNotification) {
+                          if (scrollNotification is ScrollEndNotification) {
+                            final position =
+                                listController.position.pixels / 360;
+
+                            focusMarker(controller.listPlaces[position.ceil()],
+                                controller, listController);
+                          }
+                          return false;
                         },
-                        itemCount: state.listPlaces.length,
+                        child: ListView.builder(
+                          physics: const CustomScrollPhysics(snapSize: 360),
+                          scrollDirection: Axis.horizontal,
+                          controller: listController,
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(bottom: 30.0),
+                          itemBuilder: (context, position) {
+                            return _getRow(
+                              position,
+                              listController,
+                              state,
+                              context,
+                              controller,
+                            );
+                          },
+                          itemCount: state.listPlaces.length,
+                        ),
                       ),
                     ),
                   );
@@ -277,11 +294,24 @@ class MapScreen extends StatelessWidget {
     );
   }
 
+  void focusMarker(Results results, MapController mapController,
+      AutoScrollController lisPlacesController) {
+
+    print('MEEU PRRINT');
+    print(results.name);
+
+    final markerId = MarkerId(results.name ?? '');
+    print(markerId.value);
+    final marker = Marker(markerId: markerId);
+    mapController.showInfoFromMarker(marker.markerId);
+  }
+
   Widget _getRow(
     int index,
     AutoScrollController listPLacesController,
     ListPlaces state,
     BuildContext context,
+    MapController mapController,
   ) {
     return _wrapScrollTag(
         index: index,
