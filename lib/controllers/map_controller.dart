@@ -270,9 +270,8 @@ class MapController extends GetxController {
     if (shouldGenerateNewListPLaces) {
       listPlacesCubit.setListPlaces(listPlaces);
     }
-
-    final position = index.toDouble() * 360;
-    listPlacesController.jumpTo(position);
+    await listPlacesController.scrollToIndex(index - 1,
+        preferPosition: AutoScrollPosition.begin);
   }
 
   watchPosition() async {
