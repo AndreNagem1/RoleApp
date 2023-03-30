@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 
 class PlacesListItem extends StatelessWidget {
   final Results? results;
+  final MapController mapController;
   final VoidCallback onTap;
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
@@ -15,6 +20,7 @@ class PlacesListItem extends StatelessWidget {
     Key? key,
     required this.results,
     required this.onTap,
+    required this.mapController,
   }) : super(key: key);
 
   @override
@@ -84,6 +90,42 @@ class PlacesListItem extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const Spacer(),
+                      SizedBox(
+                        height: 35,
+                        width: 100,
+                        child: FutureBuilder<Position>(
+                            future: mapController.getUserPosition(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<Position> snapshot) {
+                              if (snapshot.hasData) {
+                                final distance = calculateDistance(
+                                  snapshot.data?.latitude ?? 0.0,
+                                  snapshot.data?.longitude ?? 0.0,
+                                  results?.geometry?.location?.lat ?? 0.0,
+                                  results?.geometry?.location?.lng ?? 0.0,
+                                );
+
+                                return Text(
+                                  distance.toString().substring(0, 4) + ' Km',
+                                  style: GoogleFonts.roboto(
+                                    textStyle: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                );
+                              }
+                              return const Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator()),
+                              );
+                            }),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -118,6 +160,14 @@ class PlacesListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
   }
 
   String getDescription(List<String> types) {

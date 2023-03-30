@@ -317,13 +317,19 @@ class MapController extends GetxController {
     return await Geolocator.getCurrentPosition();
   }
 
-  getPosition() async {
+  Future<Position> getUserPosition()  async {
+    final position= await _currentPosition();
+    return position;
+  }
+
+ Future<Position> getPosition()  async {
     try {
       final position = await _currentPosition();
       latitude.value = position.latitude;
       longitude.value = position.longitude;
       _mapsController.animateCamera(
           CameraUpdate.newLatLng(LatLng(latitude.value, longitude.value)));
+      return position;
     } catch (e) {
       Get.snackbar(
         'Erro',
@@ -333,5 +339,6 @@ class MapController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
-  }
+    return position;
+ }
 }

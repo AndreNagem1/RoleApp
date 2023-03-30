@@ -328,6 +328,7 @@ class MapScreen extends StatelessWidget {
             const SizedBox(width: 10),
             PlacesListItem(
               results: state.listPlaces[index],
+              mapController: mapController,
               onTap: () {
                 showDetails(context, state.listPlaces[index]);
               },
