@@ -269,8 +269,8 @@ class MapController extends GetxController {
   Future showPlaceOnList(int index) async {
     if (shouldGenerateNewListPLaces) {
       listPlacesCubit.setListPlaces(listPlaces);
+      await Future.delayed(const Duration(milliseconds: 50));
     }
-    await Future.delayed(const Duration(milliseconds: 500));
     final indexList = index - 1;
     var position = indexList * 360;
 
