@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/dialogs/add_review_dialog.dart';
 import 'package:rolesp/models/place_details_response.dart';
-import 'package:rolesp/models/review_model.dart';
 import 'package:rolesp/widgets/review_widget.dart';
 
 class ReviewsPageBottomSheet extends StatelessWidget {
