@@ -93,7 +93,7 @@ class PlacesListItem extends StatelessWidget {
                       const Spacer(),
                       SizedBox(
                         height: 35,
-                        width: 100,
+                        width: 70,
                         child: FutureBuilder<Position>(
                             future: mapController.getUserPosition(),
                             builder: (BuildContext context,
