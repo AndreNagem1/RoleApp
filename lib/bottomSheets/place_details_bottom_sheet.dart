@@ -39,10 +39,11 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
+          SizedBox(
             height: 200,
-            alignment: Alignment.center,
+            width: double.infinity,
             child: CachedNetworkImage(
+              fit: BoxFit.fitWidth,
               imageUrl: imageUrl,
               placeholder: (context, url) => const SizedBox(
                 child: CircularProgressIndicator(
