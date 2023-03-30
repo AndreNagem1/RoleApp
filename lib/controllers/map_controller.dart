@@ -270,8 +270,14 @@ class MapController extends GetxController {
     if (shouldGenerateNewListPLaces) {
       listPlacesCubit.setListPlaces(listPlaces);
     }
-    await listPlacesController.scrollToIndex(index - 1,
-        preferPosition: AutoScrollPosition.begin);
+    await Future.delayed(const Duration(milliseconds: 500));
+    final indexList = index - 1;
+    var position = indexList * 360;
+
+    if (position < 0) {
+      position = 0;
+    }
+    listPlacesController.jumpTo(position.toDouble());
   }
 
   watchPosition() async {
