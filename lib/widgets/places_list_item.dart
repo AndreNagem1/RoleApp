@@ -58,12 +58,13 @@ class PlacesListItem extends StatelessWidget {
               child: CachedNetworkImage(
                 fit: BoxFit.fitWidth,
                 imageUrl: imageUrl,
-                placeholder: (context, url) => const SizedBox(
-                  child: CircularProgressIndicator(
-                    color: ColorsRoleSp.perfectPurple,
+                placeholder: (context, url) => const Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(),
                   ),
-                  height: 20,
-                  width: 20,
                 ),
                 errorWidget: (context, url, error) =>
                     Image.asset('assets/images/blackHorse.jpg'),

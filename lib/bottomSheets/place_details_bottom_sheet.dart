@@ -16,11 +16,9 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
   final MapController mapController;
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
-  const PlaceDetailsBottomSheet({
-    required Key key,
-    required this.results,
-    required this.mapController
-  }) : super(key: key);
+  const PlaceDetailsBottomSheet(
+      {required Key key, required this.results, required this.mapController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +49,13 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
             child: CachedNetworkImage(
               fit: BoxFit.fitWidth,
               imageUrl: imageUrl,
-              placeholder: (context, url) => const SizedBox(
-                child: CircularProgressIndicator(
-                  color: ColorsRoleSp.perfectPurple,
+              placeholder: (context, url) => const Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(),
                 ),
-                height: 20,
-                width: 20,
               ),
               errorWidget: (context, url, error) =>
                   Image.asset('assets/images/blackHorse.jpg'),
@@ -113,9 +112,10 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                             return const Align(
                               alignment: Alignment.center,
                               child: SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator()),
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(),
+                              ),
                             );
                           }),
                     ),
@@ -398,9 +398,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
               child: Text(
                 text,
                 style: GoogleFonts.righteous(
-                  fontSize: 15,
-                  color: ColorsRoleSp.blackIcon
-                ),
+                    fontSize: 15, color: ColorsRoleSp.blackIcon),
               ),
             ),
           ),
