@@ -53,10 +53,11 @@ class PlacesListItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
+            SizedBox(
               height: 150,
-              alignment: Alignment.center,
+              width: double.infinity,
               child: CachedNetworkImage(
+                fit: BoxFit.fitWidth,
                 imageUrl: imageUrl,
                 placeholder: (context, url) => const SizedBox(
                   child: CircularProgressIndicator(
@@ -73,17 +74,17 @@ class PlacesListItem extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   Row(
                     children: [
                       SizedBox(
-                        height: 35,
+                        height: 20,
                         width: 200,
                         child: Text(
                           results?.name ?? '',
                           style: GoogleFonts.roboto(
                             textStyle: const TextStyle(
-                              fontSize: 15,
+                              fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -92,7 +93,7 @@ class PlacesListItem extends StatelessWidget {
                       ),
                       const Spacer(),
                       SizedBox(
-                        height: 35,
+                        height: 20,
                         width: 70,
                         child: FutureBuilder<Position>(
                             future: mapController.getUserPosition(),
@@ -128,7 +129,7 @@ class PlacesListItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 5),
                   SizedBox(
                     width: double.infinity,
                     child: Text(
@@ -139,7 +140,7 @@ class PlacesListItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {},
                     child: Row(
@@ -152,6 +153,19 @@ class PlacesListItem extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Text(
+                        getPlaceStatus(results?.openingHours?.openNow),
+                        style: GoogleFonts.roboto(color: Colors.white),
+                      ),
+                      Text(
+                        getFunctionHours(results?.openingHours),
+                        style: GoogleFonts.roboto(color: Colors.white),
+                      )
+                    ],
+                  ),
                   const SizedBox(height: 15),
                 ],
               ),
@@ -160,6 +174,31 @@ class PlacesListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getFunctionHours(OpeningHours? openingHours) {
+    String? status;
+    final weekDayIndex = DateTime.now().weekday - 1;
+
+    status = results?.openingHours?.daysOpeningHours?[weekDayIndex];
+    final startIndex = status?.indexOf(':');
+    if (startIndex != -1) {
+      status = status?.substring(startIndex!);
+    }
+    status = status?.replaceAll('Closed', '');
+    return status ??= '';
+  }
+
+  String getPlaceStatus(bool? open) {
+    var status = 'Aberto ';
+    if (open == null) {
+      status = 'Sem informação ';
+    }
+    if (open == false) {
+      status = 'Fechado ';
+    }
+    if (status.contains('')) {}
+    return status;
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
