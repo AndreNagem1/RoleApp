@@ -1,3 +1,5 @@
+import 'package:rolesp/models/place_details_response.dart';
+
 class NearbyPlacesResponse {
   NearbyPlacesResponse({this.results, this.result, this.status});
 
@@ -51,6 +53,7 @@ class Results {
   String? phone;
   bool? permanentlyClosed;
   String? website;
+  List<Reviews>? reviews;
 
   Results(
       {this.geometry,
@@ -71,7 +74,8 @@ class Results {
       this.userRatingsTotal,
       this.phone,
       this.permanentlyClosed,
-      this.website});
+      this.website,
+      this.reviews});
 
   Results.fromJsonOpeningHours(Map<String, dynamic> json) {
     openingHours = json['opening_hours'] != null
@@ -238,21 +242,21 @@ class Photos {
 class OpeningHours {
   bool? openNow;
   dynamic periods;
-  List<String>? daysOpeningHours;
+  List<String>? weekdayText;
 
-  OpeningHours({this.openNow});
+  OpeningHours({this.openNow, this.weekdayText});
 
   OpeningHours.fromJson(Map<String, dynamic> json) {
     openNow = json['open_now'];
     periods = json['periods'];
-    daysOpeningHours = json['weekday_text'] as List<String>?;
+    weekdayText = json['weekday_text'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['open_now'] = openNow;
     data['periods'] = periods;
-    data['weekday_text'] = daysOpeningHours;
+    data['weekday_text'] = weekdayText;
     return data;
   }
 }

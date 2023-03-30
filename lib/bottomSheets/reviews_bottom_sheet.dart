@@ -1,47 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/dialogs/add_review_dialog.dart';
+import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/review_model.dart';
 import 'package:rolesp/widgets/review_widget.dart';
 
 class ReviewsPageBottomSheet extends StatelessWidget {
-  const ReviewsPageBottomSheet({Key? key}) : super(key: key);
+  final List<Reviews>? listReviews;
+
+  const ReviewsPageBottomSheet({Key? key, required this.listReviews}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ReviewModel firstReview = ReviewModel(
-      userName: 'João',
-      reviewText: 'Muito bom, a cerveja está sempre gelada',
-    );
-    ReviewModel secondReview = ReviewModel(
-      userName: 'João',
-      reviewText: 'Muito bom, a cerveja está sempre gelada',
-    );
-    ReviewModel thirdReview = ReviewModel(
-      userName: 'João',
-      reviewText: 'Muito bom, a cerveja está sempre gelada',
-    );
-    ReviewModel fourthReview = ReviewModel(
-      userName: 'João',
-      reviewText: 'Muito bom, a cerveja está sempre gelada',
-    );
-    ReviewModel fiveReview = ReviewModel(
-      userName: 'João',
-      reviewText: 'Muito bom, a cerveja está sempre gelada',
-    );
-    ReviewModel sixReview = ReviewModel(
-      userName: 'João',
-      reviewText: 'Muito bom, a cerveja está sempre gelada',
-    );
-    List<ReviewModel> reviewsList = [
-      firstReview,
-      secondReview,
-      thirdReview,
-      fourthReview,
-      fiveReview,
-      sixReview,
-    ];
-
     return Stack(
       children: [
         Container(
@@ -86,8 +56,8 @@ class ReviewsPageBottomSheet extends StatelessWidget {
                       return Column(
                         children: [
                           ReviewWidget(
-                            userName: reviewsList[position].userName,
-                            reviewText: reviewsList[position].reviewText,
+                            userName: listReviews?[position].authorName ?? 'Sem nome' ,
+                            reviewText: listReviews?[position].text ?? 'Sem texto',
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
@@ -101,7 +71,7 @@ class ReviewsPageBottomSheet extends StatelessWidget {
                         ],
                       );
                     },
-                    itemCount: reviewsList.length,
+                    itemCount: listReviews?.length,
                   ),
                 ),
               ),

@@ -110,9 +110,9 @@ class InfoDialog extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                if (results?.openingHours?.daysOpeningHours != null) {
+                if (results?.openingHours?.weekdayText != null) {
                   openOpenHoursDialog(
-                      context, results?.openingHours?.daysOpeningHours ?? ['']);
+                      context, results?.openingHours?.weekdayText ?? ['']);
                 }
               },
               child: SizedBox(
@@ -231,8 +231,8 @@ class InfoDialog extends StatelessWidget {
 
     final weekDayIndex = DateTime.now().weekday - 1;
     final startIndex =
-        results?.openingHours?.daysOpeningHours?[weekDayIndex].indexOf(':');
-    status += results?.openingHours?.daysOpeningHours?[weekDayIndex]
+        results?.openingHours?.weekdayText?[weekDayIndex].indexOf(':');
+    status += results?.openingHours?.weekdayText?[weekDayIndex]
             .substring(startIndex ?? 0) ??
         '';
 

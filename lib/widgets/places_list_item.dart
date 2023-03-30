@@ -180,7 +180,7 @@ class PlacesListItem extends StatelessWidget {
     String? status;
     final weekDayIndex = DateTime.now().weekday - 1;
 
-    status = results?.openingHours?.daysOpeningHours?[weekDayIndex];
+    status = results?.openingHours?.weekdayText?[weekDayIndex];
     final startIndex = status?.indexOf(':');
     if (startIndex != -1) {
       status = status?.substring(startIndex!);

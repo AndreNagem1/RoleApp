@@ -8,6 +8,7 @@ import 'package:rolesp/BottomSheets/reviews_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/dialogs/info_dialog.dart';
+import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -135,7 +136,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    showReviews(context);
+                    showReviews(context, results.reviews);
                   },
                   child: Row(
                     children: [
@@ -253,7 +254,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     String? status;
     final weekDayIndex = DateTime.now().weekday - 1;
 
-    status = results.openingHours?.daysOpeningHours?[weekDayIndex];
+    status = results.openingHours?.weekdayText?[weekDayIndex];
     final startIndex = status?.indexOf(':');
     if (startIndex != -1) {
       status = status?.substring(startIndex!);
@@ -411,13 +412,15 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
         .whenComplete(() => overlayEntry.remove());
   }
 
-  showReviews(BuildContext context) {
+  showReviews(BuildContext context, List<Reviews>? listReviews) {
     showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext bc) {
-        return const ReviewsPageBottomSheet();
+        return  ReviewsPageBottomSheet(
+          listReviews: listReviews,
+        );
       },
     );
   }

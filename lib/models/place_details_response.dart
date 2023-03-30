@@ -1,3 +1,6 @@
+import 'package:rolesp/models/place_details_response.dart';
+import 'package:rolesp/models/places_nearby_response.dart';
+
 class PlaceDetailsResponse {
   Result? result;
   String? status;
@@ -43,6 +46,7 @@ class Result {
   int? utcOffset;
   String? vicinity;
   String? website;
+  List<Reviews>? reviews;
 
   Result(
       {this.formattedPhoneNumber,
@@ -62,7 +66,8 @@ class Result {
       this.url,
       this.utcOffset,
       this.vicinity,
-      this.website});
+      this.website,
+      this.reviews});
 
   Result.fromJson(Map<String, dynamic> json) {
     formattedPhoneNumber = json['formatted_phone_number'];
@@ -72,6 +77,12 @@ class Result {
         ? OpeningHours.fromJson(json['opening_hours'])
         : null;
     website = json['website'];
+    if (json['reviews'] != null) {
+      reviews = <Reviews>[];
+      json['reviews'].forEach((v) {
+        reviews!.add(Reviews.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -84,22 +95,62 @@ class Result {
       data['geometry'] = geometry!.toJson();
     }
     data['website'] = website;
+    if (reviews != null) {
+      data['reviews'] = reviews!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
-class OpeningHours {
-  List<String>? weekdayText;
+class Reviews {
+  String? authorName;
+  String? authorUrl;
+  String? language;
+  String? originalLanguage;
+  String? profilePhotoUrl;
+  int? rating;
+  String? relativeTimeDescription;
+  String? text;
+  int? time;
+  bool? translated;
 
-  OpeningHours({this.weekdayText});
+  Reviews(
+      {this.authorName,
+        this.authorUrl,
+        this.language,
+        this.originalLanguage,
+        this.profilePhotoUrl,
+        this.rating,
+        this.relativeTimeDescription,
+        this.text,
+        this.time,
+        this.translated});
 
-  OpeningHours.fromJson(Map<String, dynamic> json) {
-    weekdayText = json['weekday_text'].cast<String>();
+  Reviews.fromJson(Map<String, dynamic> json) {
+    authorName = json['author_name'];
+    authorUrl = json['author_url'];
+    language = json['language'];
+    originalLanguage = json['original_language'];
+    profilePhotoUrl = json['profile_photo_url'];
+    rating = json['rating'];
+    relativeTimeDescription = json['relative_time_description'];
+    text = json['text'];
+    time = json['time'];
+    translated = json['translated'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['weekday_text'] = weekdayText;
+    data['author_name'] = authorName;
+    data['author_url'] = authorUrl;
+    data['language'] = language;
+    data['original_language'] = originalLanguage;
+    data['profile_photo_url'] = profilePhotoUrl;
+    data['rating'] = rating;
+    data['relative_time_description'] = relativeTimeDescription;
+    data['text'] = text;
+    data['time'] = time;
+    data['translated'] = translated;
     return data;
   }
 }

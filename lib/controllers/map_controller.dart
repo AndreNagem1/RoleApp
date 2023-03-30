@@ -196,7 +196,8 @@ class MapController extends GetxController {
 
     if (placeId != null) {
       var call = 'https://maps.googleapis.com/maps/api/place/details/json?' +
-          'fields=website,opening_hours/weekday_text,formatted_phone_number&' +
+          'fields=reviews,website,opening_hours/weekday_text,formatted_phone_number&' +
+          '&language=pt' +
           '&place_id=' +
           placeId +
           '&key=' +
@@ -208,7 +209,7 @@ class MapController extends GetxController {
       var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
 
       if (details.result?.openingHours != null) {
-        results.openingHours?.daysOpeningHours =
+        results.openingHours?.weekdayText =
             details.result?.openingHours?.weekdayText;
       }
       if (details.result?.formattedPhoneNumber != null) {
@@ -217,6 +218,11 @@ class MapController extends GetxController {
 
       if (details.result?.website != null) {
         results.website = details.result?.website;
+      }
+      if (details.result?.reviews != null) {
+        print('MEEU PRRINT');
+        print(details.result?.reviews?[0].authorName);
+        results.reviews = details.result?.reviews;
       }
     }
 
@@ -317,12 +323,12 @@ class MapController extends GetxController {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<Position> getUserPosition()  async {
-    final position= await _currentPosition();
+  Future<Position> getUserPosition() async {
+    final position = await _currentPosition();
     return position;
   }
 
- Future<Position> getPosition()  async {
+  Future<Position> getPosition() async {
     try {
       final position = await _currentPosition();
       latitude.value = position.latitude;
@@ -340,5 +346,5 @@ class MapController extends GetxController {
       );
     }
     return position;
- }
+  }
 }
