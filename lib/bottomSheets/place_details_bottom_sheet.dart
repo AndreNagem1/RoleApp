@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/BottomSheets/reviews_bottom_sheet.dart';
+import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/dialogs/info_dialog.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
@@ -9,11 +13,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailsBottomSheet extends StatelessWidget {
   final Results results;
+  final MapController mapController;
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   const PlaceDetailsBottomSheet({
     required Key key,
     required this.results,
+    required this.mapController
   }) : super(key: key);
 
   @override
@@ -79,28 +85,39 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                     const Spacer(),
                     const SizedBox(height: 5),
-                    Container(
-                      width: 20,
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.arrow_upward_outlined,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 2),
                     SizedBox(
-                      width: 35,
-                      child: Text(
-                        '2 Km',
-                        textAlign: TextAlign.left,
-                        style: GoogleFonts.acme(
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
+                      width: 70,
+                      child: FutureBuilder<Position>(
+                          future: mapController.getUserPosition(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Position> snapshot) {
+                            if (snapshot.hasData) {
+                              final distance = calculateDistance(
+                                snapshot.data?.latitude ?? 0.0,
+                                snapshot.data?.longitude ?? 0.0,
+                                results.geometry?.location?.lat ?? 0.0,
+                                results.geometry?.location?.lng ?? 0.0,
+                              );
+
+                              return Text(
+                                distance.toString().substring(0, 4) + ' Km',
+                                style: GoogleFonts.roboto(
+                                  textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            }
+                            return const Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator()),
+                            );
+                          }),
                     ),
                   ],
                 ),
@@ -222,6 +239,14 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
   }
 
   String getFunctionHours(OpeningHours? openingHours) {

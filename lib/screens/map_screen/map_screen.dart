@@ -296,13 +296,18 @@ class MapScreen extends StatelessWidget {
   showDetails(
     BuildContext context,
     Results results,
+    MapController mapController,
   ) {
     showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext bc) {
-        return PlaceDetailsBottomSheet(key: const Key(''), results: results);
+        return PlaceDetailsBottomSheet(
+          key: const Key(''),
+          results: results,
+          mapController: mapController,
+        );
       },
     );
   }
@@ -330,7 +335,7 @@ class MapScreen extends StatelessWidget {
               results: state.listPlaces[index],
               mapController: mapController,
               onTap: () {
-                showDetails(context, state.listPlaces[index]);
+                showDetails(context, state.listPlaces[index], mapController);
               },
             )
           ],
