@@ -249,7 +249,9 @@ class OpeningHours {
   OpeningHours.fromJson(Map<String, dynamic> json) {
     openNow = json['open_now'];
     periods = json['periods'];
-    weekdayText = json['weekday_text'].cast<String>();
+    if(json['weekday_text'] != null){
+      weekdayText = json['weekday_text'].cast<String>();
+    }
   }
 
   Map<String, dynamic> toJson() {
