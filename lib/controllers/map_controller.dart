@@ -242,13 +242,8 @@ class MapController extends GetxController {
       markerId: MarkerId(id),
       position: LatLng(lat, lng),
     );
-    var addNewMarker = true;
-    if (response.permanentlyClosed == true) {
-      addNewMarker = false;
-    }
-    if (addNewMarker) {
-      addMarker(marker, context, response, listIndex);
-    }
+
+    addMarker(marker, context, response, listIndex);
   }
 
   addPlacesDetails(

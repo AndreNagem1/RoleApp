@@ -215,7 +215,7 @@ class MapScreen extends StatelessWidget {
                                 listController.position.pixels / 360;
 
                             focusMarker(controller.listPlaces[position.ceil()],
-                                controller, listController);
+                                controller);
                           }
                           return false;
                         },
@@ -312,8 +312,7 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-  void focusMarker(Results results, MapController mapController,
-      AutoScrollController lisPlacesController) {
+  void focusMarker(Results results, MapController mapController) {
     final markerId = MarkerId(results.name ?? '');
     final marker = Marker(markerId: markerId);
     mapController.showInfoFromMarker(marker.markerId);
