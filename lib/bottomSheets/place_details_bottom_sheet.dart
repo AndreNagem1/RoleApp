@@ -10,6 +10,7 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/dialogs/info_dialog.dart';
 import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailsBottomSheet extends StatelessWidget {
@@ -32,7 +33,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
               apiKey;
     }
     return Container(
-      height: 400,
+      height: 416,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -178,17 +179,27 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text(
-                      getPlaceStatus(results.openingHours?.openNow),
-                      style: GoogleFonts.roboto(color: Colors.white),
+                GestureDetector(
+                  onTap: (){
+                    openOpenHoursDialog(context, results.openingHours?.weekdayText ?? ['']);
+                  },
+                  child: SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            getPlaceStatus(results.openingHours?.openNow),
+                            style: GoogleFonts.roboto(color: Colors.white),
+                          ),
+                          Text(
+                            getFunctionHours(results.openingHours),
+                            style: GoogleFonts.roboto(color: Colors.white),
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      getFunctionHours(results.openingHours),
-                      style: GoogleFonts.roboto(color: Colors.white),
-                    )
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Container(
@@ -436,6 +447,20 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
             vicinity: address,
             phone: phone,
             results: results,
+          ),
+        ),
+      ),
+    );
+  }
+
+  openOpenHoursDialog(BuildContext context, List<String> openingHours) {
+    showDialog(
+      context: context,
+      builder: (_) => Center(
+        child: SizedBox(
+          height: 300,
+          child: OpeningHoursDialog(
+            daysOpeningHours: openingHours,
           ),
         ),
       ),
