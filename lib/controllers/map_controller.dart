@@ -26,7 +26,7 @@ class MapController extends GetxController {
   late GoogleMapController _mapsController;
   late ListPlacesCubit listPlacesCubit;
   late AutoScrollController listPlacesController;
-  late List<Results> listPlaces;
+  List<Results> listPlaces = [];
   final markers = <Marker>{};
   late bool shouldGenerateNewListPLaces = false;
 
@@ -191,6 +191,7 @@ class MapController extends GetxController {
     BuildContext context,
     Results results,
     int listIndex,
+    int listLenght,
   ) async {
     final placeId = results.placeId;
 
@@ -220,10 +221,13 @@ class MapController extends GetxController {
         results.website = details.result?.website;
       }
       if (details.result?.reviews != null) {
-        print('MEEU PRRINT');
-        print(details.result?.reviews?[0].authorName);
         results.reviews = details.result?.reviews;
       }
+    }
+
+    listPlaces.add(results);
+    if (listIndex == listLenght - 1) {
+      listPlacesCubit.setListPlaces(listPlaces);
     }
 
     addPlaceMarker(context, results, listIndex);
@@ -256,7 +260,8 @@ class MapController extends GetxController {
       while (index < places.results!.length) {
         final response = places.results?[index];
         if (response != null) {
-          getNearByPlacesDetails(context, response, index);
+          getNearByPlacesDetails(
+              context, response, index, places.results!.length);
         }
         index++;
       }
