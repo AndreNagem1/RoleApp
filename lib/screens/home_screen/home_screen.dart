@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/screens/favorite_screen/favorite_screen.dart';
 import 'package:rolesp/screens/home_screen/home_cubit.dart';
 import 'package:rolesp/screens/home_screen/home_screen_state.dart';
 import 'package:rolesp/screens/map_screen/map_screen.dart';
@@ -38,6 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
             bloc.setInitialState();
             return const LoadingScreen();
           }
+          if (state is NavigateToFavorites) {
+            _scheduleNavigateToFavoriteScreen(context, state.nearbyPlacesResponse);
+            bloc.setInitialState();
+            return const LoadingScreen();
+          }
+
           return Column(
             children: [
               const HomeBanner(),
@@ -134,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.star,
                           title: 'Favoritos',
                           onItemClick: () {
-                            _onItemClick('Favoritos', bloc);
+                            _onFavoriteClick(bloc);
                           },
                         ),
                       ],
@@ -153,6 +160,17 @@ class _HomeScreenState extends State<HomeScreen> {
     cubit.getNearByPlaces(category);
   }
 
+  _onFavoriteClick(HomeCubit cubit) {
+    cubit.getFavoritePlaces();
+  }
+
+  _navigateToFavoriteScreen(BuildContext context, NearbyPlacesResponse? places) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>  FavoriteScreen(response: places)),
+    );
+  }
+
   _navigateToMapScreen(BuildContext context, NearbyPlacesResponse? places) {
     Navigator.push(
       context,
@@ -164,6 +182,13 @@ class _HomeScreenState extends State<HomeScreen> {
       BuildContext context, NearbyPlacesResponse? places) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _navigateToMapScreen(context, places);
+    });
+  }
+
+  _scheduleNavigateToFavoriteScreen(
+      BuildContext context, NearbyPlacesResponse? places) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _navigateToFavoriteScreen(context, places);
     });
   }
 }

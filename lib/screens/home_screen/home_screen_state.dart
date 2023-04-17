@@ -21,3 +21,11 @@ class NavigateToMap extends HomeScreenState {
 
   List<Object> get props => [nearbyPlacesResponse];
 }
+
+class NavigateToFavorites extends HomeScreenState {
+  NavigateToFavorites(this.nearbyPlacesResponse);
+
+  final NearbyPlacesResponse nearbyPlacesResponse;
+
+  List<Object> get props => [nearbyPlacesResponse];
+}

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
-class RefreshButton extends StatelessWidget {
-  const RefreshButton({Key? key}) : super(key: key);
+class MapButton extends StatelessWidget {
+  final IconData icon;
+
+  const MapButton({Key? key, required this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,9 @@ class RefreshButton extends StatelessWidget {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.refresh_sharp, size: 33, color: ColorsRoleSp.whiteLetter),
-          SizedBox(height: 2),
+        children:  [
+          Icon(icon, size: 33, color: ColorsRoleSp.whiteLetter),
+          const SizedBox(height: 2),
         ],
       ),
     );

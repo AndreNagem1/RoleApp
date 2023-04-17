@@ -51,6 +51,28 @@ class HomeCubit extends Cubit<HomeScreenState> {
     return filteredPlaces;
   }
 
+  Future<void> getFavoritePlaces() async {
+    emit(Loading());
+    var position = await Geolocator.getCurrentPosition();
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+            position.latitude.toString() +
+            ',' +
+            position.longitude.toString() +
+            '&type=restaurant' +
+            '&radius=' +
+            '2000' +
+            '&key=' +
+            apiKey);
+
+    var response = await http.post(url);
+
+    var nearbyPlacesResponse =
+    NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+
+    emit(NavigateToFavorites(nearbyPlacesResponse));
+  }
+
   void setInitialState() {
     emit(InitialState());
   }

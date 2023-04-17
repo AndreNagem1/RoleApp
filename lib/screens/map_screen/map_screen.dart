@@ -119,9 +119,17 @@ class MapScreen extends StatelessWidget {
                       onTap: () {
                         refreshPlaces(context, controller, listPlacesCubit);
                       },
-                      child: const RefreshButton(),
+                      child: const MapButton(icon: Icons.refresh_sharp),
                     ),
                     const SizedBox(width: 20),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: const [
+                    Spacer(),
+                    MapButton(icon: Icons.filter_alt_sharp),
+                    SizedBox(width: 20),
                   ],
                 ),
                 BlocBuilder<AutoCompleteCubit, AutoCompleteState>(
