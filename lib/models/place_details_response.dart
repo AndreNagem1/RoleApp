@@ -1,4 +1,3 @@
-import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 
 class PlaceDetailsResponse {
@@ -173,50 +172,6 @@ class AddressComponents {
     data['long_name'] = longName;
     data['short_name'] = shortName;
     data['types'] = types;
-    return data;
-  }
-}
-
-class Geometry {
-  Location? location;
-  Viewport? viewport;
-
-  Geometry({this.location, this.viewport});
-
-  Geometry.fromJson(Map<String, dynamic> json) {
-    location =
-        json['location'] != null ? Location.fromJson(json['location']) : null;
-    viewport =
-        json['viewport'] != null ? Viewport.fromJson(json['viewport']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (location != null) {
-      data['location'] = location!.toJson();
-    }
-    if (viewport != null) {
-      data['viewport'] = viewport!.toJson();
-    }
-    return data;
-  }
-}
-
-class Location {
-  double? lat;
-  double? lng;
-
-  Location({this.lat, this.lng});
-
-  Location.fromJson(Map<String, dynamic> json) {
-    lat = json['lat'];
-    lng = json['lng'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['lat'] = lat;
-    data['lng'] = lng;
     return data;
   }
 }

@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:rolesp/mock/NearbyPlacesMocked.dart';
 import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/list_places_cubit.dart';
@@ -250,6 +251,8 @@ class MapController extends GetxController {
     NearbyPlacesResponse places,
     BuildContext context,
   ) {
+    places.results = NearbyPlacesMocked().mockedList;
+
     if (places.results != null) {
       var index = 0;
       while (index < places.results!.length) {

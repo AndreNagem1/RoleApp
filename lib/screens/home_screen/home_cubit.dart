@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:rolesp/mock/NearbyPlacesMocked.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/home_screen/home_screen_state.dart';
 import 'package:http/http.dart' as http;
@@ -28,6 +29,7 @@ class HomeCubit extends Cubit<HomeScreenState> {
 
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+    nearbyPlacesResponse.results = NearbyPlacesMocked().mockedList;
 
     var filteredPlaces =
         filterPlacesWithCategory(nearbyPlacesResponse, category);
@@ -68,7 +70,7 @@ class HomeCubit extends Cubit<HomeScreenState> {
     var response = await http.post(url);
 
     var nearbyPlacesResponse =
-    NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+        NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
     emit(NavigateToFavorites(nearbyPlacesResponse));
   }
