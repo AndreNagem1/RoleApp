@@ -71,6 +71,7 @@ class HomeCubit extends Cubit<HomeScreenState> {
 
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+    nearbyPlacesResponse.results = NearbyPlacesMocked().mockedList;
 
     emit(NavigateToFavorites(nearbyPlacesResponse));
   }
