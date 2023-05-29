@@ -11,8 +11,13 @@ class LoginWithEmailImpl implements LoginWithEmail {
   @override
   Future<Either<Failure, LoggedUser>> call(
       LoginCredential loginCredential) async {
-    if (loginCredential.email?.isEmpty == true) {
-      return Left(ErrorLoginEmail(message: 'email vazio'));
+    if (!loginCredential.isValidEmail) {
+      return Left(ErrorLoginEmail(message: 'Email inválido'));
+    }
+
+    if (!loginCredential.isValidPassword) {
+      return Left(ErrorLoginEmail(
+          message: 'Senha inválida, ela deve possuir ao menos 3 caractéres'));
     }
 
     throw UnimplementedError();

@@ -13,4 +13,18 @@ main() {
 
     expect(result.leftMap((l) => l is ErrorLoginEmail), const Left(true));
   });
+
+  test('should verify if password is not valid', () async {
+    var result = await usecase(
+        LoginCredential.withEmailAndPassword(email: '', password: '12'));
+
+    expect(result.leftMap((l) => l is ErrorLoginEmail), const Left(true));
+  });
+  test('should consume repository', () async {
+    var result = await usecase(
+        LoginCredential.withEmailAndPassword(email: '', password: '12'));
+
+    expect(result.leftMap((l) => l is ErrorLoginEmail), const Left(true));
+  });
+
 }
