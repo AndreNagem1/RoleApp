@@ -7,11 +7,14 @@ abstract class LoginWithEmail {
   Future<Either<Failure, LoggedUser>> call(LoginCredential loginCredential);
 }
 
-class LoginWithEmailImpl implements LoginWithEmail{
+class LoginWithEmailImpl implements LoginWithEmail {
   @override
-  Future<Either<Failure, LoggedUser>> call(LoginCredential loginCredential) async {
+  Future<Either<Failure, LoggedUser>> call(
+      LoginCredential loginCredential) async {
+    if (loginCredential.email?.isEmpty == true) {
+      return Left(ErrorLoginEmail(message: 'email vazio'));
+    }
 
     throw UnimplementedError();
   }
-
 }
