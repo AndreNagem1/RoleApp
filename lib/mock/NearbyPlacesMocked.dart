@@ -56,26 +56,61 @@ class NearbyPlacesMocked {
         Reviews(authorName: 'João menó', rating: 5, text: 'Top demais !');
     final review3 =
         Reviews(authorName: 'Leozito', rating: 5, text: 'Cerveja gelada :D');
-    final mock1 = Results(
-      name: 'Restaurante 1',
-      placeId: 'r1',
-      types: ['Hamburguer', 'Cerveja', 'Role'],
-      reviews: [review1, review2, review3],
-      geometry: geometry1,
+
+    final listHours = [
+      ':8h - 19h',
+      ':8h - 19h',
+      ':8h - 19h',
+      ':8h - 19h',
+      ':8h - 19h',
+      ':8h - 19h',
+      ':8h - 19h',
+    ];
+
+    final openingHours = OpeningHours(
+      openNow: true,
+      weekdayText: listHours,
     );
+
+    final openingHours2 = OpeningHours(
+      openNow: false,
+      weekdayText: listHours,
+    );
+
+    final mock1 = Results(
+        name: 'Restaurante 1',
+        placeId: 'r1',
+        types: ['Hamburguer', 'Cerveja', 'Role'],
+        reviews: [review1, review2, review3],
+        openingHours: openingHours,
+        geometry: geometry1,
+        rating: 5,
+        userRatingsTotal: 730,
+        phone: '+112495090',
+        vicinity: 'Rua alberto de almeida 130');
     final mock2 = Results(
       name: 'Restaurante 2',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours2,
       geometry: geometry2,
+      rating: 3,
+      userRatingsTotal: 19,
+      phone: '+112495090',
+      vicinity: 'Rua alberto de almeida 130',
     );
     final mock3 = Results(
       name: 'Restaurante 3',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours,
       geometry: geometry3,
+      rating: 2,
+      userRatingsTotal: 230,
+      phone: '+112495090',
+      vicinity: 'Rua alberto de almeida 130',
     );
 
     final mock4 = Results(
@@ -83,49 +118,80 @@ class NearbyPlacesMocked {
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours,
       geometry: geometry4,
+      rating: 3,
+      userRatingsTotal: 340,
+      phone: '+112495090',
+      vicinity: 'Rua alberto de almeida 130',
     );
     final mock5 = Results(
       name: 'Restaurante 5',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours,
       geometry: geometry5,
+      rating: 1,
+      userRatingsTotal: 10,
+      phone: '+112495090',
+      vicinity: 'Rua alberto de almeida 130',
     );
     final mock6 = Results(
       name: 'Restaurante 6',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours2,
       geometry: geometry6,
+      rating: 2,
+      phone: '+112495090',
+      userRatingsTotal: 3000,
     );
     final mock7 = Results(
       name: 'Restaurante 7',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours2,
       geometry: geometry7,
+      rating: 4.2,
+      phone: '+112495090',
+      userRatingsTotal: 63,
     );
     final mock8 = Results(
       name: 'Restaurante 8',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours,
       geometry: geometry8,
+      rating: 3.3,
+      phone: '+112495090',
+      userRatingsTotal: 150,
     );
     final mock9 = Results(
       name: 'Restaurante 9',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
+      openingHours: openingHours,
       geometry: geometry6,
+      rating: 1.5,
+      phone: '+112495090',
+      userRatingsTotal: 40,
     );
     final mock10 = Results(
-        name: 'Restaurante 10',
-        placeId: 'r1',
-        types: ['Hamburguer', 'Cerveja', 'Role'],
-        reviews: [review1, review2, review3],
-        geometry: geometry);
+      name: 'Restaurante 10',
+      placeId: 'r1',
+      types: ['Hamburguer', 'Cerveja', 'Role'],
+      openingHours: openingHours,
+      reviews: [review1, review2, review3],
+      geometry: geometry,
+      phone: '+112495090',
+      rating: 2.5,
+      userRatingsTotal: 630,
+    );
 
     mockedList = [
       mock1,

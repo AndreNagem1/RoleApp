@@ -53,6 +53,9 @@ dependencies:
   flutter_hooks: ^0.18.6
   cached_network_image: ^3.2.3
   scroll_to_index: ^3.0.1
+  dartz: ^0.10.1
+  mockito: ^5.4.0
+  json_annotation: ^4.8.0
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +67,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  json_serializable: ^6.6.1
+  build_runner: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
