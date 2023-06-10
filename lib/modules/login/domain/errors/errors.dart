@@ -15,3 +15,10 @@ class ErrorLoginEmail extends Failure {
 
   ErrorLoginEmail({required this.message});
 }
+
+class ErrorLoginPhone extends Failure {
+  @override
+  final String message;
+
+  ErrorLoginPhone({required this.message});
+}

@@ -25,7 +25,7 @@ class LoginCredential {
   bool get isValidPhone =>
       phone != null &&
       phone?.isNotEmpty == true &&
-      phone?.length.isGreaterThan(13) == true;
+      phone?.length.isGreaterThan(11) == true;
 
   bool get isValidCode => code != null && code?.isNotEmpty == true;
 
@@ -37,8 +37,9 @@ class LoginCredential {
     return LoginCredential(email: email, password: password);
   }
 
-  factory LoginCredential.withPhone({required String phone}) {
-    return LoginCredential(phone: phone);
+  factory LoginCredential.withPhone(
+      {required String phone, required String password}) {
+    return LoginCredential(phone: phone, password: password);
   }
 
   factory LoginCredential.withVerificationCode(
