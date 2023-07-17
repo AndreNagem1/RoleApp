@@ -59,6 +59,7 @@ dependencies:
   dio: ^5.1.2
   flutter_modular: ^5.0.3
   mockito: ^5.4.0
+  result_dart: ^1.1.0
 
 dev_dependencies:
   build_runner: ^2.3.3
@@ -81,17 +82,17 @@ flutter:
     - assets/images/blackHorse.jpg
     - assets/images/stars.jpg
     - assets/mapDecoration.txt
-    - assets/avaliations0.png
-    - assets/avaliations1.png
-    - assets/avaliations2.png
-    - assets/avaliations3.png
-    - assets/avaliations4.png
-    - assets/avaliations5.png
-    - assets/avaliations6.png
-    - assets/avaliations7.png
-    - assets/avaliations8.png
-    - assets/avaliations9.png
-    - assets/avaliations10.png
+    - assets/images/avaliations0.png
+    - assets/images/avaliations1.png
+    - assets/images/avaliations2.png
+    - assets/images/avaliations3.png
+    - assets/images/avaliations4.png
+    - assets/images/avaliations5.png
+    - assets/images/avaliations6.png
+    - assets/images/avaliations7.png
+    - assets/images/avaliations8.png
+    - assets/images/avaliations9.png
+    - assets/images/avaliations10.png
     - assets/images/logo.png
     - assets/images/big_logo.png
     - assets/images/city.jpg

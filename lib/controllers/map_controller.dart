@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -10,10 +8,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:rolesp/mock/NearbyPlacesMocked.dart';
-import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/map_screen/list_places_cubit.dart';
+import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class MapController extends GetxController {
@@ -134,33 +130,39 @@ class MapController extends GetxController {
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
+    print("CHAMANDO API");
+
     if (nearbyPlacesResponse.results != null) {
+      print("CHAMANDO API !!!!!!!!");
       addPlacesDetails(nearbyPlacesResponse, context);
       return nearbyPlacesResponse.results;
     }
+
+    print("CHAMANDO API ? ?????");
+
     return List.empty();
   }
 
   getPlaceDetails(BuildContext context, String placeId) async {
     cleanPlaces();
 
-    var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/details/json?' +
-            'place_id=' +
-            placeId +
-            '&language=pt&key=' +
-            apiKey);
-
-    var response = await http.post(url);
-    var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
-
-    if (details.result != null) {
-      final lat = details.result?.geometry?.location?.lat ?? 0.0;
-      final lng = details.result?.geometry?.location?.lng ?? 0.0;
-
-      LatLng position = LatLng(lat, lng);
-      moveCameraToPosition(position);
-    }
+    // var url = Uri.parse(
+    //     'https://maps.googleapis.com/maps/api/place/details/json?' +
+    //         'place_id=' +
+    //         placeId +
+    //         '&language=pt&key=' +
+    //         apiKey);
+    //
+    // var response = await http.post(url);
+    // var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
+    //
+    // if (details.result != null) {
+    //   final lat = details.result?.geometry?.location?.lat ?? 0.0;
+    //   final lng = details.result?.geometry?.location?.lng ?? 0.0;
+    //
+    //   LatLng position = LatLng(lat, lng);
+    //   moveCameraToPosition(position);
+    // }
   }
 
   getNearByPlaces(BuildContext context) async {
@@ -197,34 +199,36 @@ class MapController extends GetxController {
     final placeId = results.placeId;
 
     if (placeId != null) {
-      var call = 'https://maps.googleapis.com/maps/api/place/details/json?' +
-          'fields=reviews,website,opening_hours/weekday_text,formatted_phone_number&' +
-          '&language=pt' +
-          '&place_id=' +
-          placeId +
-          '&key=' +
-          apiKey;
-
-      var url = Uri.parse(call);
-      var response = await http.post(url);
-
-      var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
-
-      if (details.result?.openingHours != null) {
-        results.openingHours?.weekdayText =
-            details.result?.openingHours?.weekdayText;
-      }
-      if (details.result?.formattedPhoneNumber != null) {
-        results.phone = details.result?.formattedPhoneNumber;
-      }
-
-      if (details.result?.website != null) {
-        results.website = details.result?.website;
-      }
-      if (details.result?.reviews != null) {
-        results.reviews = details.result?.reviews;
-      }
+      // var call = 'https://maps.googleapis.com/maps/api/place/details/json?' +
+      //     'fields=reviews,website,opening_hours/weekday_text,formatted_phone_number&' +
+      //     '&language=pt' +
+      //     '&place_id=' +
+      //     placeId +
+      //     '&key=' +
+      //     apiKey;
+      //
+      // var url = Uri.parse(call);
+      // var response = await http.post(url);
+      //
+      // var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
+      //
+      // if (details.result?.openingHours != null) {
+      //   results.openingHours?.weekdayText =
+      //       details.result?.openingHours?.weekdayText;
+      // }
+      // if (details.result?.formattedPhoneNumber != null) {
+      //   results.phone = details.result?.formattedPhoneNumber;
+      // }
+      //
+      // if (details.result?.website != null) {
+      //   results.website = details.result?.website;
+      // }
+      // if (details.result?.reviews != null) {
+      //   results.reviews = details.result?.reviews;
+      // }
     }
+    print("CHAMANDO API ADICIONANDO LUGARES");
+    print(results.name);
 
     listPlaces.add(results);
     if (listIndex == listLenght - 1) {
@@ -251,8 +255,9 @@ class MapController extends GetxController {
     NearbyPlacesResponse places,
     BuildContext context,
   ) {
-    places.results = NearbyPlacesMocked().mockedList;
-
+    //places.results = NearbyPlacesMocked().mockedList;
+    print("CHAMANDO API !!!!!!!!");
+    print(places.results?[0].name);
     if (places.results != null) {
       var index = 0;
       while (index < places.results!.length) {
@@ -350,4 +355,6 @@ class MapController extends GetxController {
     }
     return position;
   }
+
+  void filtrarCafes() {}
 }

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -7,10 +8,12 @@ import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/map_screen/autocomplet_cubit.dart';
-import 'package:rolesp/screens/map_screen/auto_complete_state.dart';
-import 'package:rolesp/screens/map_screen/list_places_cubit.dart';
-import 'package:rolesp/screens/map_screen/list_places_state.dart';
+import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
+import 'package:rolesp/screens/map_screen/domain/states/auto_complete_state.dart';
+import 'package:rolesp/screens/map_screen/data/datasources/google/google_auto_complete_datasource.dart';
+import 'package:rolesp/screens/map_screen/data/repositories/auto_complete_repository_impl.dart';
+import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
+import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:rolesp/widgets/auto_complete_item.dart';
 import 'package:rolesp/widgets/custom_scroll.dart';
@@ -26,12 +29,17 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = AutoCompleteCubit();
+    final dio = Dio();
+    final datasource = GoogleAutoCompleteDatasource(dio);
+    final repository = AutoCompleteRepositoryImpl(datasource);
+    final cubit = AutoCompleteCubit(repository);
+
     final listPlacesCubit = ListPlacesCubit();
     final controller = Get.put(MapController());
     List<Predictions> listPredictions = List.empty();
     final TextEditingController textFieldController = TextEditingController();
     final listController = AutoScrollController(axis: Axis.horizontal);
+
 
     controller.setListPlacesController(listController);
     controller.setListPlacesCubit(listPlacesCubit);
@@ -91,7 +99,7 @@ class MapScreen extends StatelessWidget {
                   children: [
                     const SizedBox(width: 10),
                     Expanded(
-                      child: SearchBar(
+                      child: HomeSearchBar(
                         controller: textFieldController,
                         onSearch: (text) {
                           if (text.length > 3) {

@@ -6,7 +6,7 @@ import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/favorite_screen/favorite_screen.dart';
 import 'package:rolesp/screens/home_screen/home_cubit.dart';
 import 'package:rolesp/screens/home_screen/home_screen_state.dart';
-import 'package:rolesp/screens/map_screen/map_screen.dart';
+import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
 import 'package:rolesp/widgets/home_banner.dart';
 import 'package:rolesp/widgets/home_icon.dart';
 import 'package:rolesp/widgets/home_search_bar.dart';
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Column(
                   children: [
-                    SearchBar(
+                    HomeSearchBar(
                       onSearch: (text) {},
                       onSubmitted: (text) {},
                       controller: textController,

@@ -29,7 +29,7 @@ class HomeCubit extends Cubit<HomeScreenState> {
 
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
-    nearbyPlacesResponse.results = NearbyPlacesMocked().mockedList;
+   // nearbyPlacesResponse.results = NearbyPlacesMocked().mockedList;
 
     var filteredPlaces =
         filterPlacesWithCategory(nearbyPlacesResponse, category);

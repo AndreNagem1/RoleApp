@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
-class SearchBar extends StatelessWidget {
+class HomeSearchBar extends StatelessWidget {
   final Function(String) onSearch;
   final Function(String) onSubmitted;
   final VoidCallback onTap;
   final TextEditingController controller;
 
-  const SearchBar({
+  const HomeSearchBar({
     Key? key,
     required this.onSearch,
     required this.onSubmitted,
