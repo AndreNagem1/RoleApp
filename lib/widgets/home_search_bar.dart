@@ -51,7 +51,7 @@ class HomeSearchBar extends StatelessWidget {
                 color: ColorsRoleSp.whiteLetter,
               ),
               decoration: InputDecoration(
-                hintText: ' Vamonos aonde?',
+                hintText: ' Qual o role?',
                 hintStyle: GoogleFonts.righteous(
                   fontSize: 14,
                   color: ColorsRoleSp.whiteLetter,

@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/main/main.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
@@ -39,7 +40,6 @@ class MapScreen extends StatelessWidget {
     List<Predictions> listPredictions = List.empty();
     final TextEditingController textFieldController = TextEditingController();
     final listController = AutoScrollController(axis: Axis.horizontal);
-
 
     controller.setListPlacesController(listController);
     controller.setListPlacesCubit(listPlacesCubit);
@@ -133,8 +133,8 @@ class MapScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Spacer(),
                     MapButton(icon: Icons.filter_alt_sharp),
                     SizedBox(width: 20),
@@ -208,6 +208,27 @@ class MapScreen extends StatelessWidget {
                     return const SizedBox();
                   },
                 ),
+                const Spacer(),
+                BottomNavigationBar(
+                  currentIndex: 0,
+                  onTap: (index){
+
+                  },
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: ColorsRoleSp.searchBackground,
+                  unselectedItemColor: Colors.white38,
+                  fixedColor: ColorsRoleSp.white,
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.map_outlined), label: "Mapa"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.event_available), label: "Eventos"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.star), label: "Favoritos"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.person), label: "Perfil"),
+                  ],
+                )
               ],
             ),
           ),

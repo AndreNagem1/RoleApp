@@ -61,74 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 30),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        HomeIcon(
-                          icon: Icons.restaurant,
-                          title: 'Restaurante',
-                          onItemClick: () {
-                            _onItemClick('restaurant', bloc);
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        HomeIcon(
-                          icon: Icons.fastfood_rounded,
-                          title: 'FastFood',
-                          onItemClick: () {
-                            _onItemClick('restaurant', bloc);
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        HomeIcon(
-                          icon: Icons.coffee_rounded,
-                          title: 'Cafés',
-                          onItemClick: () {
-                            _onItemClick('bakery', bloc);
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        HomeIcon(
-                          icon: Icons.directions_run,
-                          title: 'Ar livre',
-                          onItemClick: () {
-                            _onItemClick('restaurant', bloc);
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        HomeIcon(
-                          icon: Icons.event_available,
-                          title: 'Eventos',
-                          onItemClick: () {
-                            _onItemClick('restaurant', bloc);
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        HomeIcon(
-                          icon: Icons.shopping_bag_outlined,
-                          title: 'Shopping',
-                          onItemClick: () {
-                            _onItemClick('restaurant', bloc);
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        HomeIcon(
-                          icon: Icons.local_drink_outlined,
-                          title: 'Bar',
-                          onItemClick: () {
-                            _onItemClick('Bar', bloc);
-                          },
-                        ),
-                        const SizedBox(width: 5),
                         HomeIcon(
                           icon: Icons.map_outlined,
                           title: 'Mapa',
@@ -136,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             _navigateToMapScreen(context, null);
                           },
                         ),
-                        const SizedBox(width: 5),
                         HomeIcon(
                           icon: Icons.star,
                           title: 'Favoritos',
