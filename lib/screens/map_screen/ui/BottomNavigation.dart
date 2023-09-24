@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rolesp/mock/NearbyPlacesMocked.dart';
+import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/favorite_screen/favorite_screen.dart';
 import 'package:rolesp/screens/home_screen/home_screen.dart';
 import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
@@ -22,8 +24,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
     switch (_index) {
       case 0:
-        currentScreen = const MapScreen(
-          places: null,
+        currentScreen =  MapScreen(
+          places: NearbyPlacesResponse(
+            results: NearbyPlacesMocked().mockedList
+          ),
         );
         break;
       case 1:
