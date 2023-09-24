@@ -184,10 +184,11 @@ class MapScreen extends StatelessWidget {
                                             }),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 8.0,
-                                              top: 2.0,
-                                              right: 8.0,
-                                              bottom: 2.0),
+                                            left: 8.0,
+                                            top: 2.0,
+                                            right: 8.0,
+                                            bottom: 2.0,
+                                          ),
                                           child: Container(
                                             color: ColorsRoleSp.whiteLetter,
                                             height: 0.5,
@@ -209,26 +210,7 @@ class MapScreen extends StatelessWidget {
                   },
                 ),
                 const Spacer(),
-                BottomNavigationBar(
-                  currentIndex: 0,
-                  onTap: (index){
 
-                  },
-                  type: BottomNavigationBarType.fixed,
-                  backgroundColor: ColorsRoleSp.searchBackground,
-                  unselectedItemColor: Colors.white38,
-                  fixedColor: ColorsRoleSp.white,
-                  items: const [
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.map_outlined), label: "Mapa"),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.event_available), label: "Eventos"),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.star), label: "Favoritos"),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.person), label: "Perfil"),
-                  ],
-                )
               ],
             ),
           ),

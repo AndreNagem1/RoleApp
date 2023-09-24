@@ -6,6 +6,7 @@ import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/favorite_screen/favorite_screen.dart';
 import 'package:rolesp/screens/home_screen/home_cubit.dart';
 import 'package:rolesp/screens/home_screen/home_screen_state.dart';
+import 'package:rolesp/screens/map_screen/ui/BottomNavigation.dart';
 import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
 import 'package:rolesp/widgets/home_banner.dart';
 import 'package:rolesp/widgets/home_icon.dart';
@@ -40,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
             return const LoadingScreen();
           }
           if (state is NavigateToFavorites) {
-            _scheduleNavigateToFavoriteScreen(context, state.nearbyPlacesResponse);
+            _scheduleNavigateToFavoriteScreen(
+                context, state.nearbyPlacesResponse);
             bloc.setInitialState();
             return const LoadingScreen();
           }
@@ -49,6 +51,13 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const HomeBanner(),
               const SizedBox(height: 15),
+              HomeIcon(
+                icon: Icons.person,
+                title: 'André',
+                onItemClick: () {
+                  _navigateToMapScreen(context, null);
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Column(
@@ -78,7 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                       ],
-                    )
+                    ),
+                    const Spacer(),
+                    const BottomNavigation()
                   ],
                 ),
               ),
@@ -97,10 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
     cubit.getFavoritePlaces();
   }
 
-  _navigateToFavoriteScreen(BuildContext context, NearbyPlacesResponse? places) {
+  _navigateToFavoriteScreen(
+      BuildContext context, NearbyPlacesResponse? places) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) =>  FavoriteScreen(response: places)),
+      MaterialPageRoute(builder: (context) => FavoriteScreen(response: places)),
     );
   }
 
