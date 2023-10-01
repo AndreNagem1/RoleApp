@@ -112,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
       BuildContext context, NearbyPlacesResponse? places) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FavoriteScreen(response: places)),
+      MaterialPageRoute(
+        builder: (context) => FavoriteScreen(response: places),
+      ),
     );
   }
 

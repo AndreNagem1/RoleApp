@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
-import 'package:rolesp/main/main.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
@@ -18,7 +17,6 @@ import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:rolesp/widgets/auto_complete_item.dart';
 import 'package:rolesp/widgets/custom_scroll.dart';
-import 'package:rolesp/widgets/home_search_bar.dart';
 import 'package:rolesp/widgets/places_list_item.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -97,47 +95,16 @@ class MapScreen extends StatelessWidget {
                 const SizedBox(height: 100),
                 Row(
                   children: [
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: HomeSearchBar(
-                        controller: textFieldController,
-                        onSearch: (text) {
-                          if (text.length > 3) {
-                            searchPlaces(cubit, text);
-                            return;
-                          }
-                          cubit.setInitialState();
-                        },
-                        onSubmitted: (text) {
-                          onSearchSubmitted(
-                            context,
-                            controller,
-                            cubit,
-                            text,
-                            listPredictions,
-                          );
-                        },
-                        onTap: () {
-                          listPlacesCubit.setInitialState();
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {
                         refreshPlaces(context, controller, listPlacesCubit);
                       },
                       child: const MapButton(icon: Icons.refresh_sharp),
                     ),
-                    const SizedBox(width: 20),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                const Row(
-                  children: [
-                    Spacer(),
-                    MapButton(icon: Icons.filter_alt_sharp),
-                    SizedBox(width: 20),
+                    const Spacer(),
+                    const MapButton(icon: Icons.filter_alt_outlined),
+                    const SizedBox(width: 30),
                   ],
                 ),
                 BlocBuilder<AutoCompleteCubit, AutoCompleteState>(
@@ -210,7 +177,6 @@ class MapScreen extends StatelessWidget {
                   },
                 ),
                 const Spacer(),
-
               ],
             ),
           ),

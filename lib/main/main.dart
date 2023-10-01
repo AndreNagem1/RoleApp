@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:rolesp/screens/map_screen/ui/BottomNavigation.dart';
+import 'package:rolesp/screens/splash_screen/ui/SplachScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class RoleSpApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      home: const BottomNavigation(),
+      home: const SplashScreen(),
     );
   }
 }

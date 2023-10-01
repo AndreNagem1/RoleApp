@@ -13,7 +13,7 @@ class MapButton extends StatelessWidget {
       width: 70,
       height: 60,
       decoration: BoxDecoration(
-        color: ColorsRoleSp.blackIcon,
+        color: ColorsRoleSp.background,
         borderRadius: const BorderRadius.all(
           Radius.circular(15),
         ),
