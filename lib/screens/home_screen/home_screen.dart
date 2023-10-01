@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/favorite_screen/favorite_screen.dart';
+import 'package:rolesp/screens/favorite_screen/ui/favorite_screen.dart';
 import 'package:rolesp/screens/home_screen/home_cubit.dart';
 import 'package:rolesp/screens/home_screen/home_screen_state.dart';
 import 'package:rolesp/screens/map_screen/ui/BottomNavigation.dart';

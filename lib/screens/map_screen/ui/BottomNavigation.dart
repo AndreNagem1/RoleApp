@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolesp/mock/NearbyPlacesMocked.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/favorite_screen/favorite_screen.dart';
+import 'package:rolesp/screens/favorite_screen/ui/favorite_screen.dart';
 import 'package:rolesp/screens/home_screen/home_screen.dart';
 import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
 

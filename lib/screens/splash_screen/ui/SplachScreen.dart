@@ -20,40 +20,29 @@ class SplashScreen extends StatelessWidget {
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        child: BlocBuilder<SplashCubit, SplashScreenState>(
-            bloc: cubit,
-            builder: (context, state) {
-              if (state is SplashScreenInitialtate) {
-                cubit.loadNearbyPlaces();
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/logo.png',
-                      height: 120,
-                    ),
-                    const SizedBox(height: 10),
-                    Shimmer.fromColors(
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/big_logo.png',
-                            height: 80,
-                          ),
-                        ],
-                      ),
-                      baseColor: Colors.black12,
-                      highlightColor: Colors.white54,
-                    ),
-                  ],
-                );
-              }
-              if (state is SplashCompleteSearch) {
-                _scheduleNavigateMain(context);
-              }
-              return const SizedBox();
-            }),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              height: 120,
+            ),
+            const SizedBox(height: 10),
+            const CircularProgressIndicator(),
+            BlocBuilder<SplashCubit, SplashScreenState>(
+                bloc: cubit,
+                builder: (context, state) {
+                  if (state is SplashScreenInitialtate) {
+                    cubit.loadNearbyPlaces();
+                  }
+                  if (state is SplashCompleteSearch) {
+                    _scheduleNavigateMain(context);
+                  }
+                  return const SizedBox();
+                }),
+          ],
+        ),
       ),
     );
   }
