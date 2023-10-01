@@ -130,15 +130,11 @@ class MapController extends GetxController {
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
 
-    print("CHAMANDO API");
 
     if (nearbyPlacesResponse.results != null) {
-      print("CHAMANDO API !!!!!!!!");
       addPlacesDetails(nearbyPlacesResponse, context);
       return nearbyPlacesResponse.results;
     }
-
-    print("CHAMANDO API ? ?????");
 
     return List.empty();
   }
@@ -227,8 +223,6 @@ class MapController extends GetxController {
       //   results.reviews = details.result?.reviews;
       // }
     }
-    print("CHAMANDO API ADICIONANDO LUGARES");
-    print(results.name);
 
     listPlaces.add(results);
     if (listIndex == listLenght - 1) {
@@ -256,8 +250,6 @@ class MapController extends GetxController {
     BuildContext context,
   ) {
     //places.results = NearbyPlacesMocked().mockedList;
-    print("CHAMANDO API !!!!!!!!");
-    print(places.results?[0].name);
     if (places.results != null) {
       var index = 0;
       while (index < places.results!.length) {
