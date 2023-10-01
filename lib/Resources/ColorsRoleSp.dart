@@ -8,5 +8,6 @@ class ColorsRoleSp {
   static const Color searchBackground = Color(0xFF343434);
   static const Color searchBorder = Color(0xFF424242);
   static const Color whiteLetter = Color(0xFFCECECE);
+  static const Color smoothLetter = Color(0xFF929292);
   static const Color white = Color(0xFFD2D2D2);
 }

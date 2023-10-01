@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/favorite_screen/ui/favorite_screen.dart';
@@ -51,61 +52,60 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const HomeBanner(),
               const SizedBox(height: 15),
-              HomeIcon(
-                icon: Icons.person,
-                title: 'André',
-                onItemClick: () {
-                  _navigateToMapScreen(context, null);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Column(
-                  children: [
-                    HomeSearchBar(
-                      onSearch: (text) {},
-                      onSubmitted: (text) {},
-                      controller: textController,
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        HomeIcon(
-                          icon: Icons.map_outlined,
-                          title: 'Mapa',
-                          onItemClick: () {
-                            _navigateToMapScreen(context, null);
-                          },
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(width: 30),
+                      Text(
+                        'Olá, André :)',
+                        style: GoogleFonts.roboto(
+                          fontSize: 20,
+                          color: ColorsRoleSp.whiteLetter,
                         ),
-                        HomeIcon(
-                          icon: Icons.star,
-                          title: 'Favoritos',
-                          onItemClick: () {
-                            _onFavoriteClick(bloc);
-                          },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 300),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Developed by FoxTeam',
+                        style: GoogleFonts.roboto(
+                          fontSize: 12,
+                          color: ColorsRoleSp.whiteLetter,
                         ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const BottomNavigation()
-                  ],
-                ),
-              ),
+                      ),
+                      const SizedBox(height: 15),
+                      Image.asset(
+                        'assets/images/fox.png',
+                        height: 25,
+                        width: 25,
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Versão 1.0.0',
+                        style: GoogleFonts.roboto(
+                          fontSize: 10,
+                          color: ColorsRoleSp.smoothLetter,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
             ],
           );
         },
       ),
     );
-  }
-
-  _onItemClick(String category, HomeCubit cubit) {
-    cubit.getNearByPlaces(category);
-  }
-
-  _onFavoriteClick(HomeCubit cubit) {
-    cubit.getFavoritePlaces();
   }
 
   _navigateToFavoriteScreen(

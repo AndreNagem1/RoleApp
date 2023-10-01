@@ -6,7 +6,6 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/screens/map_screen/ui/BottomNavigation.dart';
 import 'package:rolesp/screens/splash_screen/domain/cubit/SplashCubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/states/SplashScreenState.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -25,11 +24,13 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logo.png',
-              height: 120,
+              'assets/images/big_logo.png',
+              height: 80,
             ),
             const SizedBox(height: 10),
-            const CircularProgressIndicator(),
+            const CircularProgressIndicator(
+              color: ColorsRoleSp.whiteLetter,
+            ),
             BlocBuilder<SplashCubit, SplashScreenState>(
                 bloc: cubit,
                 builder: (context, state) {
