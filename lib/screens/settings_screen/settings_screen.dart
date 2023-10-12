@@ -4,25 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/favorite_screen/ui/favorite_screen.dart';
-import 'package:rolesp/screens/home_screen/home_cubit.dart';
-import 'package:rolesp/screens/home_screen/home_screen_state.dart';
-import 'package:rolesp/screens/map_screen/ui/BottomNavigation.dart';
 import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
+import 'package:rolesp/screens/settings_screen/settings_cubit.dart';
+import 'package:rolesp/screens/settings_screen/settings_screen_state.dart';
 import 'package:rolesp/widgets/home_banner.dart';
-import 'package:rolesp/widgets/home_icon.dart';
-import 'package:rolesp/widgets/home_search_bar.dart';
 import 'package:rolesp/widgets/loading.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+import '../favorites_screen/ui/favorites_screen.dart';
+
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final bloc = HomeCubit();
+class _SettingsScreenState extends State<SettingsScreen> {
+  final bloc = SettingsCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: ColorsRoleSp.background,
-      body: BlocBuilder<HomeCubit, HomeScreenState>(
+      body: BlocBuilder<SettingsCubit, SettingsScreenState>(
         bloc: bloc,
         builder: (context, state) {
           if (state is Loading) {

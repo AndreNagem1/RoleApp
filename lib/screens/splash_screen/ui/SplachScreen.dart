@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
-import 'package:rolesp/screens/map_screen/ui/BottomNavigation.dart';
+import 'package:rolesp/bottomNavigator/BottomNavigation.dart';
 import 'package:rolesp/screens/splash_screen/domain/cubit/SplashCubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/states/SplashScreenState.dart';
 
@@ -55,7 +55,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   void _navigateToMain(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => const BottomNavigation(),

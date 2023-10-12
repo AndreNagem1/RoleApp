@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolesp/mock/NearbyPlacesMocked.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/favorite_screen/ui/favorite_screen.dart';
-import 'package:rolesp/screens/home_screen/home_screen.dart';
+import 'package:rolesp/screens/events_screen/ui/events_screen.dart';
 import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
+import 'package:rolesp/screens/settings_screen/settings_screen.dart';
 
-import '../../../Resources/ColorsRoleSp.dart';
+import '../Resources/ColorsRoleSp.dart';
+import '../screens/favorites_screen/ui/favorites_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -24,10 +25,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
     switch (_index) {
       case 0:
-        currentScreen =  MapScreen(
-          places: NearbyPlacesResponse(
-            results: NearbyPlacesMocked().mockedList
-          ),
+        currentScreen = MapScreen(
+          places:
+              NearbyPlacesResponse(results: NearbyPlacesMocked().mockedList),
         );
         break;
       case 1:
@@ -36,12 +36,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
         );
         break;
       case 2:
-        currentScreen = const FavoriteScreen(
+        currentScreen = const EventsScreen(
           response: null,
         );
         break;
       case 3:
-        currentScreen = const HomeScreen();
+        currentScreen = const SettingsScreen();
         break;
     }
 
@@ -60,7 +60,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
               icon: Icon(Icons.event_available), label: "Eventos"),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: "Favoritos"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Config"),
         ],
       ),
     );

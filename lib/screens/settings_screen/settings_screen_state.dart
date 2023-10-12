@@ -1,20 +1,20 @@
 import 'package:rolesp/models/places_nearby_response.dart';
 
-abstract class HomeScreenState {}
+abstract class SettingsScreenState {}
 
-class InitialState extends HomeScreenState {
+class InitialState extends SettingsScreenState {
   List<Object> get props => [];
 }
 
-class Loading extends HomeScreenState {
+class Loading extends SettingsScreenState {
   List<Object> get props => [];
 }
 
-class ErrorState extends HomeScreenState {
+class ErrorState extends SettingsScreenState {
   List<Object> get props => [];
 }
 
-class NavigateToMap extends HomeScreenState {
+class NavigateToMap extends SettingsScreenState {
   NavigateToMap(this.nearbyPlacesResponse);
 
   final NearbyPlacesResponse nearbyPlacesResponse;
@@ -22,7 +22,7 @@ class NavigateToMap extends HomeScreenState {
   List<Object> get props => [nearbyPlacesResponse];
 }
 
-class NavigateToFavorites extends HomeScreenState {
+class NavigateToFavorites extends SettingsScreenState {
   NavigateToFavorites(this.nearbyPlacesResponse);
 
   final NearbyPlacesResponse nearbyPlacesResponse;

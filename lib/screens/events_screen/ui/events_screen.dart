@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/favorite_screen/domain/favorite_screen_cubit.dart';
-import 'package:rolesp/screens/favorite_screen/domain/favorite_screen_state.dart';
 import 'package:rolesp/widgets/app_title.dart';
 
 import '../../../widgets/loading.dart';
+import '../../favorites_screen/domain/favorite_screen_cubit.dart';
+import '../../favorites_screen/domain/favorite_screen_state.dart';
 
-class FavoriteScreen extends StatelessWidget {
+class EventsScreen extends StatelessWidget {
   final NearbyPlacesResponse? response;
 
-  const FavoriteScreen({Key? key, required this.response}) : super(key: key);
+  const EventsScreen({Key? key, required this.response}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class FavoriteScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: Container(
-                          height: 100,
+                          height: 200,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: ColorsRoleSp.blackIcon,

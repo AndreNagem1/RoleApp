@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rolesp/mock/NearbyPlacesMocked.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
-import 'package:rolesp/screens/home_screen/home_screen_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:rolesp/screens/settings_screen/settings_screen_state.dart';
 
-class HomeCubit extends Cubit<HomeScreenState> {
-  HomeCubit() : super(InitialState());
+class SettingsCubit extends Cubit<SettingsScreenState> {
+  SettingsCubit() : super(InitialState());
 
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
