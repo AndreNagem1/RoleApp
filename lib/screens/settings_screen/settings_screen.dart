@@ -53,9 +53,10 @@ class SettingsScreen extends StatelessWidget {
                     children: [
                       const SizedBox(width: 30),
                       Switch(
-                        activeColor: Theme.of(context).colorScheme.tertiary,
-                          inactiveThumbColor: Theme.of(context).colorScheme.onTertiary,
-                          value: themeManager.themeMode == ThemeMode.dark,
+                          activeColor: Theme.of(context).colorScheme.onSurface,
+                          inactiveThumbColor:
+                              Theme.of(context).colorScheme.onSurface,
+                          value: themeManager.themeMode == ThemeMode.light,
                           onChanged: (newValue) {
                             themeManager.toggleTheme(newValue);
                           })

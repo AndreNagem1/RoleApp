@@ -22,7 +22,7 @@ class HomeGradientEffect extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Theme.of(context).colorScheme.secondary,
+                Theme.of(context).colorScheme.tertiary,
                 Theme.of(context).colorScheme.surface,
               ],
             ),

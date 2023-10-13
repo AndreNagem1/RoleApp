@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
-import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 
 class PlacesListItem extends StatelessWidget {
@@ -83,9 +82,9 @@ class PlacesListItem extends StatelessWidget {
                         child: Text(
                           results?.name ?? '',
                           style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                               fontSize: 16,
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -110,9 +109,11 @@ class PlacesListItem extends StatelessWidget {
                                 return Text(
                                   distance.toString().substring(0, 4) + ' Km',
                                   style: GoogleFonts.roboto(
-                                    textStyle: const TextStyle(
+                                    textStyle: TextStyle(
                                       fontSize: 15,
-                                      color: Colors.white,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -135,8 +136,10 @@ class PlacesListItem extends StatelessWidget {
                     child: Text(
                       getDescription(results?.types ?? ['Restautante']),
                       style: GoogleFonts.acme(
-                        textStyle:
-                            const TextStyle(fontSize: 15, color: Colors.grey),
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
                       ),
                     ),
                   ),
@@ -158,11 +161,15 @@ class PlacesListItem extends StatelessWidget {
                     children: [
                       Text(
                         getPlaceStatus(results?.openingHours?.openNow),
-                        style: GoogleFonts.roboto(color: Colors.white),
+                        style: GoogleFonts.roboto(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                       Text(
                         getFunctionHours(results?.openingHours),
-                        style: GoogleFonts.roboto(color: Colors.white),
+                        style: GoogleFonts.roboto(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       )
                     ],
                   ),

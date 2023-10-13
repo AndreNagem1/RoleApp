@@ -48,7 +48,7 @@ class EventsScreen extends StatelessWidget {
                           height: 200,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: ColorsRoleSp.blackIcon,
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: const BorderRadius.all(
                               Radius.circular(15),
                             ),
@@ -77,9 +77,11 @@ class EventsScreen extends StatelessWidget {
                                     child: Text(
                                       response?.results?[position].name ?? '',
                                       style: GoogleFonts.roboto(
-                                        textStyle: const TextStyle(
+                                        textStyle: TextStyle(
                                           fontSize: 16,
-                                          color: Colors.white,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -94,7 +96,10 @@ class EventsScreen extends StatelessWidget {
                                             .openingHours
                                             ?.openNow),
                                         style: GoogleFonts.roboto(
-                                            color: Colors.white),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
                                       ),
                                       Text(
                                         getFunctionHours(
@@ -102,7 +107,10 @@ class EventsScreen extends StatelessWidget {
                                                 .openingHours,
                                             response?.results?[position]),
                                         style: GoogleFonts.roboto(
-                                            color: Colors.white),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
                                       )
                                     ],
                                   ),
