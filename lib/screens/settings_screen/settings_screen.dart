@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/main/main.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
 import 'package:rolesp/screens/settings_screen/settings_cubit.dart';
@@ -10,24 +10,20 @@ import 'package:rolesp/screens/settings_screen/settings_screen_state.dart';
 import 'package:rolesp/widgets/home_banner.dart';
 import 'package:rolesp/widgets/loading.dart';
 
+import '../../theme/themeManager.dart';
 import '../favorites_screen/ui/favorites_screen.dart';
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class SettingsScreen extends StatelessWidget {
+  final ThemeManager themeManager;
 
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
+  SettingsScreen({Key? key, required this.themeManager}) : super(key: key);
 
-class _SettingsScreenState extends State<SettingsScreen> {
   final bloc = SettingsCubit();
 
   @override
   Widget build(BuildContext context) {
-    final textController = TextEditingController();
-
     return Scaffold(
-      backgroundColor: ColorsRoleSp.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: BlocBuilder<SettingsCubit, SettingsScreenState>(
         bloc: bloc,
         builder: (context, state) {
@@ -56,16 +52,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox(width: 30),
-                      Text(
-                        'Olá, André :)',
-                        style: GoogleFonts.roboto(
-                          fontSize: 20,
-                          color: ColorsRoleSp.whiteLetter,
-                        ),
-                      ),
+                      Switch(
+                        activeColor: Theme.of(context).colorScheme.tertiary,
+                          inactiveThumbColor: Theme.of(context).colorScheme.onTertiary,
+                          value: themeManager.themeMode == ThemeMode.dark,
+                          onChanged: (newValue) {
+                            themeManager.toggleTheme(newValue);
+                          })
                     ],
                   ),
-                  const SizedBox(height: 300),
+                  const SizedBox(height: 250),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         'Developed by FoxTeam',
                         style: GoogleFonts.roboto(
                           fontSize: 12,
-                          color: ColorsRoleSp.whiteLetter,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       const SizedBox(height: 15),
@@ -92,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         'Versão 1.0.0',
                         style: GoogleFonts.roboto(
                           fontSize: 10,
-                          color: ColorsRoleSp.smoothLetter,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ],

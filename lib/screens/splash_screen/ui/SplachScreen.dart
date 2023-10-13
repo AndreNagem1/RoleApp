@@ -2,20 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/bottomNavigator/BottomNavigation.dart';
 import 'package:rolesp/screens/splash_screen/domain/cubit/SplashCubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/states/SplashScreenState.dart';
 
+import '../../../theme/themeManager.dart';
+
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+  final ThemeManager themeManager;
+
+  const SplashScreen({Key? key, required this.themeManager}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cubit = SplashCubit(SplashScreenInitialtate());
 
     return Scaffold(
-      backgroundColor: ColorsRoleSp.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -28,8 +31,8 @@ class SplashScreen extends StatelessWidget {
               height: 80,
             ),
             const SizedBox(height: 10),
-            const CircularProgressIndicator(
-              color: ColorsRoleSp.whiteLetter,
+            CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             BlocBuilder<SplashCubit, SplashScreenState>(
                 bloc: cubit,
@@ -38,7 +41,7 @@ class SplashScreen extends StatelessWidget {
                     cubit.loadNearbyPlaces();
                   }
                   if (state is SplashCompleteSearch) {
-                    _scheduleNavigateMain(context);
+                    _scheduleNavigateMain(context, themeManager);
                   }
                   return const SizedBox();
                 }),
@@ -48,17 +51,17 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
-  void _scheduleNavigateMain(BuildContext context) {
+  void _scheduleNavigateMain(BuildContext context, ThemeManager themeManager) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _navigateToMain(context);
+      _navigateToMain(context, themeManager);
     });
   }
 
-  void _navigateToMain(BuildContext context) {
+  void _navigateToMain(BuildContext context, ThemeManager themeManager) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const BottomNavigation(),
+        builder: (context) => BottomNavigation(themeManager: themeManager),
       ),
     );
   }

@@ -40,14 +40,14 @@ class PlacesListItem extends StatelessWidget {
         width: 350,
         height: 350,
         clipBehavior: Clip.hardEdge,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
           ),
-          color: ColorsRoleSp.blackIcon,
+          color: Theme.of(context).colorScheme.surface,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -22,9 +22,9 @@ class AutoCompleteItem extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             description ?? '',
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: ColorsRoleSp.whiteLetter,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ),

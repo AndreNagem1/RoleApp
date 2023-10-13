@@ -154,9 +154,9 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                         child: Text(
                           'Nota: ' + results.rating.toString() + ' • ',
                           style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                               fontSize: 14,
-                              color: ColorsRoleSp.whiteLetter,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -180,12 +180,13 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 GestureDetector(
-                  onTap: (){
-                    openOpenHoursDialog(context, results.openingHours?.weekdayText ?? ['']);
+                  onTap: () {
+                    openOpenHoursDialog(
+                        context, results.openingHours?.weekdayText ?? ['']);
                   },
                   child: SizedBox(
                     child: Padding(
-                      padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Row(
                         children: [
                           Text(
@@ -402,7 +403,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
           child: Material(
             child: Container(
               alignment: Alignment.center,
-              color: ColorsRoleSp.whiteLetter,
+              color: Theme.of(context).colorScheme.onSurface,
               padding:
                   EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
               width: MediaQuery.of(context).size.width * 0.6,
@@ -429,7 +430,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext bc) {
-        return  ReviewsPageBottomSheet(
+        return ReviewsPageBottomSheet(
           listReviews: listReviews,
         );
       },

@@ -12,7 +12,7 @@ class LoadingScreen extends StatelessWidget {
         Container(
           width: double.infinity,
           height: double.infinity,
-          color: ColorsRoleSp.background,
+          color: Theme.of(context).colorScheme.background,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,

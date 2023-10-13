@@ -30,12 +30,18 @@ class HomeIcon extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 30, color: ColorsRoleSp.whiteLetter),
+            Icon(
+              icon,
+              size: 30,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             const SizedBox(height: 2),
             Text(
               title,
-              style: const TextStyle(
-                  fontSize: 15, color: ColorsRoleSp.whiteLetter),
+              style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ],
         ),

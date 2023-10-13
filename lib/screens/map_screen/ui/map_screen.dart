@@ -157,7 +157,7 @@ class MapScreen extends StatelessWidget {
                                             bottom: 2.0,
                                           ),
                                           child: Container(
-                                            color: ColorsRoleSp.whiteLetter,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                             height: 0.5,
                                             width: double.infinity,
                                           ),

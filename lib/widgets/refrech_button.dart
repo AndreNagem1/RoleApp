@@ -13,19 +13,23 @@ class MapButton extends StatelessWidget {
       width: 70,
       height: 60,
       decoration: BoxDecoration(
-        color: ColorsRoleSp.background,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: const BorderRadius.all(
           Radius.circular(15),
         ),
         border: Border.all(
-          color: ColorsRoleSp.whiteLetter,
+          color: Theme.of(context).colorScheme.onSurface,
           width: 0.5,
         ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children:  [
-          Icon(icon, size: 33, color: ColorsRoleSp.whiteLetter),
+        children: [
+          Icon(
+            icon,
+            size: 33,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           const SizedBox(height: 2),
         ],
       ),

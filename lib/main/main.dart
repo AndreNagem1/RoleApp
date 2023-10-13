@@ -1,23 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:rolesp/main/main_cubit.dart';
 import 'package:rolesp/screens/splash_screen/ui/SplachScreen.dart';
 
 import '../theme/roleTheme.dart';
-import '../theme/themeManager.dart';
+import '../../theme/themeManager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const RoleSpApp());
+  runApp(const RoleApp());
 }
 
-ThemeManager themeManager = ThemeManager();
-ThemeManager mainCubit = ThemeManager(false);
+ThemeManager _themeManager = ThemeManager();
 
-class RoleSpApp extends StatelessWidget {
-  const RoleSpApp({super.key});
+class RoleApp extends StatefulWidget {
+  const RoleApp({super.key});
+
+  @override
+  State<RoleApp> createState() => _RoleAppState();
+}
+
+class _RoleAppState extends State<RoleApp> {
+  @override
+  void dispose() {
+    _themeManager.removeListener(themeListener);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _themeManager.addListener(themeListener);
+    super.initState();
+  }
+
+  themeListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +51,8 @@ class RoleSpApp extends StatelessWidget {
       darkTheme: ThemeData(
         colorScheme: darkColorScheme,
       ),
-      themeMode: themeManager.themeMode,
-      home: SplashScreen(mainCubit: mainCubit),
+      themeMode: _themeManager.themeMode,
+      home: SplashScreen(themeManager: _themeManager),
     );
   }
 }

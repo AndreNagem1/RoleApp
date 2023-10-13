@@ -17,13 +17,13 @@ class HomeGradientEffect extends StatelessWidget {
         Container(
           width: double.infinity,
           height: 100,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                ColorsRoleSp.background12,
-                ColorsRoleSp.background,
+                Theme.of(context).colorScheme.secondary,
+                Theme.of(context).colorScheme.surface,
               ],
             ),
           ),

@@ -26,7 +26,7 @@ class EventsScreen extends StatelessWidget {
         backgroundColor: const Color(0x44000000),
         elevation: 0.0,
       ),
-      backgroundColor: ColorsRoleSp.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: BlocBuilder<FavoriteScreenCubit, FavoriteScreenState>(
           bloc: cubit,
           builder: (context, state) {
@@ -53,7 +53,7 @@ class EventsScreen extends StatelessWidget {
                               Radius.circular(15),
                             ),
                             border: Border.all(
-                              color: ColorsRoleSp.whiteLetter,
+                              color: Theme.of(context).colorScheme.onSurface,
                               width: 0.5,
                             ),
                           ),
