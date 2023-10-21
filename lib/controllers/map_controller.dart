@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
+import 'package:rolesp/theme/roleTheme.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class MapController extends GetxController {
@@ -71,11 +72,21 @@ class MapController extends GetxController {
     _position = position.target;
   }
 
-  onMapCreated(GoogleMapController gmc) async {
+  onMapCreated(GoogleMapController gmc, BuildContext context) async {
     _mapsController = gmc;
-    getPosition();
 
-    var style = await rootBundle.loadString('assets/mapDecoration.txt');
+    getPosition();
+    setMapDecoration(Theme.of(context).colorScheme == lightColorScheme);
+  }
+
+  setMapDecoration(bool isLight) async {
+    var decoration = 'assets/mapDecoration.txt';
+
+    if (isLight) {
+      decoration = 'assets/mapDecorationLight.txt';
+    }
+
+    var style = await rootBundle.loadString(decoration);
     _mapsController.setMapStyle(style);
   }
 
@@ -129,7 +140,6 @@ class MapController extends GetxController {
 
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
-
 
     if (nearbyPlacesResponse.results != null) {
       addPlacesDetails(nearbyPlacesResponse, context);
@@ -347,6 +357,4 @@ class MapController extends GetxController {
     }
     return position;
   }
-
-  void filtrarCafes() {}
 }

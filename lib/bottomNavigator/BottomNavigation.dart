@@ -5,6 +5,7 @@ import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/events_screen/ui/events_screen.dart';
 import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
 import 'package:rolesp/screens/settings_screen/settings_screen.dart';
+import 'package:rolesp/theme/roleTheme.dart';
 
 import '../screens/favorites_screen/ui/favorites_screen.dart';
 import '../theme/themeManager.dart';
@@ -44,7 +45,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
         );
         break;
       case 3:
-        currentScreen = SettingsScreen(themeManager: widget.themeManager);
+        currentScreen = SettingsScreen(
+          themeManager: widget.themeManager,
+        );
         break;
     }
 

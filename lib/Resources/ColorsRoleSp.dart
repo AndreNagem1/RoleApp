@@ -21,7 +21,7 @@ class ColorsRoleSp {
   static const Color unselectedIconDark = Colors.white38;
 
   static const Color backgroundLight = Color(0xFFE0E0E0);
-  static const Color surfaceLight = Color(0xFFC2C2C2);
+  static const Color surfaceLight = Color(0xFFEAEAEA);
   static const Color onSurfaceLight = Color(0xFF131313);
 
   static const Color secondaryLight = Color(0x61131313);

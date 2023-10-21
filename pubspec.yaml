@@ -84,6 +84,7 @@ flutter:
     - assets/images/blackHorse.jpg
     - assets/images/stars.jpg
     - assets/mapDecoration.txt
+    - assets/mapDecorationLight.txt
     - assets/images/avaliations0.png
     - assets/images/avaliations1.png
     - assets/images/avaliations2.png
@@ -100,6 +101,7 @@ flutter:
     - assets/images/city.jpg
     - assets/gif/splash.gif
     - assets/images/fox.png
+    - assets/images/rest.jpg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

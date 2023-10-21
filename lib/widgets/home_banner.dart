@@ -2,17 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:rolesp/widgets/home_gradient_effect.dart';
 
 class HomeBanner extends StatelessWidget {
-  const HomeBanner({Key? key}) : super(key: key);
+  final bool isLight;
+
+  const HomeBanner({Key? key, required this.isLight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var banner = 'assets/images/city.jpg';
+    if (isLight) {
+      banner = 'assets/images/rest.jpg';
+    }
     return SizedBox(
       width: double.infinity,
       height: 350,
       child: Stack(
         children: [
           Image.asset(
-            'assets/images/city.jpg',
+            banner,
             fit: BoxFit.fill,
             height: 350,
           ),

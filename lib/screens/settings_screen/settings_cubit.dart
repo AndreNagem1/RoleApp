@@ -29,7 +29,7 @@ class SettingsCubit extends Cubit<SettingsScreenState> {
 
     var nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
-   // nearbyPlacesResponse.results = NearbyPlacesMocked().mockedList;
+    // nearbyPlacesResponse.results = NearbyPlacesMocked().mockedList;
 
     var filteredPlaces =
         filterPlacesWithCategory(nearbyPlacesResponse, category);

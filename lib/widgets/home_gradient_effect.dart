@@ -12,7 +12,7 @@ class HomeGradientEffect extends StatelessWidget {
         Container(
           height: 250,
           width: double.infinity,
-          color: Colors.black12,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
         Container(
           width: double.infinity,

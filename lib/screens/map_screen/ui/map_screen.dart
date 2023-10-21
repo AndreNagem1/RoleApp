@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/bottomNavigator/map_theme_state.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
@@ -14,6 +15,7 @@ import 'package:rolesp/screens/map_screen/data/datasources/google/google_auto_co
 import 'package:rolesp/screens/map_screen/data/repositories/auto_complete_repository_impl.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
+import 'package:rolesp/theme/roleTheme.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:rolesp/widgets/auto_complete_item.dart';
 import 'package:rolesp/widgets/custom_scroll.dart';
@@ -24,7 +26,10 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class MapScreen extends StatelessWidget {
   final NearbyPlacesResponse? places;
 
-  const MapScreen({Key? key, required this.places}) : super(key: key);
+  const MapScreen({
+    Key? key,
+    required this.places,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +40,11 @@ class MapScreen extends StatelessWidget {
 
     final listPlacesCubit = ListPlacesCubit();
     final controller = Get.put(MapController());
-    List<Predictions> listPredictions = List.empty();
     final TextEditingController textFieldController = TextEditingController();
     final listController = AutoScrollController(axis: Axis.horizontal);
 
-    controller.setListPlacesController(listController);
-    controller.setListPlacesCubit(listPlacesCubit);
-    controller.cleanPlaces();
-    controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
+    setMapCubit(controller, context, listController, listPlacesCubit);
+
     var listPlacesList = <Results>[];
     places?.results?.forEach((results) {
       if (results.permanentlyClosed != true) {
@@ -75,7 +77,9 @@ class MapScreen extends StatelessWidget {
                 target: controller.position,
                 zoom: 13,
               ),
-              onMapCreated: controller.onMapCreated,
+              onMapCreated: (it) {
+                controller.onMapCreated(it, context);
+              },
               myLocationEnabled: true,
               rotateGesturesEnabled: false,
               markers: controller.markers,
@@ -111,8 +115,6 @@ class MapScreen extends StatelessWidget {
                   bloc: cubit,
                   builder: (context, state) {
                     if (state is AutoCompletePredictions) {
-                      listPredictions = state.listPredictions;
-
                       return Column(
                         children: [
                           Padding(
@@ -157,7 +159,9 @@ class MapScreen extends StatelessWidget {
                                             bottom: 2.0,
                                           ),
                                           child: Container(
-                                            color: Theme.of(context).colorScheme.onSurface,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
                                             height: 0.5,
                                             width: double.infinity,
                                           ),
@@ -231,6 +235,17 @@ class MapScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  setMapCubit(
+      MapController controller,
+      BuildContext context,
+      AutoScrollController listController,
+      ListPlacesCubit listPlacesCubit) async {
+    controller.setListPlacesController(listController);
+    controller.setListPlacesCubit(listPlacesCubit);
+    controller.cleanPlaces();
+    controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
   }
 
   onSearchSubmittedList(
