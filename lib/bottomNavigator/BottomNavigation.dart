@@ -35,12 +35,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
         );
         break;
       case 1:
-        currentScreen = const FavoriteScreen(
+        currentScreen = const EventsScreen(
           response: null,
         );
         break;
       case 2:
-        currentScreen = const EventsScreen(
+        currentScreen = const FavoriteScreen(
           response: null,
         );
         break;

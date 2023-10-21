@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/widgets/app_title.dart';
 
@@ -17,7 +16,7 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = FavoriteScreenCubit(FavoriteScreenInitialtate());
+    final cubit = FavoriteScreenCubit(LoadingState());
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -27,11 +26,11 @@ class FavoriteScreen extends StatelessWidget {
         elevation: 0.0,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: BlocBuilder<FavoriteScreenCubit, FavoriteScreenState>(
+      body: BlocBuilder<FavoriteScreenCubit, EventsScreenState>(
           bloc: cubit,
           builder: (context, state) {
-            if (state is FavoriteScreenInitialtate) {
-              cubit.loadNearbyPlaces();
+            if (state is LoadingState) {
+              cubit.loadEvents();
               return const LoadingScreen();
             }
 

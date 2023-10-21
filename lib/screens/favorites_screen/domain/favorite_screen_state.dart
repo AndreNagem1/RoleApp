@@ -1,22 +1,26 @@
 import '../../../models/places_nearby_response.dart';
 import '../../../modules/login/domain/errors/errors.dart';
 
-abstract class FavoriteScreenState {}
+abstract class EventsScreenState {}
 
-class FavoriteScreenInitialtate extends FavoriteScreenState {
+class LoadingState extends EventsScreenState {
   List<Object> get props => [];
 }
 
-class FavoriteScreenCompleteSearch extends FavoriteScreenState {
-  FavoriteScreenCompleteSearch(this.listPredictions);
+class EmptyState extends EventsScreenState {
+  List<Object> get props => [];
+}
+
+class EventsLoadedSuccessState extends EventsScreenState {
+  EventsLoadedSuccessState(this.listPredictions);
 
   final List<Results> listPredictions;
 
   List<Object> get props => [listPredictions];
 }
 
-class ErrorStateAutoComplete implements FavoriteScreenState {
+class ErrorState implements EventsScreenState {
   final Failure error;
 
-  const ErrorStateAutoComplete(this.error);
+  const ErrorState(this.error);
 }
