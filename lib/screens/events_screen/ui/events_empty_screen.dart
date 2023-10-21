@@ -13,14 +13,14 @@ class EventsEmptyScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(height: 50),
+        const SizedBox(height: 400),
         const Text("Nem evento encontrado :/"),
         const Spacer(),
         RoundButton(
           height: 40,
-          width: 110,
+          width: double.infinity,
           onPress: () {
-            refreshEvents;
+            refreshEvents();
           },
           text: 'Procurar novos eventos',
           backGroundColor: Theme.of(context).colorScheme.onSurface,
