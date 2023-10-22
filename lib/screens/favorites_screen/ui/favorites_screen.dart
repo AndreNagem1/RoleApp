@@ -29,11 +29,6 @@ class FavoriteScreen extends StatelessWidget {
       body: BlocBuilder<FavoriteScreenCubit, EventsScreenState>(
           bloc: cubit,
           builder: (context, state) {
-            if (state is LoadingState) {
-              cubit.loadEvents();
-              return const LoadingScreen();
-            }
-
             return ListView.builder(
               itemBuilder: (context, position) {
                 return Wrap(children: [

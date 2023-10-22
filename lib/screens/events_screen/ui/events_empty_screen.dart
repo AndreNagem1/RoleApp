@@ -10,28 +10,31 @@ class EventsEmptyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 400),
-        const Text("Nem evento encontrado :/"),
-        const Spacer(),
-        RoundButton(
-          height: 40,
-          width: double.infinity,
-          onPress: () {
-            refreshEvents();
-          },
-          text: 'Procurar novos eventos',
-          backGroundColor: Theme.of(context).colorScheme.onSurface,
-          borderColor: Theme.of(context).colorScheme.onSurface,
-          font: GoogleFonts.righteous(
-            color: Colors.black,
-            fontSize: 20,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 400),
+          const Text("Nenhum evento encontrado :/"),
+          const Spacer(),
+          RoundButton(
+            height: 40,
+            width: double.infinity,
+            onPress: () {
+              refreshEvents();
+            },
+            text: 'Procurar novos eventos',
+            backGroundColor: Theme.of(context).colorScheme.onSurface,
+            borderColor: Theme.of(context).colorScheme.onSurface,
+            font: GoogleFonts.righteous(
+              color: Colors.black,
+              fontSize: 20,
+            ),
           ),
-        ),
-        const SizedBox(height: 50),
-      ],
+          const SizedBox(height: 50),
+        ],
+      ),
     );
   }
 }

@@ -102,6 +102,9 @@ flutter:
     - assets/gif/splash.gif
     - assets/images/fox.png
     - assets/images/rest.jpg
+    - assets/images/blink182.png
+    - assets/images/mario.png
+    - assets/images/nikSls.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
