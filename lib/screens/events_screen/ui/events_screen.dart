@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,10 +71,7 @@ class EventsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        eventsListMocked[position]
-                                                .startDate
-                                                ?.substring(0, 2) ??
-                                            '',
+                                        getDay(state.eventsList[position].data),
                                         style: GoogleFonts.roboto(
                                           textStyle: TextStyle(
                                             fontSize: 30,
@@ -86,7 +84,8 @@ class EventsScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 10),
                                       Text(
-                                        'Out',
+                                        getMonth(
+                                            state.eventsList[position].data),
                                         style: GoogleFonts.roboto(
                                           textStyle: TextStyle(
                                             fontSize: 18,
@@ -124,7 +123,7 @@ class EventsScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      eventsListMocked[position].description ??
+                                      state.eventsList[position].desciption ??
                                           "",
                                       style: GoogleFonts.roboto(
                                         fontSize: 12,
@@ -162,4 +161,55 @@ class EventsScreen extends StatelessWidget {
           }),
     );
   }
+}
+
+String getDay(Timestamp timestamp) {
+  final date = timestamp.toDate();
+
+  return date.day.toString();
+}
+
+String getMonth(Timestamp timestamp) {
+  final date = timestamp.toDate();
+
+  var monthName = '';
+
+  switch (date.month) {
+    case DateTime.january:
+      monthName = 'Jan';
+      break;
+    case DateTime.february:
+      monthName = 'Fev';
+      break;
+    case DateTime.march:
+      monthName = 'Mar';
+      break;
+    case DateTime.april:
+      monthName = 'Abr';
+      break;
+    case DateTime.may:
+      monthName = 'Mai';
+      break;
+    case DateTime.june:
+      monthName = 'Jun';
+      break;
+    case DateTime.july:
+      monthName = 'Jul';
+      break;
+    case DateTime.august:
+      monthName = 'Ago';
+      break;
+    case DateTime.september:
+      monthName = 'Set';
+      break;
+    case DateTime.october:
+      monthName = 'Out';
+      break;
+    case DateTime.november:
+      monthName = 'Nov';
+      break;
+    case DateTime.december:
+      monthName = 'Dez';
+  }
+  return monthName;
 }

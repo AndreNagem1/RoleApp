@@ -22,6 +22,7 @@ class EventsScreenCubit extends Cubit<EventsScreenState> {
       }
     });
 
+    eventsList.sort((e1, e2) => e1.data.compareTo(e2.data));
     emit(EventsLoadedSuccessState(eventsList));
   }
 }
