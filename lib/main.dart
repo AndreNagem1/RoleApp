@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rolesp/screens/splash_screen/ui/SplachScreen.dart';
 
-import '../theme/roleTheme.dart';
-import '../../theme/themeManager.dart';
+import 'theme/roleTheme.dart';
+import '../theme/themeManager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

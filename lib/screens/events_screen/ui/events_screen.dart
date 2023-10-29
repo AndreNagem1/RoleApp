@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/mock/EventsListMocked.dart';
 import 'package:rolesp/widgets/app_title.dart';
 
 import '../../../widgets/loading.dart';
-import '../../favorites_screen/domain/favorite_screen_cubit.dart';
-import '../../favorites_screen/domain/favorite_screen_state.dart';
+import '../domain/events_screen_cubit.dart';
+import '../domain/events_screen_state.dart';
 import 'events_empty_screen.dart';
 
 class EventsScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class EventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = FavoriteScreenCubit(LoadingState());
+    final cubit = EventsScreenCubit(LoadingState());
     cubit.loadEvents();
 
     return Scaffold(
@@ -26,7 +27,7 @@ class EventsScreen extends StatelessWidget {
         elevation: 0.0,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: BlocBuilder<FavoriteScreenCubit, EventsScreenState>(
+      body: BlocBuilder<EventsScreenCubit, EventsScreenState>(
           bloc: cubit,
           builder: (context, state) {
             if (state is EmptyState) {
@@ -69,7 +70,8 @@ class EventsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        state.listEvents[position].startDate
+                                        eventsListMocked[position]
+                                                .startDate
                                                 ?.substring(0, 2) ??
                                             '',
                                         style: GoogleFonts.roboto(
@@ -109,11 +111,11 @@ class EventsScreen extends StatelessWidget {
                                       width: 200,
                                       alignment: Alignment.center,
                                       child: Image.asset(
-                                          state.listEvents[position].url ?? ""),
+                                          eventsListMocked[position].url ?? ""),
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      state.listEvents[position].name ?? "",
+                                      state.eventsList[position].name,
                                       style: GoogleFonts.roboto(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -122,7 +124,7 @@ class EventsScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      state.listEvents[position].description ??
+                                      eventsListMocked[position].description ??
                                           "",
                                       style: GoogleFonts.roboto(
                                         fontSize: 12,
@@ -133,7 +135,7 @@ class EventsScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      state.listEvents[position].location ?? "",
+                                      eventsListMocked[position].location ?? "",
                                       style: GoogleFonts.roboto(
                                         fontSize: 12,
                                         color: Theme.of(context)
@@ -152,7 +154,7 @@ class EventsScreen extends StatelessWidget {
                     ),
                   ]);
                 },
-                itemCount: state.listEvents.length,
+                itemCount: state.eventsList.length,
               );
             }
 

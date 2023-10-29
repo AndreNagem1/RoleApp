@@ -2,17 +2,17 @@ import 'package:rolesp/models/events_list.dart';
 
 import '../../../modules/login/domain/errors/errors.dart';
 
-abstract class EventsScreenState {}
+abstract class FavoritsScreenState {}
 
-class EmptyState extends EventsScreenState {
+class EmptyState extends FavoritsScreenState {
   List<Object> get props => [];
 }
 
-class LoadingState extends EventsScreenState {
+class LoadingState extends FavoritsScreenState {
   List<Object> get props => [];
 }
 
-class EventsLoadedSuccessState extends EventsScreenState {
+class EventsLoadedSuccessState extends FavoritsScreenState {
   EventsLoadedSuccessState(this.listEvents);
 
   final List<Events> listEvents;
@@ -20,7 +20,7 @@ class EventsLoadedSuccessState extends EventsScreenState {
   List<Object> get props => [listEvents];
 }
 
-class ErrorState implements EventsScreenState {
+class ErrorState implements FavoritsScreenState {
   final Failure error;
 
   const ErrorState(this.error);

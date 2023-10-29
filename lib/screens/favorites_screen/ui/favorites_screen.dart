@@ -26,7 +26,7 @@ class FavoriteScreen extends StatelessWidget {
         elevation: 0.0,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: BlocBuilder<FavoriteScreenCubit, EventsScreenState>(
+      body: BlocBuilder<FavoriteScreenCubit, FavoritsScreenState>(
           bloc: cubit,
           builder: (context, state) {
             return ListView.builder(
