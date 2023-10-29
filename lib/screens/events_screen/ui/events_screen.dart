@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +21,8 @@ class EventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = EventsScreenCubit(LoadingState());
     cubit.loadEvents();
+    final storage = FirebaseStorage.instance;
+    final gsReference = storage.refFromURL("gs://YOUR_BUCKET/images/stars.jpg");
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -109,8 +113,23 @@ class EventsScreen extends StatelessWidget {
                                       height: 100,
                                       width: 200,
                                       alignment: Alignment.center,
-                                      child: Image.asset(
-                                          eventsListMocked[position].url ?? ""),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fitWidth,
+                                        imageUrl:
+                                            state.eventsList[position].imagem,
+                                        placeholder: (context, url) =>
+                                            const Align(
+                                          alignment: Alignment.center,
+                                          child: SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                                'assets/images/city.jpg'),
+                                      ),
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
@@ -123,8 +142,7 @@ class EventsScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      state.eventsList[position].desciption ??
-                                          "",
+                                      state.eventsList[position].desciption,
                                       style: GoogleFonts.roboto(
                                         fontSize: 12,
                                         color: Theme.of(context)
@@ -134,7 +152,7 @@ class EventsScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      eventsListMocked[position].location ?? "",
+                                      state.eventsList[position].address,
                                       style: GoogleFonts.roboto(
                                         fontSize: 12,
                                         color: Theme.of(context)
