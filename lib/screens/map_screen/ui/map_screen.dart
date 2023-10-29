@@ -14,6 +14,7 @@ import 'package:rolesp/screens/map_screen/data/datasources/google/google_auto_co
 import 'package:rolesp/screens/map_screen/data/repositories/auto_complete_repository_impl.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
+import 'package:rolesp/screens/map_screen/ui/AppBarButton.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:rolesp/widgets/auto_complete_item.dart';
 import 'package:rolesp/widgets/custom_scroll.dart';
@@ -63,6 +64,9 @@ class MapScreen extends StatelessWidget {
         title: const AppTitle(),
         backgroundColor: const Color(0x44000000),
         elevation: 0.0,
+        actions: const [
+          AppbarButton(icon: Icons.filter_alt_outlined),
+        ],
       ),
       body: Stack(
         children: [
@@ -95,20 +99,6 @@ class MapScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 100),
-                Row(
-                  children: [
-                    const SizedBox(width: 20),
-                    GestureDetector(
-                      onTap: () {
-                        refreshPlaces(context, controller, listPlacesCubit);
-                      },
-                      child: const MapButton(icon: Icons.refresh_sharp),
-                    ),
-                    const Spacer(),
-                    const MapButton(icon: Icons.filter_alt_outlined),
-                    const SizedBox(width: 30),
-                  ],
-                ),
                 BlocBuilder<AutoCompleteCubit, AutoCompleteState>(
                   bloc: cubit,
                   builder: (context, state) {
@@ -228,7 +218,25 @@ class MapScreen extends StatelessWidget {
                   );
                 }
                 controller.setShouldGenerateNewListPlaces(true);
-                return const SizedBox();
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 200),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            refreshPlaces(
+                                context, controller, listPlacesCubit);
+                          },
+                          child: const MapButton(icon: Icons.refresh_sharp),
+                        ),
+                        const SizedBox(width: 30),
+                      ],
+                    ),
+                  ],
+                );
               }),
         ],
       ),
