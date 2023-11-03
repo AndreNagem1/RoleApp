@@ -221,7 +221,7 @@ class MapScreen extends StatelessWidget {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(height: 200),
+                    const SizedBox(height: 120),
                     Row(
                       children: [
                         const Spacer(),
