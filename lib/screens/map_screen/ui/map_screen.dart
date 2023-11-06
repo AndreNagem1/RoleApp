@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
@@ -9,10 +10,12 @@ import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
+import 'package:rolesp/screens/map_screen/domain/cubit/filter_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/states/auto_complete_state.dart';
 import 'package:rolesp/screens/map_screen/data/datasources/google/google_auto_complete_datasource.dart';
 import 'package:rolesp/screens/map_screen/data/repositories/auto_complete_repository_impl.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
+import 'package:rolesp/screens/map_screen/domain/states/filter_state.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
 import 'package:rolesp/screens/map_screen/ui/AppBarButton.dart';
 import 'package:rolesp/widgets/app_title.dart';
@@ -42,6 +45,8 @@ class MapScreen extends StatelessWidget {
     final TextEditingController textFieldController = TextEditingController();
     final listController = AutoScrollController(axis: Axis.horizontal);
 
+    final filterCubit = FilterCubit(ListFilters([], []), [], []);
+
     setMapCubit(controller, context, listController, listPlacesCubit);
 
     var listPlacesList = <Results>[];
@@ -64,8 +69,35 @@ class MapScreen extends StatelessWidget {
         title: const AppTitle(),
         backgroundColor: const Color(0x44000000),
         elevation: 0.0,
-        actions: const [
-          AppbarButton(icon: Icons.filter_alt_outlined),
+        actions: [
+          BlocBuilder<FilterCubit, FilterState>(
+              bloc: filterCubit,
+              builder: (context, state) {
+                if (state is ListFilters) {
+                  final filters = state.listFilterDistance.length +
+                      state.listFilterType.length;
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (filters > 0)
+                        Text(
+                          filters.toString(),
+                          style: GoogleFonts.righteous(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 16,
+                          ),
+                        ),
+                      AppbarButton(
+                        icon: Icons.filter_alt_outlined,
+                        filterCubit: filterCubit,
+                      ),
+                      const SizedBox(width: 10)
+                    ],
+                  );
+                }
+                return const SizedBox();
+              }),
         ],
       ),
       body: Stack(
@@ -227,12 +259,11 @@ class MapScreen extends StatelessWidget {
                         const Spacer(),
                         GestureDetector(
                           onTap: () {
-                            refreshPlaces(
-                                context, controller, listPlacesCubit);
+                            refreshPlaces(context, controller, listPlacesCubit);
                           },
                           child: const MapButton(icon: Icons.refresh_sharp),
                         ),
-                        const SizedBox(width: 30),
+                        const SizedBox(width: 35),
                       ],
                     ),
                   ],
