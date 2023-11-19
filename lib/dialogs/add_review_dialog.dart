@@ -27,14 +27,14 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
         child: Container(
           height: 300,
           width: double.infinity,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
               bottomRight: Radius.circular(30),
               bottomLeft: Radius.circular(30),
             ),
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -46,7 +46,7 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                   child: Text(
                     'O que você achou desse lugar :',
                     style: GoogleFonts.righteous(
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 15,
                     ),
                   ),
@@ -60,7 +60,7 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                     )),
                   ),
                   style: GoogleFonts.righteous(
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.surface,
                     fontSize: 14,
                   ),
                 ),
@@ -73,14 +73,14 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                       Text(
                         'Nota:',
                         style: GoogleFonts.righteous(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.surface,
                           fontSize: 30,
                         ),
                       ),
                       const SizedBox(width: 10),
                       DropdownButton(
                         style: GoogleFonts.righteous(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.surface,
                           fontSize: 30,
                         ),
                         value: dropdownValue,
@@ -112,7 +112,7 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                       backGroundColor: const Color.fromARGB(176, 255, 255, 255),
                       borderColor: Colors.black,
                       font: GoogleFonts.righteous(
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.surface,
                         fontSize: 20,
                       ),
                     ),

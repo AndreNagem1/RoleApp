@@ -16,12 +16,12 @@ class ReviewsPageBottomSheet extends StatelessWidget {
         Container(
           height: 400,
           width: double.infinity,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
+          decoration:  BoxDecoration(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
           ),
           child: Column(
             children: [
@@ -35,7 +35,7 @@ class ReviewsPageBottomSheet extends StatelessWidget {
                       child: Text(
                         'Reviews',
                         style: GoogleFonts.righteous(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 30,
                         ),
                       ),

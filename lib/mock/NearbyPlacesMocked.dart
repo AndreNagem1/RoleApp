@@ -78,7 +78,7 @@ class NearbyPlacesMocked {
     );
 
     final mock1 = Results(
-        name: 'Restaurante 1',
+        name: 'Black Horse',
         placeId: 'r1',
         types: ['Hamburguer', 'Cerveja', 'Role'],
         reviews: [review1, review2, review3],
@@ -86,10 +86,10 @@ class NearbyPlacesMocked {
         geometry: geometry1,
         rating: 5,
         userRatingsTotal: 730,
-        phone: '+112495090',
+        phone: '',
         vicinity: 'Rua alberto de almeida 130');
     final mock2 = Results(
-      name: 'Restaurante 2',
+      name: 'Frutaria São Paulo',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
@@ -101,7 +101,7 @@ class NearbyPlacesMocked {
       vicinity: 'Rua alberto de almeida 130',
     );
     final mock3 = Results(
-      name: 'Restaurante 3',
+      name: 'Pivot',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
@@ -114,7 +114,7 @@ class NearbyPlacesMocked {
     );
 
     final mock4 = Results(
-      name: 'Restaurante 4',
+      name: 'Bistro',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
@@ -122,11 +122,11 @@ class NearbyPlacesMocked {
       geometry: geometry4,
       rating: 3,
       userRatingsTotal: 340,
-      phone: '+112495090',
+      phone: '',
       vicinity: 'Rua alberto de almeida 130',
     );
     final mock5 = Results(
-      name: 'Restaurante 5',
+      name: 'Mauí Poke',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
@@ -138,7 +138,7 @@ class NearbyPlacesMocked {
       vicinity: 'Rua alberto de almeida 130',
     );
     final mock6 = Results(
-      name: 'Restaurante 6',
+      name: 'Maria João',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
@@ -149,7 +149,7 @@ class NearbyPlacesMocked {
       userRatingsTotal: 3000,
     );
     final mock7 = Results(
-      name: 'Restaurante 7',
+      name: 'Kombina Felice',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
@@ -160,35 +160,35 @@ class NearbyPlacesMocked {
       userRatingsTotal: 63,
     );
     final mock8 = Results(
-      name: 'Restaurante 8',
+      name: 'Restaurante America',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
       openingHours: openingHours,
       geometry: geometry8,
       rating: 3.3,
-      phone: '+112495090',
+      phone: '',
       userRatingsTotal: 150,
     );
     final mock9 = Results(
-      name: 'Restaurante 9',
+      name: 'Bar do Alemão',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       reviews: [review1, review2, review3],
       openingHours: openingHours,
       geometry: geometry6,
       rating: 1.5,
-      phone: '+112495090',
+      phone: '',
       userRatingsTotal: 40,
     );
     final mock10 = Results(
-      name: 'Restaurante 10',
+      name: 'Real Burguer',
       placeId: 'r1',
       types: ['Hamburguer', 'Cerveja', 'Role'],
       openingHours: openingHours,
       reviews: [review1, review2, review3],
       geometry: geometry,
-      phone: '+112495090',
+      phone: '',
       rating: 2.5,
       userRatingsTotal: 630,
     );

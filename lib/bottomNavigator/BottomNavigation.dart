@@ -38,9 +38,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         currentScreen = const EventsScreen();
         break;
       case 2:
-        currentScreen = const FavoriteScreen(
-          response: null,
-        );
+        currentScreen = const FavoriteScreen();
         break;
       case 3:
         currentScreen = SettingsScreen(
@@ -64,7 +62,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
               icon: Icon(Icons.event_available), label: "Eventos"),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: "Favoritos"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Config"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
         ],
       ),
     );

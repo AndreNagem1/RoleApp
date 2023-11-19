@@ -1,5 +1,4 @@
-import 'package:rolesp/models/events_list.dart';
-
+import '../../../models/places_nearby_response.dart';
 import '../../../modules/login/domain/errors/errors.dart';
 
 abstract class FavoritsScreenState {}
@@ -12,12 +11,13 @@ class LoadingState extends FavoritsScreenState {
   List<Object> get props => [];
 }
 
-class EventsLoadedSuccessState extends FavoritsScreenState {
-  EventsLoadedSuccessState(this.listEvents);
+class SuccessState extends FavoritsScreenState {
+  SuccessState(this.listFavoritePlaces, this.openAddNewNumber);
 
-  final List<Events> listEvents;
+  final List<Results> listFavoritePlaces;
+  final bool openAddNewNumber;
 
-  List<Object> get props => [listEvents];
+  List<Object> get props => [listFavoritePlaces, openAddNewNumber];
 }
 
 class ErrorState implements FavoritsScreenState {

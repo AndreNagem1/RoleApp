@@ -419,7 +419,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       );
     });
     // inserting overlay entry
-    overlayState!.insert(overlayEntry);
+    overlayState.insert(overlayEntry);
     await Future.delayed(const Duration(seconds: 3))
         .whenComplete(() => overlayEntry.remove());
   }

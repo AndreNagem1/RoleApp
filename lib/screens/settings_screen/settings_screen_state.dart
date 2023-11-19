@@ -1,4 +1,4 @@
-import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/screens/settings_screen/settings_cubit.dart';
 
 abstract class SettingsScreenState {}
 
@@ -14,18 +14,10 @@ class ErrorState extends SettingsScreenState {
   List<Object> get props => [];
 }
 
-class NavigateToMap extends SettingsScreenState {
-  NavigateToMap(this.nearbyPlacesResponse);
+class OptionSelected extends SettingsScreenState {
+  OptionSelected(this.selectedOption);
 
-  final NearbyPlacesResponse nearbyPlacesResponse;
+  final SelectedOption selectedOption;
 
-  List<Object> get props => [nearbyPlacesResponse];
-}
-
-class NavigateToFavorites extends SettingsScreenState {
-  NavigateToFavorites(this.nearbyPlacesResponse);
-
-  final NearbyPlacesResponse nearbyPlacesResponse;
-
-  List<Object> get props => [nearbyPlacesResponse];
+  List<Object> get props => [selectedOption];
 }
