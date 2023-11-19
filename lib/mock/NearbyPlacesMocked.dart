@@ -109,7 +109,7 @@ class NearbyPlacesMocked {
       geometry: geometry3,
       rating: 2,
       userRatingsTotal: 230,
-      phone: '+112495090',
+      phone: '+14997175591',
       vicinity: 'Rua alberto de almeida 130',
     );
 

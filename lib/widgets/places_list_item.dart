@@ -7,6 +7,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
+
+import '../screens/favorites_screen/ui/add_new_number_dialog.dart';
 
 class PlacesListItem extends StatelessWidget {
   final Results? results;
@@ -91,42 +94,21 @@ class PlacesListItem extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      SizedBox(
-                        height: 20,
-                        width: 70,
-                        child: FutureBuilder<Position>(
-                            future: mapController.getUserPosition(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<Position> snapshot) {
-                              if (snapshot.hasData) {
-                                final distance = calculateDistance(
-                                  snapshot.data?.latitude ?? 0.0,
-                                  snapshot.data?.longitude ?? 0.0,
-                                  results?.geometry?.location?.lat ?? 0.0,
-                                  results?.geometry?.location?.lng ?? 0.0,
-                                );
-
-                                return Text(
-                                  distance.toString().substring(0, 4) + ' Km',
-                                  style: GoogleFonts.roboto(
-                                    textStyle: TextStyle(
-                                      fontSize: 15,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                );
-                              }
-                              return const Align(
-                                alignment: Alignment.center,
-                                child: SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator()),
-                              );
-                            }),
+                      GestureDetector(
+                        onTap: () {
+                          openFavoritePlaceDialog(context, results?.name ?? '');
+                        },
+                        child: Row(
+                          children: [
+                            const Text('Favoritar'),
+                            const SizedBox(width: 5),
+                            Icon(
+                              Icons.star,
+                              size: 20,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -170,7 +152,45 @@ class PlacesListItem extends StatelessWidget {
                         style: GoogleFonts.roboto(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
-                      )
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        height: 20,
+                        width: 70,
+                        child: FutureBuilder<Position>(
+                            future: mapController.getUserPosition(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<Position> snapshot) {
+                              if (snapshot.hasData) {
+                                final distance = calculateDistance(
+                                  snapshot.data?.latitude ?? 0.0,
+                                  snapshot.data?.longitude ?? 0.0,
+                                  results?.geometry?.location?.lat ?? 0.0,
+                                  results?.geometry?.location?.lng ?? 0.0,
+                                );
+
+                                return Text(
+                                  distance.toString().substring(0, 4) + ' Km',
+                                  style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                      fontSize: 15,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                );
+                              }
+                              return const Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator()),
+                              );
+                            }),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 15),
@@ -178,6 +198,21 @@ class PlacesListItem extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  openFavoritePlaceDialog(BuildContext context, String placeName) {
+    showDialog(
+      context: context,
+      builder: (_) => Center(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 30.0),
+          child: SizedBox(
+            height: 220,
+            child: AddFavoritePlaceDialog(placeName: placeName),
+          ),
         ),
       ),
     );
