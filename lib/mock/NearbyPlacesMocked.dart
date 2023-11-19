@@ -3,6 +3,7 @@ import 'package:rolesp/models/places_nearby_response.dart';
 
 class NearbyPlacesMocked {
   late List<Results> mockedList;
+  late OpeningHours mockedOpeningHours;
 
   NearbyPlacesMocked() {
     Geometry geometry = Geometry(
@@ -205,5 +206,7 @@ class NearbyPlacesMocked {
       mock9,
       mock10,
     ];
+
+    mockedOpeningHours = openingHours;
   }
 }

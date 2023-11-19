@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
+import 'package:rolesp/models/favorite_place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
 
+import '../mock/NearbyPlacesMocked.dart';
 import '../screens/favorites_screen/ui/add_new_number_dialog.dart';
 
 class PlacesListItem extends StatelessWidget {
@@ -96,7 +98,14 @@ class PlacesListItem extends StatelessWidget {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          openFavoritePlaceDialog(context, results?.name ?? '');
+                          openFavoritePlaceDialog(
+                            context,
+                            FavoritePlaceInfo(
+                                name: results?.name ?? '',
+                                phoneNumber: results?.phone ?? '',
+                                openHours: NearbyPlacesMocked().mockedOpeningHours.openNow.toString(),
+                                desciption: results?.types?.first ?? ''),
+                          );
                         },
                         child: Row(
                           children: [
@@ -203,7 +212,7 @@ class PlacesListItem extends StatelessWidget {
     );
   }
 
-  openFavoritePlaceDialog(BuildContext context, String placeName) {
+  openFavoritePlaceDialog(BuildContext context, FavoritePlaceInfo placeInfo) {
     showDialog(
       context: context,
       builder: (_) => Center(
@@ -211,7 +220,9 @@ class PlacesListItem extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 30.0),
           child: SizedBox(
             height: 220,
-            child: AddFavoritePlaceDialog(placeName: placeName),
+            child: AddFavoritePlaceDialog(
+              placeInfo: placeInfo,
+            ),
           ),
         ),
       ),

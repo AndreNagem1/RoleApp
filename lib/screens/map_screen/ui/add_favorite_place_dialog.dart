@@ -1,18 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/models/favorite_place_info.dart';
+import 'package:rolesp/screens/map_screen/domain/cubit/add_favorite_place_cubit.dart';
+
+import '../domain/cubit/add_favorite_place_state.dart';
 
 class AddFavoritePlaceDialog extends StatelessWidget {
-  final String placeName;
+  final FavoritePlaceInfo placeInfo;
 
   const AddFavoritePlaceDialog({
     Key? key,
-    required this.placeName,
+    required this.placeInfo,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = AddFavoritePlaceCubit(InitialState());
+
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
@@ -30,123 +37,149 @@ class AddFavoritePlaceDialog extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
-          body: Column(
-            children: [
-              Container(
-                height: 45,
-                width: double.infinity,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  color: ColorsRoleSp.perfectPurple,
-                ),
-                child: Text(
-                  'Adicionar novo lugar como favorito',
-                  style: GoogleFonts.righteous(
-                    textStyle: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
+          body: BlocBuilder<AddFavoritePlaceCubit, AddFavoritePlaceDialogState>(
+              bloc: cubit,
+              builder: (context, state) {
+                if (state is LoadingState) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Deseja adicionar ',
-                      style: GoogleFonts.righteous(
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                          color: ColorsRoleSp.smoothLetter,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      placeName,
-                      style: GoogleFonts.righteous(
-                        textStyle: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      ' a sua lista',
-                      style: GoogleFonts.righteous(
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                          color: ColorsRoleSp.smoothLetter,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                'de favoritos?',
-                style: GoogleFonts.righteous(
-                  textStyle: const TextStyle(
-                    fontSize: 15,
-                    color: ColorsRoleSp.smoothLetter,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  );
+                }
+                return Column(
                   children: [
                     Container(
-                      decoration: BoxDecoration(
-                          color: ColorsRoleSp.perfectPurple,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                          border: Border.all(color: Colors.black38, width: 2)),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Adicionar',
-                              style: GoogleFonts.righteous(
-                                textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )),
+                      height: 45,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                        color: ColorsRoleSp.perfectPurple,
                       ),
-                    ),
-                    const SizedBox(width: 50),
-                    Text(
-                      'Cancelar',
-                      style: GoogleFonts.righteous(
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                          color: Colors.black87,
+                      child: Text(
+                        'Adicionar novo lugar como favorito',
+                        style: GoogleFonts.righteous(
+                          textStyle: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Deseja adicionar ',
+                            style: GoogleFonts.righteous(
+                              textStyle: const TextStyle(
+                                fontSize: 15,
+                                color: ColorsRoleSp.smoothLetter,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            placeInfo.name,
+                            style: GoogleFonts.righteous(
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            ' a sua lista',
+                            style: GoogleFonts.righteous(
+                              textStyle: const TextStyle(
+                                fontSize: 15,
+                                color: ColorsRoleSp.smoothLetter,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'de favoritos?',
+                      style: GoogleFonts.righteous(
+                        textStyle: const TextStyle(
+                          fontSize: 15,
+                          color: ColorsRoleSp.smoothLetter,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 80,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: ColorsRoleSp.perfectPurple,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                                border: Border.all(
+                                    color: Colors.black38, width: 2)),
+                            child: GestureDetector(
+                              onTap: () {
+                                cubit.savePlaceAsFavorite(FavoritePlaceInfo(
+                                  name: placeInfo.name,
+                                  phoneNumber: placeInfo.phoneNumber,
+                                  openHours: placeInfo.openHours,
+                                  desciption: placeInfo.desciption,
+                                ));
+                              },
+                              child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Adicionar',
+                                    style: GoogleFonts.righteous(
+                                      textStyle: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                          ),
+                          const SizedBox(width: 50),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Cancelar',
+                                style: GoogleFonts.righteous(
+                                  textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
-                ),
-              )
-            ],
-          ),
+                );
+              }),
         ),
       ),
     );

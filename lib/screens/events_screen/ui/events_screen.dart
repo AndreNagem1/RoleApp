@@ -21,8 +21,6 @@ class EventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = EventsScreenCubit(LoadingState());
     cubit.loadEvents();
-    final storage = FirebaseStorage.instance;
-    final gsReference = storage.refFromURL("gs://YOUR_BUCKET/images/stars.jpg");
 
     return Scaffold(
       extendBodyBehindAppBar: true,
