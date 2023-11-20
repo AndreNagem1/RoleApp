@@ -140,7 +140,7 @@ class AddFavoritePlaceDialog extends StatelessWidget {
                                   name: placeInfo.name,
                                   phoneNumber: placeInfo.phoneNumber,
                                   openHours: placeInfo.openHours,
-                                  desciption: placeInfo.desciption,
+                                  description: placeInfo.description,
                                 ));
                               },
                               child: Padding(

@@ -14,7 +14,7 @@ class AddFavoritePlaceCubit extends Cubit<AddFavoritePlaceDialogState> {
     Map<String, dynamic> data = {
       'name': placeInfo.name,
       'openHours': placeInfo.openHours,
-      'desciption': placeInfo.desciption,
+      'description': placeInfo.description,
       'phoneNumber': placeInfo.phoneNumber,
     };
 

@@ -11,7 +11,6 @@ import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
 
 import '../mock/NearbyPlacesMocked.dart';
-import '../screens/favorites_screen/ui/add_new_number_dialog.dart';
 
 class PlacesListItem extends StatelessWidget {
   final Results? results;
@@ -103,8 +102,11 @@ class PlacesListItem extends StatelessWidget {
                             FavoritePlaceInfo(
                                 name: results?.name ?? '',
                                 phoneNumber: results?.phone ?? '',
-                                openHours: NearbyPlacesMocked().mockedOpeningHours.openNow.toString(),
-                                desciption: results?.types?.first ?? ''),
+                                openHours: NearbyPlacesMocked()
+                                        .mockedOpeningHours
+                                        .weekdayText?[1] ??
+                                    '',
+                                description: results?.types?.first ?? ''),
                           );
                         },
                         child: Row(

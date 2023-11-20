@@ -27,14 +27,34 @@ class FavoriteScreen extends StatelessWidget {
       body: BlocBuilder<FavoriteScreenCubit, FavoritsScreenState>(
           bloc: cubit,
           builder: (context, state) {
+            if (state is EmptyListState) {
+              return Container(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    'Você não tem nenhum lugar salvo como favorito, conheça lugares que você ame para salva-los aqui :)',
+                    style: GoogleFonts.roboto(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            }
+
             if (state is SuccessState) {
               return ListView.builder(
                 itemBuilder: (context, position) {
-                  final isOpen =
-                      state.listFavoritePlaces[position].openingHours?.openNow;
+                  var isOpen = true;
+
+                  if (position == 3 || position == 6 || position == 7) {
+                    isOpen = false;
+                  }
 
                   final phoneIsEmpty =
-                      state.listFavoritePlaces[position].phone?.isEmpty;
+                      state.listFavoritePlaces[position].phoneNumber.isEmpty;
 
                   var iconColor = Theme.of(context).colorScheme.onSurface;
 
@@ -107,14 +127,8 @@ class FavoriteScreen extends StatelessWidget {
                                             ),
                                           ),
                                         Text(
-                                          ' ' +
-                                              getFunctionHours(
-                                                  state
-                                                      .listFavoritePlaces[
-                                                          position]
-                                                      .openingHours,
-                                                  state.listFavoritePlaces[
-                                                      position]),
+                                          state.listFavoritePlaces[position]
+                                              .openHours,
                                           style: GoogleFonts.roboto(
                                             color: Theme.of(context)
                                                 .colorScheme
@@ -125,9 +139,8 @@ class FavoriteScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      state.listFavoritePlaces[position].types
-                                              ?.first ??
-                                          '',
+                                      state.listFavoritePlaces[position]
+                                          .description,
                                       style: GoogleFonts.roboto(
                                         textStyle: TextStyle(
                                           fontSize: 12,
@@ -144,8 +157,8 @@ class FavoriteScreen extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     onPhoneTap(
-                                        state
-                                            .listFavoritePlaces[position].phone,
+                                        state.listFavoritePlaces[position]
+                                            .phoneNumber,
                                         cubit,
                                         context);
                                   },
