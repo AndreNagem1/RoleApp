@@ -97,15 +97,12 @@ flutter:
     - assets/images/avaliations8.png
     - assets/images/avaliations9.png
     - assets/images/avaliations10.png
-    - assets/images/logo.png
+    - assets/images/newLogo.png
     - assets/images/big_logo.png
     - assets/images/city.jpg
     - assets/gif/splash.gif
     - assets/images/fox.png
     - assets/images/rest.jpg
-    - assets/images/blink182.png
-    - assets/images/mario.png
-    - assets/images/nikSls.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -153,5 +150,5 @@ flutter_icons:
   color: "#1A1A1A"
   adaptive_icon_background: "#1A1A1A"
   remove_alpha_ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/newLogo.png"
   min_sdk_android: 21
