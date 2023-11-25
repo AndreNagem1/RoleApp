@@ -7,3 +7,7 @@ class LoadingState extends AddFavoritePlaceDialogState {
 class InitialState extends AddFavoritePlaceDialogState {
   List<Object> get props => [];
 }
+
+class SuccessOnAddingFavoritePlace extends AddFavoritePlaceDialogState {
+  List<Object> get props => [];
+}

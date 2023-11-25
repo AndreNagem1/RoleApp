@@ -18,7 +18,7 @@ class AddFavoritePlaceCubit extends Cubit<AddFavoritePlaceDialogState> {
       'phoneNumber': placeInfo.phoneNumber,
     };
 
-    await db.collection('favorites').add(data);
-    emit(InitialState());
+    await db.collection('favorites').doc(placeInfo.name).set(data);
+    emit(SuccessOnAddingFavoritePlace());
   }
 }

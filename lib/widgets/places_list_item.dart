@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
@@ -59,7 +60,7 @@ class PlacesListItem extends StatelessWidget {
               height: 150,
               width: double.infinity,
               child: CachedNetworkImage(
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fill,
                 imageUrl: imageUrl,
                 placeholder: (context, url) => const Align(
                   alignment: Alignment.center,
@@ -109,16 +110,38 @@ class PlacesListItem extends StatelessWidget {
                                 description: results?.types?.first ?? ''),
                           );
                         },
-                        child: Row(
-                          children: [
-                            const Text('Favoritar'),
-                            const SizedBox(width: 5),
-                            Icon(
-                              Icons.star,
-                              size: 20,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            )
-                          ],
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(15),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 5),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Favoritar',
+                                  style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                Icon(
+                                  Icons.star,
+                                  size: 20,
+                                  color: Theme.of(context).colorScheme.surface,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -224,6 +247,21 @@ class PlacesListItem extends StatelessWidget {
             height: 220,
             child: AddFavoritePlaceDialog(
               placeInfo: placeInfo,
+              onSuccess: () {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      "Lugar adicionado aos favoritos",
+                      style: GoogleFonts.righteous(
+                        textStyle: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                  ));
+                });
+              },
             ),
           ),
         ),

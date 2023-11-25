@@ -10,10 +10,12 @@ import '../domain/cubit/add_favorite_place_state.dart';
 
 class AddFavoritePlaceDialog extends StatelessWidget {
   final FavoritePlaceInfo placeInfo;
+  final VoidCallback onSuccess;
 
   const AddFavoritePlaceDialog({
     Key? key,
     required this.placeInfo,
+    required this.onSuccess,
   }) : super(key: key);
 
   @override
@@ -40,6 +42,10 @@ class AddFavoritePlaceDialog extends StatelessWidget {
           body: BlocBuilder<AddFavoritePlaceCubit, AddFavoritePlaceDialogState>(
               bloc: cubit,
               builder: (context, state) {
+                if (state is SuccessOnAddingFavoritePlace) {
+                  Navigator.of(context).pop();
+                  onSuccess();
+                }
                 if (state is LoadingState) {
                   return Container(
                     alignment: Alignment.center,

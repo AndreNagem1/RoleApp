@@ -7,7 +7,8 @@ import 'favorite_screen_state.dart';
 
 class FavoriteScreenCubit extends Cubit<FavoritsScreenState> {
   final db = FirebaseFirestore.instance;
-  final favoritePlaceInfoList = <FavoritePlaceInfo>[];
+  var currentPlaceList = <FavoritePlaceInfo>[];
+  var selectedItemToDelete = -1;
 
   FavoriteScreenCubit(super.initialState);
 
@@ -29,7 +30,8 @@ class FavoriteScreenCubit extends Cubit<FavoritsScreenState> {
     if (favoritePlaceInfoList.isEmpty) {
       emit(EmptyListState());
     } else {
-      emit(SuccessState(favoritePlaceInfoList, false));
+      currentPlaceList = favoritePlaceInfoList;
+      emit(SuccessState(favoritePlaceInfoList, false, -1));
     }
   }
 
@@ -44,7 +46,33 @@ class FavoriteScreenCubit extends Cubit<FavoritsScreenState> {
     }
   }
 
-  void openAddNewNumber() async {
-    emit(SuccessState(favoritePlaceInfoList, true));
+  void openAddNewNumber(FavoritePlaceInfo placeInfo, String phoneNumber) async {
+    emit(LoadingState());
+    Map<String, dynamic> data = {
+      'name': placeInfo.name,
+      'openHours': placeInfo.openHours,
+      'description': placeInfo.description,
+      'phoneNumber': phoneNumber,
+    };
+
+    await db.collection('favorites').doc(placeInfo.name).update(data);
+    emit(UpdatedPhoneSuccess());
+  }
+
+  void selectItemToBeDeleted(int selectedItem) {
+    selectedItemToDelete = selectedItem;
+    emit(SuccessState(currentPlaceList, false, selectedItem));
+  }
+
+  void deleteItem(String placeName, int index) async {
+    emit(LoadingState());
+
+    currentPlaceList.removeAt(index);
+    await db.collection('favorites').doc(placeName).delete();
+    if (currentPlaceList.isEmpty) {
+      emit(EmptyListState());
+    } else {
+      emit(SuccessState(currentPlaceList, false, -1));
+    }
   }
 }

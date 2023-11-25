@@ -4,12 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
 class AddNewNumberDialog extends StatelessWidget {
+  final Function(String) onAddNumber;
+
   const AddNewNumberDialog({
     Key? key,
+    required this.onAddNumber,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var textInput = '';
+
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
@@ -51,52 +56,81 @@ class AddNewNumberDialog extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: SizedBox(
-                  height: 80,
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black87, width: 2),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black38, width: 2),
-                              ),
-                            hintText: 'Número de telefone',
-                            hintStyle: TextStyle(
-                              color: Colors.black38
-                            )
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: ColorsRoleSp.perfectPurple,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                            border:
-                                Border.all(color: Colors.black38, width: 2)),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Icon(
-                              Icons.add,
-                              size: 25,
-                              color: ColorsRoleSp.whiteLetter,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                padding: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black87, width: 2),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black38, width: 2),
+                    ),
+                    hintText: 'Número de telefone (99) 99999-9999',
+                    hintStyle: TextStyle(color: Colors.black38),
                   ),
+                  style: GoogleFonts.righteous(
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  onChanged: (newInput) {
+                    textInput = newInput;
+                  },
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: ColorsRoleSp.perfectPurple,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                          border: Border.all(color: Colors.black38, width: 2)),
+                      child: GestureDetector(
+                        onTap: () {
+                          onAddNumber(textInput);
+                          Navigator.of(context).pop();
+                        },
+                        child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              'Adicionar',
+                              style: GoogleFonts.righteous(
+                                textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                      ),
+                    ),
+                    const SizedBox(width: 50),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Cancelar',
+                          style: GoogleFonts.righteous(
+                            textStyle: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],

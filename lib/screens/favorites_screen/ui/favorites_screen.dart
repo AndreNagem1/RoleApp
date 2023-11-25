@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rolesp/models/favorite_place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/favorites_screen/ui/add_new_number_dialog.dart';
 import 'package:rolesp/widgets/app_title.dart';
+import 'package:swipe_to/swipe_to.dart';
 
 import '../domain/favorite_screen_cubit.dart';
 import '../domain/favorite_screen_state.dart';
@@ -27,13 +30,17 @@ class FavoriteScreen extends StatelessWidget {
       body: BlocBuilder<FavoriteScreenCubit, FavoritsScreenState>(
           bloc: cubit,
           builder: (context, state) {
+            if (state is UpdatedPhoneSuccess) {
+              updatedPhoneSuccessMessage(context);
+              cubit.loadFavoritesPlaces();
+            }
             if (state is EmptyListState) {
               return Container(
                 alignment: Alignment.center,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    'Você não tem nenhum lugar salvo como favorito, conheça lugares que você ame para salva-los aqui :)',
+                    'Você não tem nenhum lugar salvo como favorito, conheça lugares especiais para salva-los aqui :)',
                     style: GoogleFonts.roboto(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 18,
@@ -67,121 +74,160 @@ class FavoriteScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Container(
-                            height: 100,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                width: 0.5,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 10),
-                                SizedBox(
-                                  height: 100,
-                                  width: 130,
-                                  child: Image.asset(
-                                      'assets/images/blackHorse.jpg'),
+                        SwipeTo(
+                          onLeftSwipe: (_) {
+                            cubit.selectItemToBeDeleted(position);
+                          },
+                          onRightSwipe: (_) {
+                            cubit.selectItemToBeDeleted(-1);
+                          },
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: Container(
+                              height: 100,
+                              clipBehavior: Clip.hardEdge,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(15),
                                 ),
-                                const SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      state.listFavoritePlaces[position].name ??
-                                          '',
-                                      style: GoogleFonts.roboto(
-                                        textStyle: TextStyle(
-                                          fontSize: 16,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: [
-                                        if (isOpen == true)
-                                          Text(
-                                            'Aberto',
-                                            style: GoogleFonts.roboto(
-                                              color: Colors.green,
-                                            ),
-                                          ),
-                                        if (isOpen == false)
-                                          Text(
-                                            'Fechado',
-                                            style: GoogleFonts.roboto(
-                                              color: Colors.redAccent,
-                                            ),
-                                          ),
-                                        Text(
-                                          state.listFavoritePlaces[position]
-                                              .openHours,
-                                          style: GoogleFonts.roboto(
+                                border: Border.all(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                  width: 0.5,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 10),
+                                  SizedBox(
+                                    height: 100,
+                                    width: 130,
+                                    child: Image.asset(
+                                        'assets/images/blackHorse.jpg'),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        state.listFavoritePlaces[position]
+                                                .name ??
+                                            '',
+                                        style: GoogleFonts.roboto(
+                                          textStyle: TextStyle(
+                                            fontSize: 16,
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onSurface,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      state.listFavoritePlaces[position]
-                                          .description,
-                                      style: GoogleFonts.roboto(
-                                        textStyle: TextStyle(
-                                          fontSize: 12,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    onPhoneTap(
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          if (isOpen == true)
+                                            Text(
+                                              'Aberto',
+                                              style: GoogleFonts.roboto(
+                                                color: Colors.green,
+                                              ),
+                                            ),
+                                          if (isOpen == false)
+                                            Text(
+                                              'Fechado',
+                                              style: GoogleFonts.roboto(
+                                                color: Colors.redAccent,
+                                              ),
+                                            ),
+                                          Text(
+                                            ' ' +
+                                                state
+                                                    .listFavoritePlaces[
+                                                        position]
+                                                    .openHours,
+                                            style: GoogleFonts.roboto(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
                                         state.listFavoritePlaces[position]
-                                            .phoneNumber,
-                                        cubit,
-                                        context);
-                                  },
-                                  child: Row(
-                                    children: [
-                                      if (phoneIsEmpty == true)
-                                        Icon(
-                                          Icons.add,
-                                          size: 25,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
+                                            .description,
+                                        style: GoogleFonts.roboto(
+                                          textStyle: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      Icon(
-                                        Icons.phone,
-                                        size: 33,
-                                        color: iconColor,
                                       ),
                                     ],
                                   ),
-                                ),
-                                const SizedBox(width: 20)
-                              ],
+                                  const Spacer(),
+                                  if (position != state.selectedItemToDelete)
+                                    GestureDetector(
+                                      onTap: () {
+                                        onPhoneTap(
+                                          state.listFavoritePlaces[position],
+                                          cubit,
+                                          context,
+                                        );
+                                      },
+                                      child: Row(
+                                        children: [
+                                          if (phoneIsEmpty == true)
+                                            Icon(
+                                              Icons.add,
+                                              size: 25,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                            ),
+                                          Icon(
+                                            Icons.phone,
+                                            size: 33,
+                                            color: iconColor,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (position != state.selectedItemToDelete)
+                                    const SizedBox(width: 20),
+                                  if (position == state.selectedItemToDelete)
+                                    GestureDetector(
+                                      onTap: () {
+                                        cubit.deleteItem(
+                                            state.listFavoritePlaces[position]
+                                                .name,
+                                            position);
+                                      },
+                                      child: Container(
+                                        height: double.infinity,
+                                        width: 80,
+                                        color: Colors.red,
+                                        child: Icon(
+                                          Icons.delete,
+                                          size: 33,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -203,12 +249,12 @@ class FavoriteScreen extends StatelessWidget {
     );
   }
 
-  void onPhoneTap(
-      String? phone, FavoriteScreenCubit cubit, BuildContext context) {
-    if (phone?.isNotEmpty == true) {
-      cubit.openWhatsApp(phone!);
+  void onPhoneTap(FavoritePlaceInfo placeInfo, FavoriteScreenCubit cubit,
+      BuildContext context) {
+    if (placeInfo.phoneNumber.isNotEmpty == true) {
+      cubit.openWhatsApp(placeInfo.phoneNumber);
     } else {
-      openAddNewNumber(context);
+      openAddNewNumber(context, cubit, placeInfo);
     }
   }
 
@@ -225,18 +271,39 @@ class FavoriteScreen extends StatelessWidget {
     return status ??= '';
   }
 
-  openAddNewNumber(BuildContext context) {
+  openAddNewNumber(BuildContext context, FavoriteScreenCubit cubit,
+      FavoritePlaceInfo placeInfo) {
     showDialog(
       context: context,
-      builder: (_) => const Center(
+      builder: (_) => Center(
         child: Padding(
-          padding: EdgeInsets.only(bottom: 30.0),
+          padding: const EdgeInsets.only(bottom: 80.0),
           child: SizedBox(
-            height: 200,
-            child: AddNewNumberDialog(),
+            height: 250,
+            child: AddNewNumberDialog(
+              onAddNumber: (phoneNumber) {
+                cubit.openAddNewNumber(placeInfo, phoneNumber);
+              },
+            ),
           ),
         ),
       ),
     );
+  }
+
+  updatedPhoneSuccessMessage(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Telephone adicionado com sucesso",
+          style: GoogleFonts.righteous(
+            textStyle: const TextStyle(
+              fontSize: 15,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ));
+    });
   }
 }
