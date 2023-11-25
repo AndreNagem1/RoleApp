@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:rolesp/screens/splash_screen/ui/SplachScreen.dart';
+import 'package:rolesp/screens/splash_screen/ui/SplashScreen.dart';
 
 import 'theme/roleTheme.dart';
 import '../theme/themeManager.dart';
