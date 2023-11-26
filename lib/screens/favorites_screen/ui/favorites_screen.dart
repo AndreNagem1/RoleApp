@@ -52,7 +52,10 @@ class FavoriteScreen extends StatelessWidget {
             }
 
             if (state is SuccessState) {
-              return ListView.builder(
+              return ListView.separated(
+                separatorBuilder: (context, position) {
+                  return const SizedBox(height: 15);
+                },
                 itemBuilder: (context, position) {
                   var isOpen = true;
 
@@ -60,180 +63,22 @@ class FavoriteScreen extends StatelessWidget {
                     isOpen = false;
                   }
 
-                  final phoneIsEmpty =
-                      state.listFavoritePlaces[position].phoneNumber.isEmpty;
-
-                  var iconColor = Theme.of(context).colorScheme.onSurface;
-
-                  if (phoneIsEmpty == true) {
-                    iconColor = Theme.of(context).colorScheme.secondary;
-                  }
-
-                  return Wrap(children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 15),
-                        SwipeTo(
-                          onLeftSwipe: (_) {
-                            cubit.selectItemToBeDeleted(position);
-                          },
-                          onRightSwipe: (_) {
-                            cubit.selectItemToBeDeleted(-1);
-                          },
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 8.0, right: 8.0),
-                            child: Container(
-                              height: 100,
-                              clipBehavior: Clip.hardEdge,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.surface,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(15),
-                                ),
-                                border: Border.all(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                  width: 0.5,
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 10),
-                                  SizedBox(
-                                    height: 100,
-                                    width: 130,
-                                    child: Image.asset(
-                                        'assets/images/blackHorse.jpg'),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        state.listFavoritePlaces[position]
-                                                .name ??
-                                            '',
-                                        style: GoogleFonts.roboto(
-                                          textStyle: TextStyle(
-                                            fontSize: 16,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          if (isOpen == true)
-                                            Text(
-                                              'Aberto',
-                                              style: GoogleFonts.roboto(
-                                                color: Colors.green,
-                                              ),
-                                            ),
-                                          if (isOpen == false)
-                                            Text(
-                                              'Fechado',
-                                              style: GoogleFonts.roboto(
-                                                color: Colors.redAccent,
-                                              ),
-                                            ),
-                                          Text(
-                                            ' ' +
-                                                state
-                                                    .listFavoritePlaces[
-                                                        position]
-                                                    .openHours,
-                                            style: GoogleFonts.roboto(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurface,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        state.listFavoritePlaces[position]
-                                            .description,
-                                        style: GoogleFonts.roboto(
-                                          textStyle: TextStyle(
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  if (position != state.selectedItemToDelete)
-                                    GestureDetector(
-                                      onTap: () {
-                                        onPhoneTap(
-                                          state.listFavoritePlaces[position],
-                                          cubit,
-                                          context,
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          if (phoneIsEmpty == true)
-                                            Icon(
-                                              Icons.add,
-                                              size: 25,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                            ),
-                                          Icon(
-                                            Icons.phone,
-                                            size: 33,
-                                            color: iconColor,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  if (position != state.selectedItemToDelete)
-                                    const SizedBox(width: 20),
-                                  if (position == state.selectedItemToDelete)
-                                    GestureDetector(
-                                      onTap: () {
-                                        cubit.deleteItem(
-                                            state.listFavoritePlaces[position]
-                                                .name,
-                                            position);
-                                      },
-                                      child: Container(
-                                        height: double.infinity,
-                                        width: 80,
-                                        color: Colors.red,
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 33,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                  return SwipeTo(
+                    onLeftSwipe: (_) {
+                      cubit.selectItemToBeDeleted(position);
+                    },
+                    onRightSwipe: (_) {
+                      cubit.selectItemToBeDeleted(-1);
+                    },
+                    child: favoriteListItem(
+                      context,
+                      state.listFavoritePlaces[position],
+                      isOpen,
+                      position,
+                      state.selectedItemToDelete,
+                      cubit,
                     ),
-                  ]);
+                  );
                 },
                 itemCount: state.listFavoritePlaces.length,
               );
@@ -246,6 +91,148 @@ class FavoriteScreen extends StatelessWidget {
               ),
             );
           }),
+    );
+  }
+
+  Widget favoriteListItem(
+    BuildContext context,
+    FavoritePlaceInfo placeInfo,
+    bool isOpen,
+    int position,
+    int selectedItemToDelete,
+    FavoriteScreenCubit cubit,
+  ) {
+    final phoneIsEmpty = placeInfo.phoneNumber.isEmpty;
+
+    var iconColor = Theme.of(context).colorScheme.onSurface;
+
+    if (phoneIsEmpty == true) {
+      iconColor = Theme.of(context).colorScheme.secondary;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      child: Container(
+        height: 100,
+        clipBehavior: Clip.hardEdge,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(15),
+          ),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 0.5,
+          ),
+        ),
+        child: Row(
+          children: [
+            const SizedBox(width: 10),
+            SizedBox(
+              height: 100,
+              width: 130,
+              child: Image.asset('assets/images/blackHorse.jpg'),
+            ),
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                Text(
+                  placeInfo.name ?? '',
+                  style: GoogleFonts.roboto(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    if (isOpen == true)
+                      Text(
+                        'Aberto',
+                        style: GoogleFonts.roboto(
+                          color: Colors.green,
+                        ),
+                      ),
+                    if (isOpen == false)
+                      Text(
+                        'Fechado',
+                        style: GoogleFonts.roboto(
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    Text(
+                      ' ' + placeInfo.openHours,
+                      style: GoogleFonts.roboto(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  placeInfo.description,
+                  style: GoogleFonts.roboto(
+                    textStyle: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            if (position != selectedItemToDelete)
+              GestureDetector(
+                onTap: () {
+                  onPhoneTap(
+                    placeInfo,
+                    cubit,
+                    context,
+                  );
+                },
+                child: Row(
+                  children: [
+                    if (phoneIsEmpty == true)
+                      Icon(
+                        Icons.add,
+                        size: 25,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    Icon(
+                      Icons.phone,
+                      size: 33,
+                      color: iconColor,
+                    ),
+                  ],
+                ),
+              ),
+            if (position != selectedItemToDelete) const SizedBox(width: 20),
+            if (position == selectedItemToDelete)
+              GestureDetector(
+                onTap: () {
+                  cubit.deleteItem(placeInfo.name, position);
+                },
+                child: Container(
+                  height: double.infinity,
+                  width: 80,
+                  color: Colors.red,
+                  child: Icon(
+                    Icons.delete,
+                    size: 33,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 
