@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/models/favorite_place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/favorites_screen/ui/add_new_number_dialog.dart';
+import 'package:rolesp/widgets/Swipeable.dart';
 import 'package:rolesp/widgets/app_title.dart';
-import 'package:swipe_to/swipe_to.dart';
 
 import '../domain/favorite_screen_cubit.dart';
 import '../domain/favorite_screen_state.dart';
@@ -63,7 +63,7 @@ class FavoriteScreen extends StatelessWidget {
                     isOpen = false;
                   }
 
-                  return SwipeTo(
+                  return Sweapeble(
                     onLeftSwipe: (_) {
                       cubit.selectItemToBeDeleted(position);
                     },
@@ -140,7 +140,7 @@ class FavoriteScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 10),
                 Text(
-                  placeInfo.name ?? '',
+                  placeInfo.name,
                   style: GoogleFonts.roboto(
                     textStyle: TextStyle(
                       fontSize: 16,
