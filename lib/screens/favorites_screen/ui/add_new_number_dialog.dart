@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 
+import '../../../widgets/input_text.dart';
+
 class AddNewNumberDialog extends StatelessWidget {
   final Function(String) onAddNumber;
 
@@ -57,27 +59,12 @@ class AddNewNumberDialog extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
-                child: TextField(
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black87, width: 2),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black38, width: 2),
-                    ),
-                    hintText: 'Número de telefone (99) 99999-9999',
-                    hintStyle: TextStyle(color: Colors.black38),
-                  ),
-                  style: GoogleFonts.righteous(
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  onChanged: (newInput) {
-                    textInput = newInput;
+                child: InputText(
+                  backgroundColor: Theme.of(context).colorScheme.onSurface,
+                  hint: 'Número de telefone',
+                  onTextChange: (input) {
+                    textInput = input;
                   },
-                  keyboardType: TextInputType.number,
                 ),
               ),
               const SizedBox(height: 10),

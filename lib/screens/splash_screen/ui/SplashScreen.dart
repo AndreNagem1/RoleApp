@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/bottomNavigator/BottomNavigation.dart';
+import 'package:rolesp/modules/login/presentation/login_screen.dart';
 import 'package:rolesp/screens/splash_screen/domain/cubit/SplashCubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/states/SplashScreenState.dart';
 
@@ -41,7 +42,13 @@ class SplashScreen extends StatelessWidget {
                     cubit.loadNearbyPlaces();
                   }
                   if (state is SplashCompleteSearch) {
-                    _scheduleNavigateMain(context, themeManager);
+                    const goToLogin = true;
+
+                    if (goToLogin) {
+                      _scheduleNavigateLogin(context, themeManager);
+                    } else {
+                      _scheduleNavigateMain(context, themeManager);
+                    }
                   }
                   return const SizedBox();
                 }),
@@ -49,6 +56,12 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _scheduleNavigateLogin(BuildContext context, ThemeManager themeManager) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _navigateToLogin(context, themeManager);
+    });
   }
 
   void _scheduleNavigateMain(BuildContext context, ThemeManager themeManager) {
@@ -62,6 +75,15 @@ class SplashScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => BottomNavigation(themeManager: themeManager),
+      ),
+    );
+  }
+
+  void _navigateToLogin(BuildContext context, ThemeManager themeManager) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>  LoginScreen(themeManager: themeManager),
       ),
     );
   }

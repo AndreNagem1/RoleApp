@@ -63,22 +63,17 @@ class FavoriteScreen extends StatelessWidget {
                     isOpen = false;
                   }
 
-                  return Sweapeble(
-                    onLeftSwipe: (_) {
-                      cubit.selectItemToBeDeleted(position);
-                    },
-                    onRightSwipe: (_) {
-                      cubit.selectItemToBeDeleted(-1);
-                    },
-                    child: favoriteListItem(
-                      context,
-                      state.listFavoritePlaces[position],
-                      isOpen,
-                      position,
-                      state.selectedItemToDelete,
-                      cubit,
-                    ),
+                  final sweapable = Sweapeble();
+
+                  sweapable.child = favoriteListItem(
+                    context,
+                    state.listFavoritePlaces[position],
+                    isOpen,
+                    position,
+                    state.selectedItemToDelete,
+                    cubit,
                   );
+                  return sweapable;
                 },
                 itemCount: state.listFavoritePlaces.length,
               );

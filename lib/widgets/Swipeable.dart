@@ -3,16 +3,16 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 
 class Sweapeble extends StatefulWidget {
-  final Widget child;
+  late Widget? child;
   final Duration animationDuration;
   final double offsetDx;
   final int swipeSensitivity;
   final GestureDragUpdateCallback? onLeftSwipe;
   final GestureDragUpdateCallback? onRightSwipe;
 
-  const Sweapeble({
+  Sweapeble({
     super.key,
-    required this.child,
+    this.child,
     this.onLeftSwipe,
     this.onRightSwipe,
     this.offsetDx = 0.3,
