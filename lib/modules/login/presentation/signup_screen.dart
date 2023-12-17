@@ -1,22 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rolesp/modules/login/presentation/signup_screen.dart';
 import 'package:rolesp/widgets/round_buttton.dart';
 
-import '../../../bottomNavigator/BottomNavigation.dart';
 import '../../../theme/themeManager.dart';
 import '../../../widgets/input_text.dart';
 
-class LoginScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   final ThemeManager themeManager;
 
-  const LoginScreen({super.key, required this.themeManager});
+  const SignUpScreen({super.key, required this.themeManager});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Padding(
@@ -25,7 +21,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 80),
             Text(
-              'Entrar',
+              'Criar conta',
               style: GoogleFonts.righteous(
                 textStyle: TextStyle(
                   fontSize: 30,
@@ -50,9 +46,17 @@ class LoginScreen extends StatelessWidget {
                 onTextChange: (input) {},
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
+              child: InputText(
+                hint: 'Confirmação de senha',
+                backgroundColor: Theme.of(context).colorScheme.onSurface,
+                onTextChange: (input) {},
+              ),
+            ),
             const Spacer(),
             RoundButton(
-              text: 'Entrar',
+              text: 'Criar conta',
               height: 50,
               width: double.infinity,
               backGroundColor: Theme.of(context).colorScheme.onSurface,
@@ -66,64 +70,25 @@ class LoginScreen extends StatelessWidget {
               onPress: () {},
             ),
             const SizedBox(height: 30),
-            Row(
-              children: [
-                RoundButton(
-                  text: 'Criar conta',
-                  height: 50,
-                  width: screenWidth * 0.7,
-                  backGroundColor: Colors.transparent,
-                  borderColor: Theme.of(context).colorScheme.onSurface,
-                  font: GoogleFonts.righteous(
-                    textStyle: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  onPress: () {
-                    _navigateToSignUp(context);
-                  },
+            RoundButton(
+              text: 'Voltar',
+              height: 50,
+              width: double.infinity,
+              backGroundColor: Colors.transparent,
+              borderColor: Colors.transparent,
+              font: GoogleFonts.righteous(
+                textStyle: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
-                const SizedBox(width: 5),
-                RoundButton(
-                  text: 'Pular',
-                  height: 50,
-                  width: screenWidth * 0.2,
-                  backGroundColor: Colors.transparent,
-                  borderColor: Theme.of(context).colorScheme.onSurface,
-                  font: GoogleFonts.righteous(
-                    textStyle: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  onPress: () {
-                    _navigateToMain(context);
-                  },
-                ),
-              ],
+              ),
+              onPress: () {
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(height: 30),
           ],
         ),
-      ),
-    );
-  }
-
-  void _navigateToSignUp(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SignUpScreen(themeManager: themeManager),
-      ),
-    );
-  }
-
-  void _navigateToMain(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BottomNavigation(themeManager: themeManager),
       ),
     );
   }
