@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rolesp/bottomNavigator/BottomNavigation.dart';
 import 'package:rolesp/modules/login/presentation/login_screen.dart';
 import 'package:rolesp/screens/splash_screen/domain/cubit/SplashCubit.dart';
@@ -45,7 +46,7 @@ class SplashScreen extends StatelessWidget {
                     const goToLogin = true;
 
                     if (goToLogin) {
-                      _scheduleNavigateLogin(context, themeManager);
+                      _scheduleNavigateLogin();
                     } else {
                       _scheduleNavigateMain(context, themeManager);
                     }
@@ -58,9 +59,9 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
-  void _scheduleNavigateLogin(BuildContext context, ThemeManager themeManager) {
+  void _scheduleNavigateLogin() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _navigateToLogin(context, themeManager);
+      Modular.to.pushNamed('/auth');
     });
   }
 
@@ -75,15 +76,6 @@ class SplashScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => BottomNavigation(themeManager: themeManager),
-      ),
-    );
-  }
-
-  void _navigateToLogin(BuildContext context, ThemeManager themeManager) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>  LoginScreen(themeManager: themeManager),
       ),
     );
   }

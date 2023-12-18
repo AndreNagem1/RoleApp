@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:rolesp/screens/splash_screen/ui/SplashScreen.dart';
 
+import 'app_module.dart';
 import 'theme/roleTheme.dart';
 import '../theme/themeManager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const RoleApp());
+  runApp(ModularApp(module: AppModule(), child: const RoleApp()));
 }
 
 ThemeManager _themeManager = ThemeManager();
@@ -42,7 +42,7 @@ class _RoleAppState extends State<RoleApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp.router(
       title: 'RoleSp',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -52,7 +52,7 @@ class _RoleAppState extends State<RoleApp> {
         colorScheme: darkColorScheme,
       ),
       themeMode: _themeManager.themeMode,
-      home: SplashScreen(themeManager: _themeManager),
+      routerConfig: Modular.routerConfig,
     );
   }
 }

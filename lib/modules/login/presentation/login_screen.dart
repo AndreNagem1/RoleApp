@@ -8,11 +8,16 @@ import '../../../bottomNavigator/BottomNavigation.dart';
 import '../../../theme/themeManager.dart';
 import '../../../widgets/input_text.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   final ThemeManager themeManager;
 
   const LoginScreen({super.key, required this.themeManager});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -114,7 +119,7 @@ class LoginScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SignUpScreen(themeManager: themeManager),
+        builder: (context) => SignUpScreen(themeManager: widget.themeManager),
       ),
     );
   }
@@ -123,7 +128,7 @@ class LoginScreen extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => BottomNavigation(themeManager: themeManager),
+        builder: (context) => BottomNavigation(themeManager: widget.themeManager),
       ),
     );
   }
