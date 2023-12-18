@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/modules/login/presentation/signup_screen.dart';
 import 'package:rolesp/widgets/round_buttton.dart';
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPress: () {
-                    _navigateToSignUp(context);
+                    _navigateToSignUp();
                   },
                 ),
                 const SizedBox(width: 5),
@@ -103,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPress: () {
-                    _navigateToMain(context);
+                    _navigateToMain();
                   },
                 ),
               ],
@@ -115,21 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _navigateToSignUp(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SignUpScreen(themeManager: widget.themeManager),
-      ),
-    );
+  void _navigateToSignUp() {
+    Modular.to.pushNamed('/auth/signUp');
   }
 
-  void _navigateToMain(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BottomNavigation(themeManager: widget.themeManager),
-      ),
-    );
+  void _navigateToMain() {
+    Modular.to.pushNamed('/home');
   }
 }

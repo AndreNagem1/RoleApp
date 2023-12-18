@@ -5,9 +5,9 @@ import 'dart:convert';
 
 class GoogleAutoCompleteDatasource implements AutoCompleteDataSource {
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
-  final Dio dio;
+  final Dio dio = Dio();
 
-  GoogleAutoCompleteDatasource(this.dio);
+  GoogleAutoCompleteDatasource();
 
   @override
   Future<List<Predictions>> searchPlaces(String input) async {

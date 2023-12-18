@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -12,8 +11,6 @@ import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/filter_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/states/auto_complete_state.dart';
-import 'package:rolesp/screens/map_screen/data/datasources/google/google_auto_complete_datasource.dart';
-import 'package:rolesp/screens/map_screen/data/repositories/auto_complete_repository_impl.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/states/filter_state.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
@@ -35,10 +32,7 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dio = Dio();
-    final datasource = GoogleAutoCompleteDatasource(dio);
-    final repository = AutoCompleteRepositoryImpl(datasource);
-    final cubit = AutoCompleteCubit(repository);
+    final cubit = AutoCompleteCubit();
 
     final listPlacesCubit = ListPlacesCubit();
     final controller = Get.put(MapController());

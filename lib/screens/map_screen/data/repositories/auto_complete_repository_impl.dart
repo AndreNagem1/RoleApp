@@ -1,12 +1,13 @@
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rolesp/screens/map_screen/domain/states/auto_complete_state.dart';
 import 'package:rolesp/screens/map_screen/data/datasources/auto_complete_datasource.dart';
 import 'package:rolesp/screens/map_screen/domain/errors/failure.dart';
 import 'package:rolesp/screens/map_screen/domain/repositories/auto_complete_repository.dart';
 
 class AutoCompleteRepositoryImpl implements AutoCompleteRepository {
-  final AutoCompleteDataSource datasource;
+  final AutoCompleteDataSource datasource = Modular.get<AutoCompleteDataSource>();
 
-  AutoCompleteRepositoryImpl(this.datasource);
+  AutoCompleteRepositoryImpl();
 
   @override
   Future<AutoCompleteState> searchPlaces(String input) async {

@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rolesp/screens/splash_screen/ui/SplashScreen.dart';
 import 'package:rolesp/theme/themeManager.dart';
 
+import 'home_module.dart';
 import 'modules/login/auth_module.dart';
 
 class AppModule extends Module {
@@ -19,5 +20,6 @@ class AppModule extends Module {
       ),
     );
     r.module('/auth', module: AuthModule());
+    r.module('/home', module: HomeModule());
   }
 }
