@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/widgets/round_buttton.dart';
 
-import '../../../theme/themeManager.dart';
 import '../../../widgets/input_text.dart';
 
 class SignUpScreen extends StatelessWidget {
-  final ThemeManager themeManager;
 
-  const SignUpScreen({super.key, required this.themeManager});
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

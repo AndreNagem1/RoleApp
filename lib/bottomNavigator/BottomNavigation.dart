@@ -7,12 +7,10 @@ import 'package:rolesp/screens/map_screen/ui/map_screen.dart';
 import 'package:rolesp/screens/settings_screen/settings_screen.dart';
 
 import '../screens/favorites_screen/ui/favorites_screen.dart';
-import '../theme/themeManager.dart';
 
 class BottomNavigation extends StatefulWidget {
-  final ThemeManager themeManager;
 
-  const BottomNavigation({Key? key, required this.themeManager})
+  const BottomNavigation({Key? key})
       : super(key: key);
 
   @override
@@ -40,9 +38,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         currentScreen = const FavoriteScreen();
         break;
       case 3:
-        currentScreen = SettingsScreen(
-          themeManager: widget.themeManager,
-        );
+        currentScreen = SettingsScreen();
         break;
     }
 

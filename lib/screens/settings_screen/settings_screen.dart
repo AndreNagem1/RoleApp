@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/screens/settings_screen/settings_cubit.dart';
 import 'package:rolesp/screens/settings_screen/settings_screen_state.dart';
 import 'package:rolesp/theme/roleTheme.dart';
 import 'package:rolesp/widgets/home_banner.dart';
 
-import '../../theme/themeManager.dart';
+import '../../main_cubit.dart';
 
 class SettingsScreen extends StatelessWidget {
-  final ThemeManager themeManager;
-
-  SettingsScreen({
-    Key? key,
-    required this.themeManager,
-  }) : super(key: key);
+  SettingsScreen({Key? key}) : super(key: key);
 
   final bloc = SettingsCubit();
 
@@ -58,17 +54,17 @@ class SettingsScreen extends StatelessWidget {
                     profileOption('Configurações', context, showConfig, () {
                       bloc.selectOption(SelectedOption.configurations);
                     }),
-                    if (showConfig) configurations(context, themeManager),
+                    if (showConfig) configurations(context),
                     const SizedBox(height: 15),
                     profileOption('Sobre nós', context, showAboutUs, () {
                       bloc.selectOption(SelectedOption.aboutUs);
                     }),
-                    if (showAboutUs) aboutUsContent(context, themeManager),
+                    if (showAboutUs) aboutUsContent(context),
                     const SizedBox(height: 15),
                     profileOption('Ajuda', context, showHelp, () {
                       bloc.selectOption(SelectedOption.help);
                     }),
-                    if (showHelp) helpContent(context, themeManager),
+                    if (showHelp) helpContent(context),
                     const SizedBox(height: 250),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,22 +140,24 @@ Widget profileOption(
   );
 }
 
-Widget configurations(BuildContext context, ThemeManager themeManager) {
+Widget configurations(BuildContext context) {
+  final mainCubit = Modular.get<MainCubit>();
+
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Switch(
           activeColor: Theme.of(context).colorScheme.onSurface,
           inactiveThumbColor: Theme.of(context).colorScheme.onSurface,
-          value: themeManager.themeMode == ThemeMode.light,
+          value: mainCubit.currentTheme == ThemeMode.dark,
           onChanged: (newValue) {
-            themeManager.toggleTheme(newValue);
+            mainCubit.toggleTheme(newValue);
           })
     ],
   );
 }
 
-Widget aboutUsContent(BuildContext context, ThemeManager themeManager) {
+Widget aboutUsContent(BuildContext context) {
   return const Column(
     children: [
       SizedBox(height: 10),
@@ -176,7 +174,7 @@ Widget aboutUsContent(BuildContext context, ThemeManager themeManager) {
   );
 }
 
-Widget helpContent(BuildContext context, ThemeManager themeManager) {
+Widget helpContent(BuildContext context) {
   return const Column(
     children: [
       SizedBox(height: 10),

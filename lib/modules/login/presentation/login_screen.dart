@@ -2,17 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rolesp/modules/login/presentation/signup_screen.dart';
 import 'package:rolesp/widgets/round_buttton.dart';
 
-import '../../../bottomNavigator/BottomNavigation.dart';
-import '../../../theme/themeManager.dart';
 import '../../../widgets/input_text.dart';
 
 class LoginScreen extends StatefulWidget {
-  final ThemeManager themeManager;
 
-  const LoginScreen({super.key, required this.themeManager});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

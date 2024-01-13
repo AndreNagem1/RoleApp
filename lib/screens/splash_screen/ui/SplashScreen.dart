@@ -4,20 +4,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rolesp/bottomNavigator/BottomNavigation.dart';
-import 'package:rolesp/modules/login/presentation/login_screen.dart';
+import 'package:rolesp/main_cubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/cubit/SplashCubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/states/SplashScreenState.dart';
 
-import '../../../theme/themeManager.dart';
-
 class SplashScreen extends StatelessWidget {
-  final ThemeManager themeManager;
-
-  const SplashScreen({Key? key, required this.themeManager}) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cubit = SplashCubit(SplashScreenInitialtate());
+    final mainCubit = Modular.get<MainCubit>();
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -43,12 +40,10 @@ class SplashScreen extends StatelessWidget {
                     cubit.loadNearbyPlaces();
                   }
                   if (state is SplashCompleteSearch) {
-                    const goToLogin = true;
-
-                    if (goToLogin) {
-                      _scheduleNavigateLogin();
+                    if (mainCubit.jumpLogin) {
+                      _navigateToMain();
                     } else {
-                      _scheduleNavigateMain(context, themeManager);
+                      _scheduleNavigateLogin();
                     }
                   }
                   return const SizedBox();
@@ -65,18 +60,9 @@ class SplashScreen extends StatelessWidget {
     });
   }
 
-  void _scheduleNavigateMain(BuildContext context, ThemeManager themeManager) {
+  void _navigateToMain() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _navigateToMain(context, themeManager);
+      Modular.to.pushNamed('/home');
     });
-  }
-
-  void _navigateToMain(BuildContext context, ThemeManager themeManager) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BottomNavigation(themeManager: themeManager),
-      ),
-    );
   }
 }
