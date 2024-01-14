@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:rolesp/main_cubit.dart';
 import 'package:rolesp/mock/NearbyPlacesMocked.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/events_screen/ui/events_screen.dart';
@@ -9,16 +11,21 @@ import 'package:rolesp/screens/settings_screen/settings_screen.dart';
 import '../screens/favorites_screen/ui/favorites_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
-
-  const BottomNavigation({Key? key})
-      : super(key: key);
+  const BottomNavigation({Key? key}) : super(key: key);
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  int _index = 0;
+  final MainCubit mainCubit = Modular.get<MainCubit>();
+  var _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _index = mainCubit.selectedBottomNavItem;
+  }
 
   @override
   Widget build(BuildContext context) {

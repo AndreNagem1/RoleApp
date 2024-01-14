@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:rolesp/bottomNavigator/BottomNavigation.dart';
 import 'package:rolesp/main_cubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/cubit/SplashCubit.dart';
 import 'package:rolesp/screens/splash_screen/domain/states/SplashScreenState.dart';
@@ -40,8 +39,8 @@ class SplashScreen extends StatelessWidget {
                     cubit.loadNearbyPlaces();
                   }
                   if (state is SplashCompleteSearch) {
-                    if (mainCubit.jumpLogin) {
-                      _navigateToMain();
+                    if (mainCubit.navigateToHome) {
+                      _navigateToMain(mainCubit.selectedBottomNavItem);
                     } else {
                       _scheduleNavigateLogin();
                     }
@@ -56,13 +55,13 @@ class SplashScreen extends StatelessWidget {
 
   void _scheduleNavigateLogin() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Modular.to.pushNamed('/auth');
+      Modular.to.pushReplacementNamed('/auth');
     });
   }
 
-  void _navigateToMain() {
+  void _navigateToMain(int selectedItem) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Modular.to.pushNamed('/home');
+      Modular.to.pushReplacementNamed('/home/?selectedItem=$selectedItem');
     });
   }
 }
