@@ -117,6 +117,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _navigateToMain() {
-    Modular.to.pushNamed('/home');
+    Modular.to.pushReplacementNamed('/home');
   }
 }

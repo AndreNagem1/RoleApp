@@ -63,6 +63,7 @@ dependencies:
   flutter_shimmer: ^2.1.2
   firebase_storage: ^11.4.0
   firebase_auth: ^4.15.3
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   build_runner: ^2.3.3

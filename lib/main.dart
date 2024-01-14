@@ -25,6 +25,7 @@ class RoleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = Modular.get<MainCubit>();
+    cubit.getTheme();
 
     return BlocBuilder<MainCubit, MainState>(
         bloc: cubit,
