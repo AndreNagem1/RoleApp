@@ -70,6 +70,7 @@ class MapScreen extends StatelessWidget {
                 if (state is ListFilters) {
                   final filters = state.listFilterDistance.length +
                       state.listFilterType.length;
+
                   return Row(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -272,7 +273,8 @@ class MapScreen extends StatelessWidget {
       MapController controller,
       BuildContext context,
       AutoScrollController listController,
-      ListPlacesCubit listPlacesCubit) async {
+      ListPlacesCubit listPlacesCubit
+      ) async {
     controller.setListPlacesController(listController);
     controller.setListPlacesCubit(listPlacesCubit);
     controller.cleanPlaces();

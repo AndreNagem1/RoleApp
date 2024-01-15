@@ -16,7 +16,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class MapController extends GetxController {
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
-  final raio = 0.0.obs;
+  final radius = 0.0.obs;
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   late StreamSubscription<Position> positionStream;
@@ -27,6 +27,8 @@ class MapController extends GetxController {
   List<Results> listPlaces = [];
   final markers = <Marker>{};
   late bool shouldGenerateNewListPLaces = false;
+  late String distanceSearchNearbyPlaces = '2000';
+  late String nearByPlacesType = 'restaurant';
 
   static MapController get to => Get.find<MapController>();
 
@@ -34,9 +36,9 @@ class MapController extends GetxController {
 
   get position => _position;
 
-  String get distancia => raio.value < 1
-      ? '${(raio.value * 1000).toStringAsFixed(0)} m'
-      : '${(raio.value).toStringAsFixed(1)} km';
+  String get distance => radius.value < 1
+      ? '${(radius.value * 1000).toStringAsFixed(0)} m'
+      : '${(radius.value).toStringAsFixed(1)} km';
 
   void showInfoFromMarker(MarkerId markerId) {
     _mapsController.showMarkerInfoWindow(markerId);
@@ -56,6 +58,11 @@ class MapController extends GetxController {
 
   void setListPlaces(List<Results> listResults) {
     listPlaces = listResults;
+  }
+
+  void setFilters(String placesTypes, String distance) {
+    nearByPlacesType = placesTypes;
+    distanceSearchNearbyPlaces = distance;
   }
 
   Future<Uint8List?> getBytesFromAsset(String path, int width) async {
@@ -125,16 +132,15 @@ class MapController extends GetxController {
     cleanPlaces();
 
     var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
-            'location=' +
-            _position.latitude.toString() +
-            ',' +
-            _position.longitude.toString() +
-            '&type=restaurant' +
-            '&radius=' +
-            '2000' +
-            '&language=pt&key=' +
-            apiKey);
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+          _position.latitude.toString() +
+          ',' +
+          _position.longitude.toString() +
+          '&type=$nearByPlacesType' +
+          '&radius=$distanceSearchNearbyPlaces' +
+          '&language=pt' +
+          '&key=$apiKey',
+    );
 
     var response = await http.post(url);
 

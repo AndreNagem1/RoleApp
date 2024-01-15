@@ -38,9 +38,11 @@ class MainCubit extends Cubit<MainState> {
 
     if (isDark) {
       prefs.setBool('darkTheme', true);
+      currentTheme = ThemeMode.dark;
       emit(DarkMode());
     } else {
       prefs.setBool('darkTheme', false);
+      currentTheme = ThemeMode.light;
       emit(LightMode());
     }
   }
