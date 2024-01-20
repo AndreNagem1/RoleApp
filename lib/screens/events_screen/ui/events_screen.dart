@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
-import 'package:rolesp/mock/EventsListMocked.dart';
+import 'package:rolesp/screens/events_screen/data/evento.dart';
+import 'package:rolesp/screens/events_screen/ui/event_details_dialog.dart';
 import 'package:rolesp/widgets/app_title.dart';
 
 import '../../../widgets/loading.dart';
@@ -49,119 +48,132 @@ class EventsScreen extends StatelessWidget {
                         const SizedBox(height: 15),
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Container(
-                            height: 200,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
+                          child: GestureDetector(
+                            onTap: () {
+                              openDetails(state.eventsList[position], context);
+                            },
+                            child: Container(
+                              height: 200,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                                border: Border.all(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                  width: 0.5,
+                                ),
                               ),
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                width: 0.5,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 150,
-                                  width: 100,
-                                  color: Theme.of(context).colorScheme.surface,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 150,
+                                    width: 100,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          getDay(
+                                              state.eventsList[position].data),
+                                          style: GoogleFonts.roboto(
+                                            textStyle: TextStyle(
+                                              fontSize: 30,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          getMonth(
+                                              state.eventsList[position].data),
+                                          style: GoogleFonts.roboto(
+                                            textStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        getDay(state.eventsList[position].data),
-                                        style: GoogleFonts.roboto(
-                                          textStyle: TextStyle(
-                                            fontSize: 30,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                            fontWeight: FontWeight.bold,
+                                      const SizedBox(height: 20),
+                                      Container(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        height: 100,
+                                        width: 200,
+                                        alignment: Alignment.center,
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.fill,
+                                          imageUrl:
+                                              state.eventsList[position].imagem,
+                                          placeholder: (context, url) =>
+                                              const Align(
+                                            alignment: Alignment.center,
+                                            child: SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
                                           ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                                  'assets/images/city.jpg'),
                                         ),
                                       ),
-                                      const SizedBox(height: 10),
+                                      const SizedBox(height: 5),
                                       Text(
-                                        getMonth(
-                                            state.eventsList[position].data),
+                                        state.eventsList[position].name,
                                         style: GoogleFonts.roboto(
-                                          textStyle: TextStyle(
-                                            fontSize: 18,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
                                         ),
                                       ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        state.eventsList[position].desciption,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        state.eventsList[position].address,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
                                     ],
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 20),
-                                    Container(
-                                      color: ColorsRoleSp.white,
-                                      height: 100,
-                                      width: 200,
-                                      alignment: Alignment.center,
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.fitWidth,
-                                        imageUrl:
-                                            state.eventsList[position].imagem,
-                                        placeholder: (context, url) =>
-                                            const Align(
-                                          alignment: Alignment.center,
-                                          child: SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                                'assets/images/city.jpg'),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      state.eventsList[position].name,
-                                      style: GoogleFonts.roboto(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      state.eventsList[position].desciption,
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 12,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      state.eventsList[position].address,
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 12,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -177,6 +189,23 @@ class EventsScreen extends StatelessWidget {
           }),
     );
   }
+}
+
+void openDetails(Event event, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => Center(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 80.0),
+        child: SizedBox(
+          height: 300,
+          child: EventDetailsDialog(
+            event: event,
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 String getDay(Timestamp timestamp) {

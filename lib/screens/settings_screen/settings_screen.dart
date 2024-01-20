@@ -119,24 +119,27 @@ Widget profileOption(
 
   return GestureDetector(
     onTap: onTap,
-    child: Column(
-      children: [
-        Row(children: [
-          Text(title),
-          const Spacer(),
-          Icon(
-            icon,
-            size: 33,
+    child: Container(
+      color: Colors.transparent,
+      child: Column(
+        children: [
+          Row(children: [
+            Text(title),
+            const Spacer(),
+            Icon(
+              icon,
+              size: 33,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ]),
+          const SizedBox(height: 10),
+          Container(
+            height: 0.5,
+            width: double.infinity,
             color: Theme.of(context).colorScheme.onSurface,
           ),
-        ]),
-        const SizedBox(height: 10),
-        Container(
-          height: 0.5,
-          width: double.infinity,
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
