@@ -1,4 +1,4 @@
-import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/models/place_info.dart';
 
 abstract class ListPlacesState {}
 
@@ -9,7 +9,11 @@ class ListPlacesInitialState extends ListPlacesState {
 class ListPlaces extends ListPlacesState {
   ListPlaces(this.listPlaces);
 
-  final List<Results> listPlaces;
+  final List<PlaceInfo> listPlaces;
 
   List<Object> get props => [listPlaces];
+}
+
+class Loading extends ListPlacesState {
+  List<Object> get props => [];
 }

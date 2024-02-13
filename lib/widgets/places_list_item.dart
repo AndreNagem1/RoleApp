@@ -8,13 +8,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/models/favorite_place_info.dart';
+import 'package:rolesp/models/place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
 
 import '../mock/NearbyPlacesMocked.dart';
 
 class PlacesListItem extends StatelessWidget {
-  final Results? results;
+  final PlaceInfo? results;
   final MapController mapController;
   final VoidCallback onTap;
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
@@ -30,13 +31,13 @@ class PlacesListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var imageUrl = '';
 
-    if (results?.photos?[0] != null) {
-      imageUrl =
-          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
-              results!.photos![0].photoReference! +
-              '&key=' +
-              apiKey;
-    }
+    // if (results?.photos?[0] != null) {
+    //   imageUrl =
+    //       'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
+    //           results!.photos![0].photoReference! +
+    //           '&key=' +
+    //           apiKey;
+    // }
 
     return GestureDetector(
       onTap: onTap,
@@ -60,7 +61,7 @@ class PlacesListItem extends StatelessWidget {
               height: 150,
               width: double.infinity,
               child: CachedNetworkImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.fitWidth,
                 imageUrl: imageUrl,
                 placeholder: (context, url) => const Align(
                   alignment: Alignment.center,
@@ -85,7 +86,7 @@ class PlacesListItem extends StatelessWidget {
                         height: 20,
                         width: 200,
                         child: Text(
-                          results?.name ?? '',
+                          results?.poi?.name ?? '',
                           style: GoogleFonts.roboto(
                             textStyle: TextStyle(
                               fontSize: 16,
@@ -101,13 +102,13 @@ class PlacesListItem extends StatelessWidget {
                           openFavoritePlaceDialog(
                             context,
                             FavoritePlaceInfo(
-                                name: results?.name ?? '',
-                                phoneNumber: results?.phone ?? '',
+                                name: results?.poi?.name ?? '',
+                                phoneNumber: results?.poi?.phone ?? '',
                                 openHours: NearbyPlacesMocked()
                                         .mockedOpeningHours
                                         .weekdayText?[1] ??
                                     '',
-                                description: results?.types?.first ?? ''),
+                                description: results?.info ?? ''),
                           );
                         },
                         child: Container(
@@ -126,7 +127,7 @@ class PlacesListItem extends StatelessWidget {
                                   'Favoritar',
                                   style: GoogleFonts.roboto(
                                     textStyle: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       color:
                                           Theme.of(context).colorScheme.surface,
                                       fontWeight: FontWeight.bold,
@@ -150,7 +151,7 @@ class PlacesListItem extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      getDescription(results?.types ?? ['Restautante']),
+                      results?.address?.streetName ?? '',
                       style: GoogleFonts.acme(
                         textStyle: TextStyle(
                           fontSize: 15,
@@ -176,13 +177,13 @@ class PlacesListItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        getPlaceStatus(results?.openingHours?.openNow),
+                        getPlaceStatus(true),
                         style: GoogleFonts.roboto(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       Text(
-                        getFunctionHours(results?.openingHours),
+                        '08h:00 - 12H:00',
                         style: GoogleFonts.roboto(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
@@ -199,8 +200,8 @@ class PlacesListItem extends StatelessWidget {
                                 final distance = calculateDistance(
                                   snapshot.data?.latitude ?? 0.0,
                                   snapshot.data?.longitude ?? 0.0,
-                                  results?.geometry?.location?.lat ?? 0.0,
-                                  results?.geometry?.location?.lng ?? 0.0,
+                                  results?.position?.lat ?? 0.0,
+                                  results?.position?.lon ?? 0.0,
                                 );
 
                                 return Text(
@@ -267,19 +268,6 @@ class PlacesListItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getFunctionHours(OpeningHours? openingHours) {
-    String? status;
-    final weekDayIndex = DateTime.now().weekday - 1;
-
-    status = results?.openingHours?.weekdayText?[weekDayIndex];
-    final startIndex = status?.indexOf(':');
-    if (startIndex != -1) {
-      status = status?.substring(startIndex!);
-    }
-    status = status?.replaceAll('Closed', '');
-    return status ??= '';
   }
 
   String getPlaceStatus(bool? open) {

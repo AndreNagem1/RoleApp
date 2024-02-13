@@ -7,6 +7,8 @@ import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
+import 'package:rolesp/models/nearby_places_response.dart';
+import 'package:rolesp/models/place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/filter_cubit.dart';
@@ -23,11 +25,8 @@ import 'package:rolesp/widgets/refrech_button.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class MapScreen extends StatelessWidget {
-  final NearbyPlacesResponse? places;
-
   const MapScreen({
     Key? key,
-    required this.places,
   }) : super(key: key);
 
   @override
@@ -43,19 +42,11 @@ class MapScreen extends StatelessWidget {
 
     setMapCubit(controller, context, listController, listPlacesCubit);
 
-    var listPlacesList = <Results>[];
-    places?.results?.forEach((results) {
-      if (results.permanentlyClosed != true) {
-        listPlacesList.add(results);
-      }
-    });
+    var listPlacesList = <PlaceInfo>[];
 
     listPlacesCubit.setListPlaces(listPlacesList);
 
-    if (places == null) {
-      controller.setListPlaces(places?.results ?? List.empty());
-      controller.getNearByPlaces(context);
-    }
+    getNearbyPlaces(context,controller, listPlacesCubit);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -218,7 +209,7 @@ class MapScreen extends StatelessWidget {
                             final position =
                                 listController.position.pixels / 360;
 
-                            focusMarker(controller.listPlaces[position.ceil()],
+                            focusMarker(controller.listPlaces?[position.ceil()],
                                 controller);
                           }
                           return false;
@@ -244,6 +235,15 @@ class MapScreen extends StatelessWidget {
                     ),
                   );
                 }
+                if(state is Loading) {
+                  return Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    color: Colors.black26,
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator()
+                  );
+                }
                 controller.setShouldGenerateNewListPlaces(true);
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -254,7 +254,7 @@ class MapScreen extends StatelessWidget {
                         const Spacer(),
                         GestureDetector(
                           onTap: () {
-                            refreshPlaces(context, controller, listPlacesCubit);
+                            getNearbyPlaces(context, controller, listPlacesCubit);
                           },
                           child: const MapButton(icon: Icons.refresh_sharp),
                         ),
@@ -273,12 +273,10 @@ class MapScreen extends StatelessWidget {
       MapController controller,
       BuildContext context,
       AutoScrollController listController,
-      ListPlacesCubit listPlacesCubit
-      ) async {
+      ListPlacesCubit listPlacesCubit) async {
     controller.setListPlacesController(listController);
     controller.setListPlacesCubit(listPlacesCubit);
     controller.cleanPlaces();
-    controller.addPlacesDetails(places ?? NearbyPlacesResponse(), context);
   }
 
   onSearchSubmittedList(
@@ -311,18 +309,19 @@ class MapScreen extends StatelessWidget {
     cubit.searchPlaces(text);
   }
 
-  refreshPlaces(
+  getNearbyPlaces(
     BuildContext context,
     MapController controller,
     ListPlacesCubit listPlacesCubit,
   ) async {
-    List<Results>? listPlaces = await controller.getNewPlaces(context);
-    var listPlacesList = <Results>[];
-    listPlaces?.forEach((results) {
-      if (results.permanentlyClosed != true) {
-        listPlacesList.add(results);
-      }
-    });
+    listPlacesCubit.setLoadingState();
+    List<PlaceInfo> listPlaces = await controller.getNearByPlaces(context);
+
+    var listPlacesList = <PlaceInfo>[];
+    for (var results in listPlaces) {
+      listPlacesList.add(results);
+    }
+
     listPlacesCubit.setListPlaces(listPlacesList);
   }
 
@@ -345,8 +344,8 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-  void focusMarker(Results results, MapController mapController) {
-    final markerId = MarkerId(results.name ?? '');
+  void focusMarker(PlaceInfo? results, MapController mapController) {
+    final markerId = MarkerId(results?.poi?.name ?? '');
     final marker = Marker(markerId: markerId);
     mapController.showInfoFromMarker(marker.markerId);
   }
@@ -367,7 +366,7 @@ class MapScreen extends StatelessWidget {
               results: state.listPlaces[index],
               mapController: mapController,
               onTap: () {
-                showDetails(context, state.listPlaces[index], mapController);
+                // showDetails(context, state.listPlaces[index], mapController);
               },
             )
           ],

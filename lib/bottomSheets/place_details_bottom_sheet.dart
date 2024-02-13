@@ -40,7 +40,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
-        color: Colors.black54,
+        color: Colors.black87,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

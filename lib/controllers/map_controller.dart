@@ -8,23 +8,26 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/models/place_info.dart';
+import 'package:rolesp/places_categories/PlacesCategories.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
 import 'package:rolesp/theme/roleTheme.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+
+import '../models/nearby_places_response.dart';
 
 class MapController extends GetxController {
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
   final radius = 0.0.obs;
-  final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
+  final apiKey = 'IX6Sd0VaOzNw7XGa65Xwm1AkpXEfXacI';
 
   late StreamSubscription<Position> positionStream;
   LatLng _position = const LatLng(-23.4944928, -46.8575523);
   late GoogleMapController _mapsController;
   late ListPlacesCubit listPlacesCubit;
   late AutoScrollController listPlacesController;
-  List<Results> listPlaces = [];
+  List<PlaceInfo>? listPlaces = [];
   final markers = <Marker>{};
   late bool shouldGenerateNewListPLaces = false;
   late String distanceSearchNearbyPlaces = '2000';
@@ -56,7 +59,7 @@ class MapController extends GetxController {
     listPlacesController = listController;
   }
 
-  void setListPlaces(List<Results> listResults) {
+  void setListPlaces(List<PlaceInfo> listResults) {
     listPlaces = listResults;
   }
 
@@ -109,8 +112,7 @@ class MapController extends GetxController {
     );
   }
 
-  addMarker(Marker marker, BuildContext context, Results results,
-      int listIndex) async {
+  addMarker(Marker marker, BuildContext context, int listIndex) async {
     markers.add(
       Marker(
           markerId: MarkerId(marker.markerId.value),
@@ -128,160 +130,56 @@ class MapController extends GetxController {
     markers.clear();
   }
 
-  Future<List<Results>?> getNewPlaces(BuildContext context) async {
-    cleanPlaces();
-
-    var url = Uri.parse(
-      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
-          _position.latitude.toString() +
-          ',' +
-          _position.longitude.toString() +
-          '&type=$nearByPlacesType' +
-          '&radius=$distanceSearchNearbyPlaces' +
-          '&language=pt' +
-          '&key=$apiKey',
-    );
-
-    var response = await http.post(url);
-
-    var nearbyPlacesResponse =
-        NearbyPlacesResponse.fromJson(jsonDecode(response.body));
-
-    if (nearbyPlacesResponse.results != null) {
-      addPlacesDetails(nearbyPlacesResponse, context);
-      return nearbyPlacesResponse.results;
-    }
-
-    return List.empty();
-  }
-
   getPlaceDetails(BuildContext context, String placeId) async {
     cleanPlaces();
-
-    // var url = Uri.parse(
-    //     'https://maps.googleapis.com/maps/api/place/details/json?' +
-    //         'place_id=' +
-    //         placeId +
-    //         '&language=pt&key=' +
-    //         apiKey);
-    //
-    // var response = await http.post(url);
-    // var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
-    //
-    // if (details.result != null) {
-    //   final lat = details.result?.geometry?.location?.lat ?? 0.0;
-    //   final lng = details.result?.geometry?.location?.lng ?? 0.0;
-    //
-    //   LatLng position = LatLng(lat, lng);
-    //   moveCameraToPosition(position);
-    // }
   }
 
-  getNearByPlaces(BuildContext context) async {
+  Future<List<PlaceInfo>> getNearByPlaces(BuildContext context) async {
     var position = await Geolocator.getCurrentPosition();
-    var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
-            'location=' +
-            position.latitude.toString() +
-            ',' +
-            position.longitude.toString() +
-            '&type=restaurant' +
-            '&radius=' +
-            '2000' +
-            '&language=pt&key=' +
-            apiKey);
 
-    var response = await http.post(url);
+    var url = Uri.parse('https://api.tomtom.com/search/2/nearbySearch/.json?' +
+        'key=' +
+        apiKey +
+        '&lat=' +
+        position.latitude.toString() +
+        '&lon=' +
+        position.longitude.toString() +
+        '&language=pt-BR' +
+        '&limit=20' +
+        '&categorySet=' + restaurant
+    );
 
-    var nearbyPlacesResponse =
-        NearbyPlacesResponse.fromJson(jsonDecode(response.body));
+    var response = await http.get(url);
+
+    var nearbyPlacesResponse = NearbyPlaces.fromJson(jsonDecode(response.body));
 
     if (nearbyPlacesResponse.results != null) {
-      listPlaces = nearbyPlacesResponse.results ?? List.empty();
-      addPlacesDetails(nearbyPlacesResponse, context);
+      nearbyPlacesResponse.results?.forEach((place) {
+        listPlaces?.add(place);
+        listPlacesCubit.setListPlaces(listPlaces ?? []);
+        addPlaceMarker(context, place, nearbyPlacesResponse.results?.indexOf(place) ?? 0);
+      });
+      return nearbyPlacesResponse.results!;
     }
+    return [];
   }
 
-  getNearByPlacesDetails(
-    BuildContext context,
-    Results results,
-    int listIndex,
-    int listLenght,
-  ) async {
-    final placeId = results.placeId;
-
-    if (placeId != null) {
-      // var call = 'https://maps.googleapis.com/maps/api/place/details/json?' +
-      //     'fields=reviews,website,opening_hours/weekday_text,formatted_phone_number&' +
-      //     '&language=pt' +
-      //     '&place_id=' +
-      //     placeId +
-      //     '&key=' +
-      //     apiKey;
-      //
-      // var url = Uri.parse(call);
-      // var response = await http.post(url);
-      //
-      // var details = PlaceDetailsResponse.fromJson(jsonDecode(response.body));
-      //
-      // if (details.result?.openingHours != null) {
-      //   results.openingHours?.weekdayText =
-      //       details.result?.openingHours?.weekdayText;
-      // }
-      // if (details.result?.formattedPhoneNumber != null) {
-      //   results.phone = details.result?.formattedPhoneNumber;
-      // }
-      //
-      // if (details.result?.website != null) {
-      //   results.website = details.result?.website;
-      // }
-      // if (details.result?.reviews != null) {
-      //   results.reviews = details.result?.reviews;
-      // }
-    }
-
-    listPlaces.add(results);
-    if (listIndex == listLenght - 1) {
-      listPlacesCubit.setListPlaces(listPlaces);
-    }
-
-    addPlaceMarker(context, results, listIndex);
-  }
-
-  addPlaceMarker(BuildContext context, Results response, int listIndex) {
-    var id = response.name!;
-    var lat = response.geometry!.location!.lat!;
-    var lng = response.geometry!.location!.lng!;
+  addPlaceMarker(BuildContext context, PlaceInfo response, int listIndex) {
+    var id = response.poi?.name ?? '';
+    var lat = response.entryPoints?[0].position?.lat ?? 0;
+    var lng = response.entryPoints?[0].position?.lon ?? 0;
 
     var marker = Marker(
       markerId: MarkerId(id),
       position: LatLng(lat, lng),
     );
 
-    addMarker(marker, context, response, listIndex);
+    addMarker(marker, context, listIndex);
   }
 
-  addPlacesDetails(
-    NearbyPlacesResponse places,
-    BuildContext context,
-  ) {
-    //places.results = NearbyPlacesMocked().mockedList;
-    if (places.results != null) {
-      var index = 0;
-      while (index < places.results!.length) {
-        final response = places.results?[index];
-        if (response != null) {
-          getNearByPlacesDetails(
-              context, response, index, places.results!.length);
-        }
-        index++;
-      }
-    }
-  }
-
-  showPositionOnMap(Results results) {
-    final lat = results.geometry?.location?.lat ?? 0.0;
-    final lng = results.geometry?.location?.lng ?? 0.0;
+  showPositionOnMap(PlaceInfo placeInfo) {
+    final lat = placeInfo.entryPoints?[0].position?.lat ?? 0;
+    final lng = placeInfo.entryPoints?[0].position?.lon ?? 0;
     final position = LatLng(lat, lng);
     if (position.latitude != 0.0 && position.longitude != 0.0) {
       moveCameraToPosition(position);
@@ -290,7 +188,7 @@ class MapController extends GetxController {
 
   Future showPlaceOnList(int index) async {
     if (shouldGenerateNewListPLaces) {
-      listPlacesCubit.setListPlaces(listPlaces);
+      listPlacesCubit.setListPlaces(listPlaces ?? []);
       await Future.delayed(const Duration(milliseconds: 50));
     }
     final indexList = index - 1;

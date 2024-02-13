@@ -33,10 +33,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
     switch (_index) {
       case 0:
-        currentScreen = MapScreen(
-          places:
-              NearbyPlacesResponse(results: NearbyPlacesMocked().mockedList),
-        );
+        currentScreen = MapScreen();
         break;
       case 1:
         currentScreen = const EventsScreen();
