@@ -7,7 +7,6 @@ import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
-import 'package:rolesp/models/nearby_places_response.dart';
 import 'package:rolesp/models/place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
@@ -35,17 +34,13 @@ class MapScreen extends StatelessWidget {
 
     final listPlacesCubit = ListPlacesCubit();
     final controller = Get.put(MapController());
+
     final TextEditingController textFieldController = TextEditingController();
     final listController = AutoScrollController(axis: Axis.horizontal);
 
     final filterCubit = FilterCubit(ListFilters([], []), [], []);
 
-    setMapCubit(controller, context, listController, listPlacesCubit);
-
-    var listPlacesList = <PlaceInfo>[];
-
-    listPlacesCubit.setListPlaces(listPlacesList);
-
+    controller.setListPlacesController(listController);
     getNearbyPlaces(context,controller, listPlacesCubit);
 
     return Scaffold(
@@ -269,15 +264,6 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-  setMapCubit(
-      MapController controller,
-      BuildContext context,
-      AutoScrollController listController,
-      ListPlacesCubit listPlacesCubit) async {
-    controller.setListPlacesController(listController);
-    controller.setListPlacesCubit(listPlacesCubit);
-    controller.cleanPlaces();
-  }
 
   onSearchSubmittedList(
     BuildContext context,
@@ -311,18 +297,11 @@ class MapScreen extends StatelessWidget {
 
   getNearbyPlaces(
     BuildContext context,
-    MapController controller,
+    MapController mapController,
     ListPlacesCubit listPlacesCubit,
   ) async {
-    listPlacesCubit.setLoadingState();
-    List<PlaceInfo> listPlaces = await controller.getNearByPlaces(context);
-
-    var listPlacesList = <PlaceInfo>[];
-    for (var results in listPlaces) {
-      listPlacesList.add(results);
-    }
-
-    listPlacesCubit.setListPlaces(listPlacesList);
+    List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context);
+    mapController.addPlaceMarker(context, listPlaces);
   }
 
   showDetails(
