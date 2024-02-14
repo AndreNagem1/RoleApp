@@ -40,6 +40,7 @@ class MapScreen extends StatelessWidget {
 
     final filterCubit = FilterCubit(ListFilters([], []), [], []);
 
+    controller.setListPlacesCubit(listPlacesCubit);
     controller.setListPlacesController(listController);
     getNearbyPlaces(context,controller, listPlacesCubit);
 
