@@ -7,7 +7,6 @@ import 'package:rolesp/BottomSheets/place_details_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/models/auto_complete_response.dart';
-import 'package:rolesp/models/place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/autocomplet_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/filter_cubit.dart';
@@ -22,6 +21,8 @@ import 'package:rolesp/widgets/custom_scroll.dart';
 import 'package:rolesp/widgets/places_list_item.dart';
 import 'package:rolesp/widgets/refrech_button.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+
+import '../../../models/nearby_places_response.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({
@@ -301,7 +302,7 @@ class MapScreen extends StatelessWidget {
     MapController mapController,
     ListPlacesCubit listPlacesCubit,
   ) async {
-    List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context);
+    List<Places> listPlaces = await listPlacesCubit.getNearByPlaces(context);
     mapController.addPlaceMarker(context, listPlaces);
   }
 
@@ -324,8 +325,8 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-  void focusMarker(PlaceInfo? results, MapController mapController) {
-    final markerId = MarkerId(results?.poi?.name ?? '');
+  void focusMarker(Places? results, MapController mapController) {
+    final markerId = MarkerId(results?.name ?? '');
     final marker = Marker(markerId: markerId);
     mapController.showInfoFromMarker(marker.markerId);
   }
@@ -343,7 +344,7 @@ class MapScreen extends StatelessWidget {
           children: [
             const SizedBox(width: 10),
             PlacesListItem(
-              results: state.listPlaces[index],
+              places: state.listPlaces[index],
               mapController: mapController,
               onTap: () {
                 // showDetails(context, state.listPlaces[index], mapController);

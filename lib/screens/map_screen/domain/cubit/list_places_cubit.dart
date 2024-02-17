@@ -1,23 +1,22 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:rolesp/models/place_info.dart';
-import 'package:http/http.dart' as http;
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
 
 import '../../../../models/nearby_places_response.dart';
-import '../../../../places_categories/PlacesCategories.dart';
 
 class ListPlacesCubit extends Cubit<ListPlacesState> {
   ListPlacesCubit() : super(ListPlacesInitialState());
 
-  final apiKey = 'IX6Sd0VaOzNw7XGa65Xwm1AkpXEfXacI';
+  final Dio dio = Dio();
+  final apiKey = 'AIzaSyB3mOnY0N_AtY67Q4gZcJkbzC-95QrdbmY';
 
-  var listPlaces = <PlaceInfo>[];
+  var listPlaces = <Places>[];
 
-  void setListPlaces(List<PlaceInfo> listPlaces) {
+  void setListPlaces(List<Places> listPlaces) {
     if (listPlaces.isNotEmpty) {
       emit(ListPlaces(listPlaces));
     }
@@ -31,33 +30,46 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     emit(ListPlacesInitialState());
   }
 
-  Future<List<PlaceInfo>> getNearByPlaces(BuildContext context) async {
+  Future<List<Places>> getNearByPlaces(BuildContext context) async {
     emit(Loading());
 
     var position = await Geolocator.getCurrentPosition();
 
-    var url = Uri.parse('https://api.tomtom.com/search/2/nearbySearch/.json?' +
-        'key=' +
-        apiKey +
-        '&lat=' +
-        position.latitude.toString() +
-        '&lon=' +
-        position.longitude.toString() +
-        '&language=pt-BR' +
-        '&limit=20' +
-        '&categorySet=' +
-        restaurant);
+    var url = 'https://places.googleapis.com/v1/places:searchNearby';
 
-    var response = await http.get(url);
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers["X-Goog-Api-Key"] = apiKey;
+    dio.options.headers["X-Goog-FieldMask"] = "places.displayName,places.formattedAddress,places.types,places.websiteUri";
 
-    var nearbyPlacesResponse = NearbyPlaces.fromJson(jsonDecode(response.body));
+    var response = await dio.post(
+        url,
+        data: {
+          'includedTypes': ["restaurant"],
+          "maxResultCount": "20",
+          "locationRestriction": {
+            "circle": {
+              "center": {
+                "latitude": position.latitude.toString(),
+                "longitude": position.longitude.toString()
+              },
+              "radius": "500"
+            }
+          }
+        }
+    );
 
-    if (nearbyPlacesResponse.results != null) {
-      listPlaces = nearbyPlacesResponse.results!;
-      emit(ListPlaces(nearbyPlacesResponse.results!));
-      return nearbyPlacesResponse.results!;
+    if (response.statusCode == 200) {
+      var nearbyPlacesResponse = NearbyPlacesResponse.fromJson(jsonDecode(response.data));
+
+      if (nearbyPlacesResponse.places != null) {
+        listPlaces = nearbyPlacesResponse.places!;
+        emit(ListPlaces(nearbyPlacesResponse.places!));
+        return nearbyPlacesResponse.places!;
+      }
+      emit(ListPlacesInitialState());
+      return [];
+    } else {
+      throw Exception();
     }
-    emit(ListPlacesInitialState());
-    return [];
   }
 }

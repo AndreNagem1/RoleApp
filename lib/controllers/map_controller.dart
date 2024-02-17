@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:rolesp/models/place_info.dart';
+import 'package:rolesp/models/nearby_places_response.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
 import 'package:rolesp/theme/roleTheme.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -22,7 +22,7 @@ class MapController extends GetxController {
   late GoogleMapController _mapsController;
   late ListPlacesCubit listPlacesCubit;
   late AutoScrollController listPlacesController;
-  List<PlaceInfo>? listPlaces = [];
+  List<Places>? listPlaces = [];
   final markers = <Marker>{};
   late bool shouldGenerateNewListPLaces = false;
   late String distanceSearchNearbyPlaces = '2000';
@@ -54,7 +54,7 @@ class MapController extends GetxController {
     listPlacesController = listController;
   }
 
-  void setListPlaces(List<PlaceInfo> listResults) {
+  void setListPlaces(List<Places> listResults) {
     listPlaces = listResults;
   }
 
@@ -107,13 +107,13 @@ class MapController extends GetxController {
     );
   }
 
-  addPlaceMarker(BuildContext context ,List<PlaceInfo> places) {
+  addPlaceMarker(BuildContext context ,List<Places> places) {
     for (var place in places) {
       listPlaces?.add(place);
 
-      var id = place.poi?.name ?? '';
-      var lat = place.entryPoints?[0].position?.lat ?? 0;
-      var lng = place.entryPoints?[0].position?.lon ?? 0;
+      var id = place.name ?? '';
+      var lat = place.location?.latitude ?? 0;
+      var lng = place.location?.longitude ?? 0;
 
       var marker = Marker(
         markerId: MarkerId(id),
@@ -146,9 +146,9 @@ class MapController extends GetxController {
     cleanPlaces();
   }
 
-  showPositionOnMap(PlaceInfo placeInfo) {
-    final lat = placeInfo.entryPoints?[0].position?.lat ?? 0;
-    final lng = placeInfo.entryPoints?[0].position?.lon ?? 0;
+  showPositionOnMap(Places placeInfo) {
+    final lat = placeInfo.location?.latitude ?? 0;
+    final lng = placeInfo.location?.longitude ?? 0;
     final position = LatLng(lat, lng);
     if (position.latitude != 0.0 && position.longitude != 0.0) {
       moveCameraToPosition(position);

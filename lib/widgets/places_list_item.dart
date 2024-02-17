@@ -8,21 +8,20 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/models/favorite_place_info.dart';
-import 'package:rolesp/models/place_info.dart';
-import 'package:rolesp/models/places_nearby_response.dart';
+import 'package:rolesp/models/nearby_places_response.dart';
 import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
 
 import '../mock/NearbyPlacesMocked.dart';
 
 class PlacesListItem extends StatelessWidget {
-  final PlaceInfo? results;
+  final Places? places;
   final MapController mapController;
   final VoidCallback onTap;
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   const PlacesListItem({
     Key? key,
-    required this.results,
+    required this.places,
     required this.onTap,
     required this.mapController,
   }) : super(key: key);
@@ -31,13 +30,13 @@ class PlacesListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var imageUrl = '';
 
-    // if (results?.photos?[0] != null) {
-    //   imageUrl =
-    //       'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
-    //           results!.photos![0].photoReference! +
-    //           '&key=' +
-    //           apiKey;
-    // }
+    if (places?.photos?[0] != null) {
+      imageUrl =
+          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
+              places!.photos![0].name! +
+              '&key=' +
+              apiKey;
+    }
 
     return GestureDetector(
       onTap: onTap,
@@ -86,7 +85,7 @@ class PlacesListItem extends StatelessWidget {
                         height: 20,
                         width: 200,
                         child: Text(
-                          results?.poi?.name ?? '',
+                          places?.name ?? '',
                           style: GoogleFonts.roboto(
                             textStyle: TextStyle(
                               fontSize: 16,
@@ -102,13 +101,13 @@ class PlacesListItem extends StatelessWidget {
                           openFavoritePlaceDialog(
                             context,
                             FavoritePlaceInfo(
-                                name: results?.poi?.name ?? '',
-                                phoneNumber: results?.poi?.phone ?? '',
+                                name: places?.name ?? '',
+                                phoneNumber: places?.displayName?.text ?? '',
                                 openHours: NearbyPlacesMocked()
                                         .mockedOpeningHours
                                         .weekdayText?[1] ??
                                     '',
-                                description: results?.info ?? ''),
+                                description: places?.adrFormatAddress ?? ''),
                           );
                         },
                         child: Container(
@@ -151,7 +150,7 @@ class PlacesListItem extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      results?.address?.streetName ?? '',
+                      places?.formattedAddress ?? '',
                       style: GoogleFonts.acme(
                         textStyle: TextStyle(
                           fontSize: 15,
@@ -200,8 +199,8 @@ class PlacesListItem extends StatelessWidget {
                                 final distance = calculateDistance(
                                   snapshot.data?.latitude ?? 0.0,
                                   snapshot.data?.longitude ?? 0.0,
-                                  results?.position?.lat ?? 0.0,
-                                  results?.position?.lon ?? 0.0,
+                                  places?.location?.latitude ?? 0.0,
+                                  places?.location?.longitude ?? 0.0,
                                 );
 
                                 return Text(
