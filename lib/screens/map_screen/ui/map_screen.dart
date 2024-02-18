@@ -12,7 +12,7 @@ import 'package:rolesp/screens/map_screen/domain/cubit/filter_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/list_places_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/states/filter_state.dart';
 import 'package:rolesp/screens/map_screen/ui/AppBarButton.dart';
-import 'package:rolesp/screens/map_screen/ui/list_places.dart';
+import 'package:rolesp/screens/map_screen/ui/places_list.dart';
 import 'package:rolesp/widgets/app_title.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 

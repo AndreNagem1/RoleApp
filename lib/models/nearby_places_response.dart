@@ -1,4 +1,3 @@
-
 class NearbyPlacesResponse {
   List<PlaceInfo>? places;
 
@@ -30,7 +29,7 @@ class PlaceInfo {
   String? formattedAddress;
   PlusCode? plusCode;
   Location? location;
-  double? rating;
+  num? rating;
   String? googleMapsUri;
   String? websiteUri;
   RegularOpeningHours? regularOpeningHours;
@@ -65,44 +64,44 @@ class PlaceInfo {
 
   PlaceInfo(
       {this.name,
-        this.id,
-        this.nationalPhoneNumber,
-        this.internationalPhoneNumber,
-        this.formattedAddress,
-        this.plusCode,
-        this.location,
-        this.rating,
-        this.googleMapsUri,
-        this.websiteUri,
-        this.regularOpeningHours,
-        this.adrFormatAddress,
-        this.businessStatus,
-        this.priceLevel,
-        this.userRatingCount,
-        this.iconMaskBaseUri,
-        this.iconBackgroundColor,
-        this.displayName,
-        this.primaryTypeDisplayName,
-        this.delivery,
-        this.dineIn,
-        this.curbsidePickup,
-        this.reservable,
-        this.currentOpeningHours,
-        this.currentSecondaryOpeningHours,
-        this.primaryType,
-        this.shortFormattedAddress,
-        this.editorialSummary,
-        this.photos,
-        this.outdoorSeating,
-        this.liveMusic,
-        this.menuForChildren,
-        this.goodForChildren,
-        this.allowsDogs,
-        this.goodForGroups,
-        this.goodForWatchingSports,
-        this.paymentOptions,
-        this.parkingOptions,
-        this.accessibilityOptions});
+      this.id,
+      this.nationalPhoneNumber,
+      this.internationalPhoneNumber,
+      this.formattedAddress,
+      this.plusCode,
+      this.location,
+      this.rating,
+      this.googleMapsUri,
+      this.websiteUri,
+      this.regularOpeningHours,
+      this.adrFormatAddress,
+      this.businessStatus,
+      this.priceLevel,
+      this.userRatingCount,
+      this.iconMaskBaseUri,
+      this.iconBackgroundColor,
+      this.displayName,
+      this.primaryTypeDisplayName,
+      this.delivery,
+      this.dineIn,
+      this.curbsidePickup,
+      this.reservable,
+      this.currentOpeningHours,
+      this.currentSecondaryOpeningHours,
+      this.primaryType,
+      this.shortFormattedAddress,
+      this.editorialSummary,
+      this.photos,
+      this.outdoorSeating,
+      this.liveMusic,
+      this.menuForChildren,
+      this.goodForChildren,
+      this.allowsDogs,
+      this.goodForGroups,
+      this.goodForWatchingSports,
+      this.paymentOptions,
+      this.parkingOptions,
+      this.accessibilityOptions});
 
   PlaceInfo.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -110,17 +109,15 @@ class PlaceInfo {
     nationalPhoneNumber = json['nationalPhoneNumber'];
     internationalPhoneNumber = json['internationalPhoneNumber'];
     formattedAddress = json['formattedAddress'];
-    plusCode = json['plusCode'] != null
-        ? new PlusCode.fromJson(json['plusCode'])
-        : null;
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : null;
+    plusCode =
+        json['plusCode'] != null ? PlusCode.fromJson(json['plusCode']) : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     rating = json['rating'];
     googleMapsUri = json['googleMapsUri'];
     websiteUri = json['websiteUri'];
     regularOpeningHours = json['regularOpeningHours'] != null
-        ? new RegularOpeningHours.fromJson(json['regularOpeningHours'])
+        ? RegularOpeningHours.fromJson(json['regularOpeningHours'])
         : null;
     adrFormatAddress = json['adrFormatAddress'];
     businessStatus = json['businessStatus'];
@@ -129,34 +126,34 @@ class PlaceInfo {
     iconMaskBaseUri = json['iconMaskBaseUri'];
     iconBackgroundColor = json['iconBackgroundColor'];
     displayName = json['displayName'] != null
-        ? new DisplayName.fromJson(json['displayName'])
+        ? DisplayName.fromJson(json['displayName'])
         : null;
     primaryTypeDisplayName = json['primaryTypeDisplayName'] != null
-        ? new DisplayName.fromJson(json['primaryTypeDisplayName'])
+        ? DisplayName.fromJson(json['primaryTypeDisplayName'])
         : null;
     delivery = json['delivery'];
     dineIn = json['dineIn'];
     curbsidePickup = json['curbsidePickup'];
     reservable = json['reservable'];
     currentOpeningHours = json['currentOpeningHours'] != null
-        ? new RegularOpeningHours.fromJson(json['currentOpeningHours'])
+        ? RegularOpeningHours.fromJson(json['currentOpeningHours'])
         : null;
     if (json['currentSecondaryOpeningHours'] != null) {
       currentSecondaryOpeningHours = <CurrentSecondaryOpeningHours>[];
       json['currentSecondaryOpeningHours'].forEach((v) {
         currentSecondaryOpeningHours!
-            .add(new CurrentSecondaryOpeningHours.fromJson(v));
+            .add(CurrentSecondaryOpeningHours.fromJson(v));
       });
     }
     primaryType = json['primaryType'];
     shortFormattedAddress = json['shortFormattedAddress'];
     editorialSummary = json['editorialSummary'] != null
-        ? new DisplayName.fromJson(json['editorialSummary'])
+        ? DisplayName.fromJson(json['editorialSummary'])
         : null;
     if (json['photos'] != null) {
       photos = <Photos>[];
       json['photos'].forEach((v) {
-        photos!.add(new Photos.fromJson(v));
+        photos!.add(Photos.fromJson(v));
       });
     }
     outdoorSeating = json['outdoorSeating'];
@@ -167,81 +164,81 @@ class PlaceInfo {
     goodForGroups = json['goodForGroups'];
     goodForWatchingSports = json['goodForWatchingSports'];
     paymentOptions = json['paymentOptions'] != null
-        ? new PaymentOptions.fromJson(json['paymentOptions'])
+        ? PaymentOptions.fromJson(json['paymentOptions'])
         : null;
     parkingOptions = json['parkingOptions'] != null
-        ? new ParkingOptions.fromJson(json['parkingOptions'])
+        ? ParkingOptions.fromJson(json['parkingOptions'])
         : null;
     accessibilityOptions = json['accessibilityOptions'] != null
-        ? new AccessibilityOptions.fromJson(json['accessibilityOptions'])
+        ? AccessibilityOptions.fromJson(json['accessibilityOptions'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['id'] = this.id;
-    data['nationalPhoneNumber'] = this.nationalPhoneNumber;
-    data['internationalPhoneNumber'] = this.internationalPhoneNumber;
-    data['formattedAddress'] = this.formattedAddress;
-    if (this.plusCode != null) {
-      data['plusCode'] = this.plusCode!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['id'] = id;
+    data['nationalPhoneNumber'] = nationalPhoneNumber;
+    data['internationalPhoneNumber'] = internationalPhoneNumber;
+    data['formattedAddress'] = formattedAddress;
+    if (plusCode != null) {
+      data['plusCode'] = plusCode!.toJson();
     }
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
-    data['rating'] = this.rating;
-    data['googleMapsUri'] = this.googleMapsUri;
-    data['websiteUri'] = this.websiteUri;
-    if (this.regularOpeningHours != null) {
-      data['regularOpeningHours'] = this.regularOpeningHours!.toJson();
+    data['rating'] = rating;
+    data['googleMapsUri'] = googleMapsUri;
+    data['websiteUri'] = websiteUri;
+    if (regularOpeningHours != null) {
+      data['regularOpeningHours'] = regularOpeningHours!.toJson();
     }
-    data['adrFormatAddress'] = this.adrFormatAddress;
-    data['businessStatus'] = this.businessStatus;
-    data['priceLevel'] = this.priceLevel;
-    data['userRatingCount'] = this.userRatingCount;
-    data['iconMaskBaseUri'] = this.iconMaskBaseUri;
-    data['iconBackgroundColor'] = this.iconBackgroundColor;
-    if (this.displayName != null) {
-      data['displayName'] = this.displayName!.toJson();
+    data['adrFormatAddress'] = adrFormatAddress;
+    data['businessStatus'] = businessStatus;
+    data['priceLevel'] = priceLevel;
+    data['userRatingCount'] = userRatingCount;
+    data['iconMaskBaseUri'] = iconMaskBaseUri;
+    data['iconBackgroundColor'] = iconBackgroundColor;
+    if (displayName != null) {
+      data['displayName'] = displayName!.toJson();
     }
-    if (this.primaryTypeDisplayName != null) {
-      data['primaryTypeDisplayName'] = this.primaryTypeDisplayName!.toJson();
+    if (primaryTypeDisplayName != null) {
+      data['primaryTypeDisplayName'] = primaryTypeDisplayName!.toJson();
     }
-    data['delivery'] = this.delivery;
-    data['dineIn'] = this.dineIn;
-    data['curbsidePickup'] = this.curbsidePickup;
-    data['reservable'] = this.reservable;
-    if (this.currentOpeningHours != null) {
-      data['currentOpeningHours'] = this.currentOpeningHours!.toJson();
+    data['delivery'] = delivery;
+    data['dineIn'] = dineIn;
+    data['curbsidePickup'] = curbsidePickup;
+    data['reservable'] = reservable;
+    if (currentOpeningHours != null) {
+      data['currentOpeningHours'] = currentOpeningHours!.toJson();
     }
-    if (this.currentSecondaryOpeningHours != null) {
+    if (currentSecondaryOpeningHours != null) {
       data['currentSecondaryOpeningHours'] =
-          this.currentSecondaryOpeningHours!.map((v) => v.toJson()).toList();
+          currentSecondaryOpeningHours!.map((v) => v.toJson()).toList();
     }
-    data['primaryType'] = this.primaryType;
-    data['shortFormattedAddress'] = this.shortFormattedAddress;
-    if (this.editorialSummary != null) {
-      data['editorialSummary'] = this.editorialSummary!.toJson();
+    data['primaryType'] = primaryType;
+    data['shortFormattedAddress'] = shortFormattedAddress;
+    if (editorialSummary != null) {
+      data['editorialSummary'] = editorialSummary!.toJson();
     }
-    if (this.photos != null) {
-      data['photos'] = this.photos!.map((v) => v.toJson()).toList();
+    if (photos != null) {
+      data['photos'] = photos!.map((v) => v.toJson()).toList();
     }
-    data['outdoorSeating'] = this.outdoorSeating;
-    data['liveMusic'] = this.liveMusic;
-    data['menuForChildren'] = this.menuForChildren;
-    data['goodForChildren'] = this.goodForChildren;
-    data['allowsDogs'] = this.allowsDogs;
-    data['goodForGroups'] = this.goodForGroups;
-    data['goodForWatchingSports'] = this.goodForWatchingSports;
-    if (this.paymentOptions != null) {
-      data['paymentOptions'] = this.paymentOptions!.toJson();
+    data['outdoorSeating'] = outdoorSeating;
+    data['liveMusic'] = liveMusic;
+    data['menuForChildren'] = menuForChildren;
+    data['goodForChildren'] = goodForChildren;
+    data['allowsDogs'] = allowsDogs;
+    data['goodForGroups'] = goodForGroups;
+    data['goodForWatchingSports'] = goodForWatchingSports;
+    if (paymentOptions != null) {
+      data['paymentOptions'] = paymentOptions!.toJson();
     }
-    if (this.parkingOptions != null) {
-      data['parkingOptions'] = this.parkingOptions!.toJson();
+    if (parkingOptions != null) {
+      data['parkingOptions'] = parkingOptions!.toJson();
     }
-    if (this.accessibilityOptions != null) {
-      data['accessibilityOptions'] = this.accessibilityOptions!.toJson();
+    if (accessibilityOptions != null) {
+      data['accessibilityOptions'] = accessibilityOptions!.toJson();
     }
     return data;
   }
@@ -259,9 +256,9 @@ class PlusCode {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['globalCode'] = this.globalCode;
-    data['compoundCode'] = this.compoundCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['globalCode'] = globalCode;
+    data['compoundCode'] = compoundCode;
     return data;
   }
 }
@@ -278,9 +275,9 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
     return data;
   }
 }
@@ -297,19 +294,19 @@ class RegularOpeningHours {
     if (json['periods'] != null) {
       periods = <Periods>[];
       json['periods'].forEach((v) {
-        periods!.add(new Periods.fromJson(v));
+        periods!.add(Periods.fromJson(v));
       });
     }
     weekdayDescriptions = json['weekdayDescriptions'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['openNow'] = this.openNow;
-    if (this.periods != null) {
-      data['periods'] = this.periods!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['openNow'] = openNow;
+    if (periods != null) {
+      data['periods'] = periods!.map((v) => v.toJson()).toList();
     }
-    data['weekdayDescriptions'] = this.weekdayDescriptions;
+    data['weekdayDescriptions'] = weekdayDescriptions;
     return data;
   }
 }
@@ -321,17 +318,17 @@ class Periods {
   Periods({this.open, this.close});
 
   Periods.fromJson(Map<String, dynamic> json) {
-    open = json['open'] != null ? new Open.fromJson(json['open']) : null;
-    close = json['close'] != null ? new Open.fromJson(json['close']) : null;
+    open = json['open'] != null ? Open.fromJson(json['open']) : null;
+    close = json['close'] != null ? Open.fromJson(json['close']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.open != null) {
-      data['open'] = this.open!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (open != null) {
+      data['open'] = open!.toJson();
     }
-    if (this.close != null) {
-      data['close'] = this.close!.toJson();
+    if (close != null) {
+      data['close'] = close!.toJson();
     }
     return data;
   }
@@ -351,10 +348,10 @@ class Open {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['day'] = this.day;
-    data['hour'] = this.hour;
-    data['minute'] = this.minute;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['day'] = day;
+    data['hour'] = hour;
+    data['minute'] = minute;
     return data;
   }
 }
@@ -371,13 +368,12 @@ class DisplayName {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['text'] = this.text;
-    data['languageCode'] = this.languageCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['text'] = text;
+    data['languageCode'] = languageCode;
     return data;
   }
 }
-
 
 class Date {
   int? year;
@@ -393,10 +389,10 @@ class Date {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['year'] = this.year;
-    data['month'] = this.month;
-    data['day'] = this.day;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['year'] = year;
+    data['month'] = month;
+    data['day'] = day;
     return data;
   }
 }
@@ -409,16 +405,16 @@ class CurrentSecondaryOpeningHours {
 
   CurrentSecondaryOpeningHours(
       {this.openNow,
-        this.periods,
-        this.weekdayDescriptions,
-        this.secondaryHoursType});
+      this.periods,
+      this.weekdayDescriptions,
+      this.secondaryHoursType});
 
   CurrentSecondaryOpeningHours.fromJson(Map<String, dynamic> json) {
     openNow = json['openNow'];
     if (json['periods'] != null) {
       periods = <Periods>[];
       json['periods'].forEach((v) {
-        periods!.add(new Periods.fromJson(v));
+        periods!.add(Periods.fromJson(v));
       });
     }
     weekdayDescriptions = json['weekdayDescriptions'].cast<String>();
@@ -426,13 +422,13 @@ class CurrentSecondaryOpeningHours {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['openNow'] = this.openNow;
-    if (this.periods != null) {
-      data['periods'] = this.periods!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['openNow'] = openNow;
+    if (periods != null) {
+      data['periods'] = periods!.map((v) => v.toJson()).toList();
     }
-    data['weekdayDescriptions'] = this.weekdayDescriptions;
-    data['secondaryHoursType'] = this.secondaryHoursType;
+    data['weekdayDescriptions'] = weekdayDescriptions;
+    data['secondaryHoursType'] = secondaryHoursType;
     return data;
   }
 }
@@ -452,19 +448,19 @@ class Photos {
     if (json['authorAttributions'] != null) {
       authorAttributions = <AuthorAttributions>[];
       json['authorAttributions'].forEach((v) {
-        authorAttributions!.add(new AuthorAttributions.fromJson(v));
+        authorAttributions!.add(AuthorAttributions.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['widthPx'] = this.widthPx;
-    data['heightPx'] = this.heightPx;
-    if (this.authorAttributions != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['widthPx'] = widthPx;
+    data['heightPx'] = heightPx;
+    if (authorAttributions != null) {
       data['authorAttributions'] =
-          this.authorAttributions!.map((v) => v.toJson()).toList();
+          authorAttributions!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -484,10 +480,10 @@ class AuthorAttributions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['displayName'] = this.displayName;
-    data['uri'] = this.uri;
-    data['photoUri'] = this.photoUri;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['displayName'] = displayName;
+    data['uri'] = uri;
+    data['photoUri'] = photoUri;
     return data;
   }
 }
@@ -500,9 +496,9 @@ class PaymentOptions {
 
   PaymentOptions(
       {this.acceptsDebitCards,
-        this.acceptsCashOnly,
-        this.acceptsNfc,
-        this.acceptsCreditCards});
+      this.acceptsCashOnly,
+      this.acceptsNfc,
+      this.acceptsCreditCards});
 
   PaymentOptions.fromJson(Map<String, dynamic> json) {
     acceptsDebitCards = json['acceptsDebitCards'];
@@ -512,11 +508,11 @@ class PaymentOptions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['acceptsDebitCards'] = this.acceptsDebitCards;
-    data['acceptsCashOnly'] = this.acceptsCashOnly;
-    data['acceptsNfc'] = this.acceptsNfc;
-    data['acceptsCreditCards'] = this.acceptsCreditCards;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['acceptsDebitCards'] = acceptsDebitCards;
+    data['acceptsCashOnly'] = acceptsCashOnly;
+    data['acceptsNfc'] = acceptsNfc;
+    data['acceptsCreditCards'] = acceptsCreditCards;
     return data;
   }
 }
@@ -536,10 +532,10 @@ class ParkingOptions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['paidParkingLot'] = this.paidParkingLot;
-    data['freeStreetParking'] = this.freeStreetParking;
-    data['paidStreetParking'] = this.paidStreetParking;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['paidParkingLot'] = paidParkingLot;
+    data['freeStreetParking'] = freeStreetParking;
+    data['paidStreetParking'] = paidStreetParking;
     return data;
   }
 }
@@ -552,9 +548,9 @@ class AccessibilityOptions {
 
   AccessibilityOptions(
       {this.wheelchairAccessibleParking,
-        this.wheelchairAccessibleEntrance,
-        this.wheelchairAccessibleRestroom,
-        this.wheelchairAccessibleSeating});
+      this.wheelchairAccessibleEntrance,
+      this.wheelchairAccessibleRestroom,
+      this.wheelchairAccessibleSeating});
 
   AccessibilityOptions.fromJson(Map<String, dynamic> json) {
     wheelchairAccessibleParking = json['wheelchairAccessibleParking'];
@@ -564,15 +560,14 @@ class AccessibilityOptions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wheelchairAccessibleParking'] = this.wheelchairAccessibleParking;
-    data['wheelchairAccessibleEntrance'] = this.wheelchairAccessibleEntrance;
-    data['wheelchairAccessibleRestroom'] = this.wheelchairAccessibleRestroom;
-    data['wheelchairAccessibleSeating'] = this.wheelchairAccessibleSeating;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wheelchairAccessibleParking'] = wheelchairAccessibleParking;
+    data['wheelchairAccessibleEntrance'] = wheelchairAccessibleEntrance;
+    data['wheelchairAccessibleRestroom'] = wheelchairAccessibleRestroom;
+    data['wheelchairAccessibleSeating'] = wheelchairAccessibleSeating;
     return data;
   }
 }
-
 
 class Summary {
   String? queryType;
@@ -600,19 +595,19 @@ class Summary {
     totalResults = json['totalResults'];
     fuzzyLevel = json['fuzzyLevel'];
     geoBias =
-        json['geoBias'] != null ? new GeoBias.fromJson(json['geoBias']) : null;
+        json['geoBias'] != null ? GeoBias.fromJson(json['geoBias']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['queryType'] = this.queryType;
-    data['queryTime'] = this.queryTime;
-    data['numResults'] = this.numResults;
-    data['offset'] = this.offset;
-    data['totalResults'] = this.totalResults;
-    data['fuzzyLevel'] = this.fuzzyLevel;
-    if (this.geoBias != null) {
-      data['geoBias'] = this.geoBias!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['queryType'] = queryType;
+    data['queryTime'] = queryTime;
+    data['numResults'] = numResults;
+    data['offset'] = offset;
+    data['totalResults'] = totalResults;
+    data['fuzzyLevel'] = fuzzyLevel;
+    if (geoBias != null) {
+      data['geoBias'] = geoBias!.toJson();
     }
     return data;
   }
@@ -630,9 +625,9 @@ class GeoBias {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lon'] = this.lon;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['lat'] = lat;
+    data['lon'] = lon;
     return data;
   }
 }

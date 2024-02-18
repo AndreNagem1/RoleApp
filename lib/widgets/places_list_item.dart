@@ -17,7 +17,7 @@ class PlacesListItem extends StatelessWidget {
   final PlaceInfo? place;
   final MapController mapController;
   final VoidCallback onTap;
-  final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
+  final apiKey = 'AIzaSyB3mOnY0N_AtY67Q4gZcJkbzC-95QrdbmY';
 
   const PlacesListItem({
     Key? key,
@@ -28,14 +28,21 @@ class PlacesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final today = DateTime.now().weekday;
+    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
+    final startIndexOpeningHour = openingHour?.indexOf(':');
+    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
+
+
     var imageUrl = '';
 
     if (place?.photos?[0] != null) {
       imageUrl =
-          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
+          'https://places.googleapis.com/v1/' +
               place!.photos![0].name! +
-              '&key=' +
-              apiKey;
+              '/media?key=' +
+              apiKey +
+             '&maxHeightPx=400';
     }
 
     return GestureDetector(
@@ -167,8 +174,10 @@ class PlacesListItem extends StatelessWidget {
                         SizedBox(
                           height: 20,
                           width: 100,
-                          child: Image.asset('assets/images/avaliations9.png'),
+                          child: Image.asset(getRating(place?.rating ?? 0)),
                         ),
+                        const SizedBox(width: 5),
+                        Text(' • ' + (place?.userRatingCount?.toString() ?? '0') + ' avaliações')
                       ],
                     ),
                   ),
@@ -176,17 +185,18 @@ class PlacesListItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        getPlaceStatus(true),
+                        getPlaceStatus(place?.currentOpeningHours?.openNow ?? true),
                         style: GoogleFonts.roboto(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
-                      Text(
-                        '08h:00 - 12H:00',
-                        style: GoogleFonts.roboto(
-                          color: Theme.of(context).colorScheme.onSurface,
+                      if(place?.currentOpeningHours?.openNow ?? true)
+                        Text(
+                          openingHourFormatted ?? "",
+                          style: GoogleFonts.roboto(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
-                      ),
                       const Spacer(),
                       SizedBox(
                         height: 20,
@@ -267,6 +277,46 @@ class PlacesListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getRating(num rating) {
+    var ratingResource = 'assets/images/avaliations0.png';
+
+    if(rating <= 5.0){
+      ratingResource = 'assets/images/avaliations10.png';
+    }
+    if(rating <= 4.5){
+      ratingResource = 'assets/images/avaliations9.png';
+    }
+    if(rating <= 4.0){
+      ratingResource = 'assets/images/avaliations8.png';
+    }
+
+    if(rating <= 3.5){
+      ratingResource = 'assets/images/avaliations7.png';
+    }
+    if(rating <= 3.0){
+      ratingResource = 'assets/images/avaliations6.png';
+    }
+    if(rating <= 2.5){
+      ratingResource = 'assets/images/avaliations5.png';
+    }
+    if(rating <= 2.0){
+      ratingResource = 'assets/images/avaliations4.png';
+    }
+    if(rating <= 1.5){
+      ratingResource = 'assets/images/avaliations3.png';
+    }
+    if(rating <= 1.0){
+      ratingResource = 'assets/images/avaliations2.png';
+    }
+    if(rating <= 0.5){
+      ratingResource = 'assets/images/avaliations1.png';
+    }
+    if(rating == 0.0){
+      ratingResource = 'assets/images/avaliations0.png';
+    }
+    return ratingResource;
   }
 
   String getPlaceStatus(bool? open) {
