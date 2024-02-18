@@ -14,9 +14,9 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   final Dio dio = Dio();
   final apiKey = 'AIzaSyB3mOnY0N_AtY67Q4gZcJkbzC-95QrdbmY';
 
-  var listPlaces = <Places>[];
+  var listPlaces = <PlaceInfo>[];
 
-  void setListPlaces(List<Places> listPlaces) {
+  void setListPlaces(List<PlaceInfo> listPlaces) {
     if (listPlaces.isNotEmpty) {
       emit(ListPlaces(listPlaces));
     }
@@ -30,7 +30,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     emit(ListPlacesInitialState());
   }
 
-  Future<List<Places>> getNearByPlaces(BuildContext context) async {
+  Future<List<PlaceInfo>> getNearByPlaces(BuildContext context) async {
     emit(Loading());
 
     var position = await Geolocator.getCurrentPosition();
@@ -39,7 +39,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
 
     dio.options.headers['content-Type'] = 'application/json';
     dio.options.headers["X-Goog-Api-Key"] = apiKey;
-    dio.options.headers["X-Goog-FieldMask"] = "places.displayName,places.formattedAddress,places.types,places.websiteUri";
+    dio.options.headers["X-Goog-FieldMask"] = "places.displayName,places.formattedAddress,places.types,places.location";
 
     var response = await dio.post(
         url,
@@ -59,7 +59,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     );
 
     if (response.statusCode == 200) {
-      var nearbyPlacesResponse = NearbyPlacesResponse.fromJson(jsonDecode(response.data));
+       var nearbyPlacesResponse = NearbyPlacesResponse.fromJson(response.data);
 
       if (nearbyPlacesResponse.places != null) {
         listPlaces = nearbyPlacesResponse.places!;

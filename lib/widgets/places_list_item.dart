@@ -14,14 +14,14 @@ import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
 import '../mock/NearbyPlacesMocked.dart';
 
 class PlacesListItem extends StatelessWidget {
-  final Places? places;
+  final PlaceInfo? place;
   final MapController mapController;
   final VoidCallback onTap;
   final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
 
   const PlacesListItem({
     Key? key,
-    required this.places,
+    required this.place,
     required this.onTap,
     required this.mapController,
   }) : super(key: key);
@@ -30,10 +30,10 @@ class PlacesListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var imageUrl = '';
 
-    if (places?.photos?[0] != null) {
+    if (place?.photos?[0] != null) {
       imageUrl =
           'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
-              places!.photos![0].name! +
+              place!.photos![0].name! +
               '&key=' +
               apiKey;
     }
@@ -85,7 +85,7 @@ class PlacesListItem extends StatelessWidget {
                         height: 20,
                         width: 200,
                         child: Text(
-                          places?.name ?? '',
+                          place?.displayName?.text ?? '',
                           style: GoogleFonts.roboto(
                             textStyle: TextStyle(
                               fontSize: 16,
@@ -101,13 +101,13 @@ class PlacesListItem extends StatelessWidget {
                           openFavoritePlaceDialog(
                             context,
                             FavoritePlaceInfo(
-                                name: places?.name ?? '',
-                                phoneNumber: places?.displayName?.text ?? '',
+                                name: place?.name ?? '',
+                                phoneNumber:  '',
                                 openHours: NearbyPlacesMocked()
                                         .mockedOpeningHours
                                         .weekdayText?[1] ??
                                     '',
-                                description: places?.adrFormatAddress ?? ''),
+                                description:  ''),
                           );
                         },
                         child: Container(
@@ -150,7 +150,7 @@ class PlacesListItem extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      places?.formattedAddress ?? '',
+                      '',
                       style: GoogleFonts.acme(
                         textStyle: TextStyle(
                           fontSize: 15,
@@ -199,8 +199,8 @@ class PlacesListItem extends StatelessWidget {
                                 final distance = calculateDistance(
                                   snapshot.data?.latitude ?? 0.0,
                                   snapshot.data?.longitude ?? 0.0,
-                                  places?.location?.latitude ?? 0.0,
-                                  places?.location?.longitude ?? 0.0,
+                                  place?.location?.latitude ?? 0.0,
+                                  place?.location?.longitude ?? 0.0,
                                 );
 
                                 return Text(

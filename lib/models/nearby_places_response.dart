@@ -1,28 +1,28 @@
 
 class NearbyPlacesResponse {
-  List<Places>? places;
+  List<PlaceInfo>? places;
 
   NearbyPlacesResponse({this.places});
 
   NearbyPlacesResponse.fromJson(Map<String, dynamic> json) {
     if (json['places'] != null) {
-      places = <Places>[];
+      places = <PlaceInfo>[];
       json['places'].forEach((v) {
-        places!.add(new Places.fromJson(v));
+        places!.add(PlaceInfo.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.places != null) {
-      data['places'] = this.places!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (places != null) {
+      data['places'] = places!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Places {
+class PlaceInfo {
   String? name;
   String? id;
   String? nationalPhoneNumber;
@@ -63,7 +63,7 @@ class Places {
   ParkingOptions? parkingOptions;
   AccessibilityOptions? accessibilityOptions;
 
-  Places(
+  PlaceInfo(
       {this.name,
         this.id,
         this.nationalPhoneNumber,
@@ -104,7 +104,7 @@ class Places {
         this.parkingOptions,
         this.accessibilityOptions});
 
-  Places.fromJson(Map<String, dynamic> json) {
+  PlaceInfo.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     id = json['id'];
     nationalPhoneNumber = json['nationalPhoneNumber'];

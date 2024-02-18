@@ -22,7 +22,7 @@ class MapController extends GetxController {
   late GoogleMapController _mapsController;
   late ListPlacesCubit listPlacesCubit;
   late AutoScrollController listPlacesController;
-  List<Places>? listPlaces = [];
+  List<PlaceInfo>? listPlaces = [];
   final markers = <Marker>{};
   late bool shouldGenerateNewListPLaces = false;
   late String distanceSearchNearbyPlaces = '2000';
@@ -38,7 +38,8 @@ class MapController extends GetxController {
       ? '${(radius.value * 1000).toStringAsFixed(0)} m'
       : '${(radius.value).toStringAsFixed(1)} km';
 
-  void showInfoFromMarker(MarkerId markerId) {
+  void showInfoFromMarker(PlaceInfo? placeInfo) {
+    final markerId = MarkerId(placeInfo?.displayName?.text ?? '');
     _mapsController.showMarkerInfoWindow(markerId);
   }
 
@@ -54,7 +55,7 @@ class MapController extends GetxController {
     listPlacesController = listController;
   }
 
-  void setListPlaces(List<Places> listResults) {
+  void setListPlaces(List<PlaceInfo> listResults) {
     listPlaces = listResults;
   }
 
@@ -107,11 +108,11 @@ class MapController extends GetxController {
     );
   }
 
-  addPlaceMarker(BuildContext context ,List<Places> places) {
+  addPlaceMarker(BuildContext context ,List<PlaceInfo> places) {
     for (var place in places) {
       listPlaces?.add(place);
 
-      var id = place.name ?? '';
+      var id = place.displayName?.text ?? '';
       var lat = place.location?.latitude ?? 0;
       var lng = place.location?.longitude ?? 0;
 
@@ -146,7 +147,7 @@ class MapController extends GetxController {
     cleanPlaces();
   }
 
-  showPositionOnMap(Places placeInfo) {
+  showPlaceInfoOnMap(PlaceInfo placeInfo) {
     final lat = placeInfo.location?.latitude ?? 0;
     final lng = placeInfo.location?.longitude ?? 0;
     final position = LatLng(lat, lng);

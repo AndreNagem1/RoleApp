@@ -9,7 +9,7 @@ class ListPlacesInitialState extends ListPlacesState {
 class ListPlaces extends ListPlacesState {
   ListPlaces(this.listPlaces);
 
-  final List<Places> listPlaces;
+  final List<PlaceInfo> listPlaces;
 
   List<Object> get props => [listPlaces];
 }
