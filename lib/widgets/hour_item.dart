@@ -17,9 +17,9 @@ class HourItem extends StatelessWidget {
             hour,
             style: GoogleFonts.roboto(
               textStyle: const TextStyle(
-                fontSize: 16,
+                fontSize: 12,
                 color: Colors.black,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),

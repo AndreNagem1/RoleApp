@@ -17,7 +17,7 @@ class OpeningHoursDialog extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
-        height: 250,
+        height: 380,
         width: double.infinity,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
