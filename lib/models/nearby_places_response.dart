@@ -36,6 +36,7 @@ class PlaceInfo {
   String? adrFormatAddress;
   String? businessStatus;
   String? priceLevel;
+  String? phoneNumber;
   int? userRatingCount;
   String? iconMaskBaseUri;
   String? iconBackgroundColor;
@@ -76,6 +77,7 @@ class PlaceInfo {
       this.regularOpeningHours,
       this.adrFormatAddress,
       this.businessStatus,
+      this.phoneNumber,
       this.priceLevel,
       this.userRatingCount,
       this.iconMaskBaseUri,
@@ -122,6 +124,7 @@ class PlaceInfo {
     adrFormatAddress = json['adrFormatAddress'];
     businessStatus = json['businessStatus'];
     priceLevel = json['priceLevel'];
+    phoneNumber = json['nationalPhoneNumber'];
     userRatingCount = json['userRatingCount'];
     iconMaskBaseUri = json['iconMaskBaseUri'];
     iconBackgroundColor = json['iconBackgroundColor'];
@@ -196,6 +199,7 @@ class PlaceInfo {
     data['adrFormatAddress'] = adrFormatAddress;
     data['businessStatus'] = businessStatus;
     data['priceLevel'] = priceLevel;
+    data['nationalPhoneNumber'] = phoneNumber;
     data['userRatingCount'] = userRatingCount;
     data['iconMaskBaseUri'] = iconMaskBaseUri;
     data['iconBackgroundColor'] = iconBackgroundColor;

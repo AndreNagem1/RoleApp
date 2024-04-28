@@ -148,23 +148,4 @@ class MapScreen extends StatelessWidget {
     List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context);
     mapController.addPlaceMarker(context, listPlaces);
   }
-
-  showDetails(
-    BuildContext context,
-    Results results,
-    MapController mapController,
-  ) {
-    showModalBottomSheet<dynamic>(
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext bc) {
-        return PlaceDetailsBottomSheet(
-          key: const Key(''),
-          results: results,
-          mapController: mapController,
-        );
-      },
-    );
-  }
 }

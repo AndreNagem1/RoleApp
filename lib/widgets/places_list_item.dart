@@ -11,13 +11,11 @@ import 'package:rolesp/models/favorite_place_info.dart';
 import 'package:rolesp/models/nearby_places_response.dart';
 import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
 
-import '../mock/NearbyPlacesMocked.dart';
-
 class PlacesListItem extends StatelessWidget {
   final PlaceInfo? place;
   final MapController mapController;
   final VoidCallback onTap;
-  final apiKey = 'AIzaSyB3mOnY0N_AtY67Q4gZcJkbzC-95QrdbmY';
+  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   const PlacesListItem({
     Key? key,
@@ -28,12 +26,6 @@ class PlacesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final today = DateTime.now().weekday;
-    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
-    final startIndexOpeningHour = openingHour?.indexOf(':');
-    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
-
-
     var imageUrl = '';
 
     if (place?.photos?[0] != null) {
@@ -108,13 +100,10 @@ class PlacesListItem extends StatelessWidget {
                           openFavoritePlaceDialog(
                             context,
                             FavoritePlaceInfo(
-                                name: place?.name ?? '',
-                                phoneNumber:  '',
-                                openHours: NearbyPlacesMocked()
-                                        .mockedOpeningHours
-                                        .weekdayText?[1] ??
-                                    '',
-                                description:  ''),
+                                name: place?.displayName?.text ?? '',
+                                phoneNumber: place?.phoneNumber ??  '',
+                                openHours: getCurrentOpeningHour(place),
+                                description:  place?.phoneNumber ?? ''),
                           );
                         },
                         child: Container(
@@ -192,7 +181,7 @@ class PlacesListItem extends StatelessWidget {
                       ),
                       if(place?.currentOpeningHours?.openNow ?? true)
                         Text(
-                          openingHourFormatted ?? "",
+                          getCurrentOpeningHour(place),
                           style: GoogleFonts.roboto(
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
@@ -277,6 +266,15 @@ class PlacesListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getCurrentOpeningHour(PlaceInfo? place) {
+    final today = DateTime.now().weekday;
+    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
+    final startIndexOpeningHour = openingHour?.indexOf(':');
+    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
+
+    return openingHourFormatted ?? '';
   }
 
   String getRating(num rating) {
@@ -385,4 +383,5 @@ class PlacesListItem extends StatelessWidget {
     }
     return type;
   }
+
 }

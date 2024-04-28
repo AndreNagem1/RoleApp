@@ -11,7 +11,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   ListPlacesCubit() : super(ListPlacesInitialState());
 
   final Dio dio = Dio();
-  final apiKey = 'AIzaSyB3mOnY0N_AtY67Q4gZcJkbzC-95QrdbmY';
+  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   var listPlaces = <PlaceInfo>[];
 
@@ -40,7 +40,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
       dio.options.headers['content-Type'] = 'application/json';
       dio.options.headers["X-Goog-Api-Key"] = apiKey;
       dio.options.headers["X-Goog-FieldMask"] =
-      "places.displayName,places.formattedAddress,places.types,places.location,places.photos,places.rating,places.currentOpeningHours,places.priceLevel,places.userRatingCount";
+      "places.displayName,places.formattedAddress,places.types,places.location,places.photos,places.rating,places.currentOpeningHours,places.priceLevel,places.userRatingCount,places.nationalPhoneNumber";
 
       var response = await dio.post(
           url,

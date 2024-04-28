@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
+import 'package:rolesp/models/nearby_places_response.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,13 +11,13 @@ import 'package:url_launcher/url_launcher.dart';
 class InfoDialog extends StatelessWidget {
   final String vicinity;
   final String phone;
-  final Results? results;
+  final PlaceInfo? place;
 
   const InfoDialog({
     Key? key,
     required this.vicinity,
     required this.phone,
-    this.results,
+    this.place,
   }) : super(key: key);
 
   @override
@@ -110,9 +111,9 @@ class InfoDialog extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                if (results?.openingHours?.weekdayText != null) {
+                if (place?.currentOpeningHours?.weekdayDescriptions != null) {
                   openOpenHoursDialog(
-                      context, results?.openingHours?.weekdayText ?? ['']);
+                      context, place?.currentOpeningHours?.weekdayDescriptions  ?? ['']);
                 }
               },
               child: SizedBox(
@@ -138,7 +139,7 @@ class InfoDialog extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            getFunctionHours(results),
+                            getCurrentOpeningHour(place),
                             style: GoogleFonts.roboto(
                               textStyle: const TextStyle(
                                 fontSize: 14,
@@ -225,19 +226,13 @@ class InfoDialog extends StatelessWidget {
     );
   }
 
-  String getFunctionHours(Results? result) {
-    String? status;
-    status = getPlaceStatus(result?.openingHours?.openNow) + ' ';
+  String getCurrentOpeningHour(PlaceInfo? place) {
+    final today = DateTime.now().weekday;
+    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
+    final startIndexOpeningHour = openingHour?.indexOf(':');
+    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
 
-    final weekDayIndex = DateTime.now().weekday - 1;
-    final startIndex =
-        results?.openingHours?.weekdayText?[weekDayIndex].indexOf(':');
-    status += results?.openingHours?.weekdayText?[weekDayIndex]
-            .substring(startIndex ?? 0) ??
-        '';
-
-    status = status.replaceAll('Closed', '');
-    return status ??= '';
+    return openingHourFormatted ?? '';
   }
 
   String getPlaceStatus(bool? open) {

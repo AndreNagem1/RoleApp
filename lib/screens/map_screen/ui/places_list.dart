@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
+import '../../../BottomSheets/place_details_bottom_sheet.dart';
 import '../../../models/nearby_places_response.dart';
 import '../../../widgets/custom_scroll.dart';
 import '../../../widgets/places_list_item.dart';
@@ -114,7 +115,7 @@ class PlacesList extends StatelessWidget {
               place: state.listPlaces[index],
               mapController: mapController,
               onTap: () {
-                // showDetails(context, state.listPlaces[index], mapController);
+                showDetails(context, state.listPlaces[index], mapController);
               },
             )
           ],
@@ -141,5 +142,24 @@ class PlacesList extends StatelessWidget {
       ) async {
     List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context);
     mapController.addPlaceMarker(context, listPlaces);
+  }
+
+  showDetails(
+      BuildContext context,
+      PlaceInfo placeInfo,
+      MapController mapController,
+      ) {
+    showModalBottomSheet<dynamic>(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext bc) {
+        return PlaceDetailsBottomSheet(
+          key: const Key(''),
+          place: placeInfo,
+          mapController: mapController,
+        );
+      },
+    );
   }
 }

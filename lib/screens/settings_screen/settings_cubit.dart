@@ -4,7 +4,7 @@ import 'package:rolesp/screens/settings_screen/settings_screen_state.dart';
 class SettingsCubit extends Cubit<SettingsScreenState> {
   SettingsCubit() : super(InitialState());
 
-  final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
+  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
   SelectedOption lastOption = SelectedOption.none;
 
   void setInitialState() {
