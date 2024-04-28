@@ -8,30 +8,33 @@ import 'package:rolesp/BottomSheets/reviews_bottom_sheet.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/dialogs/info_dialog.dart';
+import 'package:rolesp/models/nearby_places_response.dart';
 import 'package:rolesp/models/place_details_response.dart';
-import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailsBottomSheet extends StatelessWidget {
-  final Results results;
+  final PlaceInfo? place;
   final MapController mapController;
-  final apiKey = 'AIzaSyAeFQsZFQ1uTHm53Brfxu4AH3R8JBHvj9M';
+  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   const PlaceDetailsBottomSheet(
-      {required Key key, required this.results, required this.mapController})
+      {required Key key, required this.place, required this.mapController})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var imageUrl = '';
-    if (results.photos?[0] != null) {
+
+    if (place?.photos?[0] != null) {
       imageUrl =
-          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
-              results.photos![0].photoReference! +
-              '&key=' +
-              apiKey;
+          'https://places.googleapis.com/v1/' +
+              place!.photos![0].name! +
+              '/media?key=' +
+              apiKey +
+              '&maxHeightPx=400';
     }
+
     return Container(
       height: 416,
       clipBehavior: Clip.hardEdge,
@@ -74,7 +77,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       height: 30,
                       width: 150,
                       child: Text(
-                        results.name!,
+                        place?.displayName?.text ?? '',
                         style: GoogleFonts.roboto(
                           textStyle: const TextStyle(
                             fontSize: 25,
@@ -96,8 +99,8 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                               final distance = calculateDistance(
                                 snapshot.data?.latitude ?? 0.0,
                                 snapshot.data?.longitude ?? 0.0,
-                                results.geometry?.location?.lat ?? 0.0,
-                                results.geometry?.location?.lng ?? 0.0,
+                                place?.location?.latitude ?? 0.0,
+                                place?.location?.longitude ?? 0.0,
                               );
 
                               return Text(
@@ -123,39 +126,28 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    getDescription(results.types ?? ['Restautante']),
-                    style: GoogleFonts.acme(
-                      textStyle:
-                          const TextStyle(fontSize: 18, color: Colors.grey),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 60),
                 GestureDetector(
                   onTap: () {
-                    showReviews(context, results.reviews);
+                    showReviews(context, []);
                   },
                   child: Row(
                     children: [
-                      SizedBox(
-                        height: 20,
-                        width: 100,
-                        child: Image.asset(getAvaliationsImage(results.rating)),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        height: 15,
+                        width: 85,
+                        child: Image.asset(getAvaliationsImage(place?.rating)),
                       ),
-                      const SizedBox(width: 10),
                       Container(
                         height: 20,
                         width: 70,
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerLeft,
                         child: Text(
-                          'Nota: ' + results.rating.toString() + ' • ',
+                          'Nota: ' + (place?.rating.toString() ?? '') + ' • ',
                           style: GoogleFonts.roboto(
                             textStyle: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
@@ -163,10 +155,10 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       ),
                       Container(
                         height: 20,
-                        width: 100,
-                        alignment: Alignment.center,
+                        width: 110,
+                        alignment: Alignment.centerLeft,
                         child: Text(
-                          getNumberOfAvaliations(results.userRatingsTotal),
+                          getNumberOfAvaliations(place?.userRatingCount),
                           style: GoogleFonts.roboto(
                             textStyle: const TextStyle(
                               fontSize: 12,
@@ -178,23 +170,22 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
                     openOpenHoursDialog(
-                        context, results.openingHours?.weekdayText ?? ['']);
+                        context, place?.currentOpeningHours?.weekdayDescriptions ?? ['']);
                   },
                   child: SizedBox(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                       child: Row(
                         children: [
                           Text(
-                            getPlaceStatus(results.openingHours?.openNow),
+                            getPlaceStatus(place?.currentOpeningHours?.openNow),
                             style: GoogleFonts.roboto(color: Colors.white),
                           ),
                           Text(
-                            getFunctionHours(results.openingHours),
+                            getCurrentOpeningHour(place),
                             style: GoogleFonts.roboto(color: Colors.white),
                           )
                         ],
@@ -202,20 +193,20 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 Container(
                   height: 0.5,
                   width: double.infinity,
                   color: ColorsRoleSp.perfectPurple,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(width: 40),
                     GestureDetector(
                       onTap: () {
-                        _launchUrl(results, context);
+                        _launchUrl(place, context);
                       },
                       child: Text(
                         'Site',
@@ -230,9 +221,9 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       onTap: () {
                         openAddInfoDialog(
                           context,
-                          results.vicinity ?? '',
-                          results.phone ?? 'Sem telefone',
-                          results,
+                          place?.formattedAddress ?? '',
+                          place?.phoneNumber ?? 'Sem telefone',
+                          place,
                         );
                       },
                       child: Text(
@@ -262,17 +253,13 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     return 12742 * asin(sqrt(a));
   }
 
-  String getFunctionHours(OpeningHours? openingHours) {
-    String? status;
-    final weekDayIndex = DateTime.now().weekday - 1;
+  String getCurrentOpeningHour(PlaceInfo? place) {
+    final today = DateTime.now().weekday;
+    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
+    final startIndexOpeningHour = openingHour?.indexOf(':');
+    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
 
-    status = results.openingHours?.weekdayText?[weekDayIndex];
-    final startIndex = status?.indexOf(':');
-    if (startIndex != -1) {
-      status = status?.substring(startIndex!);
-    }
-    status = status?.replaceAll('Closed', '');
-    return status ??= '';
+    return openingHourFormatted ?? '';
   }
 
   String getPlaceStatus(bool? open) {
@@ -338,7 +325,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     if (userRatingsTotal == null) {
       return 'Sem avaliações';
     }
-    return '(${results.userRatingsTotal} avaliações)';
+    return '(${place?.userRatingCount} avaliações)';
   }
 
   String getAvaliationsImage(dynamic rating) {
@@ -379,10 +366,10 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     return 'assets/images/avaliations0.png';
   }
 
-  Future<void> _launchUrl(Results result, BuildContext context) async {
-    final Uri _url = Uri.parse(result.website ?? '');
+  Future<void> _launchUrl(PlaceInfo? place, BuildContext context) async {
+    final Uri _url = Uri.parse(place?.websiteUri ?? '');
 
-    if (result.website == null) {
+    if (place?.websiteUri == null) {
       _showOverlay(context, text: 'Site indisponível :/');
     }
 
@@ -438,7 +425,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
   }
 
   openAddInfoDialog(
-      BuildContext context, String address, String phone, Results? results) {
+      BuildContext context, String address, String phone, PlaceInfo? placeInfo) {
     showDialog(
       context: context,
       builder: (_) => Center(
@@ -447,7 +434,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
           child: InfoDialog(
             vicinity: address,
             phone: phone,
-            results: results,
+            place: placeInfo,
           ),
         ),
       ),
