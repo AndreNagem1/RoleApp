@@ -8,15 +8,19 @@ import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../widgets/hour_item.dart';
+
 class InfoDialog extends StatelessWidget {
   final String vicinity;
   final String phone;
   final PlaceInfo? place;
+  final String functioningHours;
 
   const InfoDialog({
     Key? key,
     required this.vicinity,
     required this.phone,
+    required this.functioningHours,
     this.place,
   }) : super(key: key);
 
@@ -60,7 +64,7 @@ class InfoDialog extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 70,
+              height: 80,
               child: Row(
                 children: [
                   const SizedBox(width: 30),
@@ -86,7 +90,7 @@ class InfoDialog extends StatelessWidget {
                           maxLines: 2,
                           style: GoogleFonts.roboto(
                             textStyle: const TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Colors.black,
                             ),
                           ),
@@ -95,7 +99,10 @@ class InfoDialog extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  const Icon(Icons.map_outlined),
+                  const Icon(
+                    Icons.map_outlined,
+                    color: ColorsRoleSp.perfectPurple,
+                  ),
                   const SizedBox(width: 30),
                 ],
               ),
@@ -109,11 +116,12 @@ class InfoDialog extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
+            const SizedBox(height: 2),
             GestureDetector(
               onTap: () {
                 if (place?.currentOpeningHours?.weekdayDescriptions != null) {
-                  openOpenHoursDialog(
-                      context, place?.currentOpeningHours?.weekdayDescriptions  ?? ['']);
+                  openOpenHoursDialog(context,
+                      place?.currentOpeningHours?.weekdayDescriptions ?? ['']);
                 }
               },
               child: SizedBox(
@@ -121,37 +129,40 @@ class InfoDialog extends StatelessWidget {
                 child: Row(
                   children: [
                     const SizedBox(width: 30),
-                    SizedBox(
-                      width: 200,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 15),
-                          Text(
-                            'Horário',
-                            style: GoogleFonts.roboto(
-                              textStyle: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 5),
+                        Text(
+                          'Horário',
+                          style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            getCurrentOpeningHour(place),
-                            style: GoogleFonts.roboto(
-                              textStyle: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                              ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          functioningHours
+                              .replaceAll('Monday', 'Seg.')
+                              .replaceAll('Closed', 'Fechado'),
+                          style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     const Spacer(),
-                    const Icon(Icons.arrow_forward),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: ColorsRoleSp.perfectPurple,
+                    ),
                     const SizedBox(width: 30),
                   ],
                 ),
@@ -180,7 +191,7 @@ class InfoDialog extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 5),
                           Text(
                             'Ligar',
                             style: GoogleFonts.roboto(
@@ -198,6 +209,7 @@ class InfoDialog extends StatelessWidget {
                               textStyle: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ),
@@ -205,7 +217,10 @@ class InfoDialog extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    const Icon(Icons.phone),
+                    const Icon(
+                      Icons.phone,
+                      color: ColorsRoleSp.perfectPurple,
+                    ),
                     const SizedBox(width: 30),
                   ],
                 ),
@@ -228,9 +243,11 @@ class InfoDialog extends StatelessWidget {
 
   String getCurrentOpeningHour(PlaceInfo? place) {
     final today = DateTime.now().weekday;
-    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
+    final openingHour =
+        place?.currentOpeningHours?.weekdayDescriptions?[today - 1];
     final startIndexOpeningHour = openingHour?.indexOf(':');
-    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
+    final openingHourFormatted =
+        openingHour?.substring(startIndexOpeningHour ?? 0);
 
     return openingHourFormatted ?? '';
   }

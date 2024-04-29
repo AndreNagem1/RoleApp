@@ -89,7 +89,8 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                     const Spacer(),
                     const SizedBox(height: 5),
-                    SizedBox(
+                    Container(
+                      alignment: Alignment.bottomCenter,
                       width: 70,
                       child: FutureBuilder<Position>(
                           future: mapController.getUserPosition(),
@@ -224,6 +225,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                           place?.formattedAddress ?? '',
                           place?.phoneNumber ?? 'Sem telefone',
                           place,
+                          place?.currentOpeningHours!.weekdayDescriptions?[DateTime.now().weekday -1] ?? '',
                         );
                       },
                       child: Text(
@@ -425,7 +427,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
   }
 
   openAddInfoDialog(
-      BuildContext context, String address, String phone, PlaceInfo? placeInfo) {
+      BuildContext context, String address, String phone, PlaceInfo? placeInfo, String functioningHours) {
     showDialog(
       context: context,
       builder: (_) => Center(
@@ -433,6 +435,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
           height: 300,
           child: InfoDialog(
             vicinity: address,
+            functioningHours:functioningHours,
             phone: phone,
             place: placeInfo,
           ),
