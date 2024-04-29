@@ -57,15 +57,10 @@ class SettingsScreen extends StatelessWidget {
                     }),
                     if (showConfig) configurations(context),
                     const SizedBox(height: 15),
-                    profileOption('Sobre nós', context, showAboutUs, () {
-                      bloc.selectOption(SelectedOption.aboutUs);
-                    }),
-                    if (showAboutUs) aboutUsContent(context),
-                    const SizedBox(height: 15),
-                    profileOption('Ajuda', context, showHelp, () {
+                    profileOption('Contato', context, showHelp, () {
                       bloc.selectOption(SelectedOption.help);
                     }),
-                    if (showHelp) helpContent(context),
+                    if (showHelp) contactContent(context),
                     const SizedBox(height: 250),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -178,7 +173,7 @@ Widget aboutUsContent(BuildContext context) {
   );
 }
 
-Widget helpContent(BuildContext context) {
+Widget contactContent(BuildContext context) {
   return const Column(
     children: [
       SizedBox(height: 10),

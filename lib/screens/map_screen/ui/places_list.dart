@@ -102,9 +102,9 @@ class PlacesList extends StatelessWidget {
                     child: Text(
                       'API Desligada',
                       style: GoogleFonts.righteous(
-                        textStyle: const TextStyle(
+                        textStyle:  TextStyle(
                           fontSize: 20,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ),
