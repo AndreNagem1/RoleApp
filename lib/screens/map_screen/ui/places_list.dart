@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -16,11 +17,11 @@ class PlacesList extends StatelessWidget {
   final AutoScrollController listController;
   final MapController mapController;
 
-  const PlacesList({super.key,
-    required this.listPlacesCubit,
-    required this.mapController,
-    required this.listController
-  });
+  const PlacesList(
+      {super.key,
+      required this.listPlacesCubit,
+      required this.mapController,
+      required this.listController});
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +41,10 @@ class PlacesList extends StatelessWidget {
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification) {
                     if (scrollNotification is ScrollEndNotification) {
-                      final position =
-                          listController.position.pixels / 360;
-                      
-                      mapController.showInfoFromMarker(mapController.listPlaces?[position.ceil()]);
+                      final position = listController.position.pixels / 360;
+
+                      mapController.showInfoFromMarker(
+                          mapController.listPlaces?[position.ceil()]);
                     }
                     return false;
                   },
@@ -74,7 +75,42 @@ class PlacesList extends StatelessWidget {
                 width: double.infinity,
                 color: Colors.black26,
                 alignment: Alignment.center,
-                child: const CircularProgressIndicator()
+                child: const CircularProgressIndicator());
+          }
+          if (state is ApiOff) {
+            return GestureDetector(
+              onTap: () {
+                listPlacesCubit.setInitialState();
+              },
+              child: Container(
+                height: double.infinity,
+                width: double.infinity,
+                color: Colors.black26,
+                alignment: Alignment.center,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'API Desligada',
+                      style: GoogleFonts.righteous(
+                        textStyle: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             );
           }
           mapController.setShouldGenerateNewListPlaces(true);
@@ -100,12 +136,12 @@ class PlacesList extends StatelessWidget {
   }
 
   Widget _getRow(
-      int index,
-      AutoScrollController listPLacesController,
-      ListPlaces state,
-      BuildContext context,
-      MapController mapController,
-      ) {
+    int index,
+    AutoScrollController listPLacesController,
+    ListPlaces state,
+    BuildContext context,
+    MapController mapController,
+  ) {
     return _wrapScrollTag(
         index: index,
         child: Row(
@@ -124,9 +160,9 @@ class PlacesList extends StatelessWidget {
   }
 
   Widget _wrapScrollTag(
-      {required int index,
-        required Widget child,
-        required AutoScrollController listPlacesController}) =>
+          {required int index,
+          required Widget child,
+          required AutoScrollController listPlacesController}) =>
       AutoScrollTag(
         key: ValueKey(index),
         controller: listPlacesController,
@@ -136,19 +172,19 @@ class PlacesList extends StatelessWidget {
       );
 
   getNearbyPlaces(
-      BuildContext context,
-      MapController mapController,
-      ListPlacesCubit listPlacesCubit,
-      ) async {
+    BuildContext context,
+    MapController mapController,
+    ListPlacesCubit listPlacesCubit,
+  ) async {
     List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context);
     mapController.addPlaceMarker(context, listPlaces);
   }
 
   showDetails(
-      BuildContext context,
-      PlaceInfo placeInfo,
-      MapController mapController,
-      ) {
+    BuildContext context,
+    PlaceInfo placeInfo,
+    MapController mapController,
+  ) {
     showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,

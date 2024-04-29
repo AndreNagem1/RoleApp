@@ -17,3 +17,7 @@ class ListPlaces extends ListPlacesState {
 class Loading extends ListPlacesState {
   List<Object> get props => [];
 }
+
+class ApiOff extends ListPlacesState {
+  List<Object> get props => [];
+}

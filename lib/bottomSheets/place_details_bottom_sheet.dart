@@ -75,14 +75,14 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 30,
-                      width: 150,
+                      width: 200,
                       child: Text(
                         place?.displayName?.text ?? '',
                         style: GoogleFonts.roboto(
                           textStyle: const TextStyle(
-                            fontSize: 25,
+                            fontSize: 20,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),

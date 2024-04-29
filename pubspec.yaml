@@ -98,7 +98,7 @@ flutter:
     - assets/images/avaliations8.png
     - assets/images/avaliations9.png
     - assets/images/avaliations10.png
-    - assets/images/newLogo.png
+    - assets/images/ic_launcher.png
     - assets/images/big_logo.png
     - assets/images/city.jpg
     - assets/gif/splash.gif
@@ -145,11 +145,11 @@ flutter_native_splash:
   android: true
   ios: true
 
-flutter_icons:
+flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   color: "#1A1A1A"
   adaptive_icon_background: "#1A1A1A"
   remove_alpha_ios: true
-  image_path: "assets/images/newLogo.png"
+  image_path: "assets/images/ic_launcher.png"
   min_sdk_android: 21
