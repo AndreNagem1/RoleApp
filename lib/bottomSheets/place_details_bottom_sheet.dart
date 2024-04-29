@@ -449,7 +449,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       context: context,
       builder: (_) => Center(
         child: SizedBox(
-          height: 450,
+          height: 315,
           child: OpeningHoursDialog(
             daysOpeningHours: openingHours,
           ),

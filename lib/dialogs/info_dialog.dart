@@ -269,7 +269,7 @@ class InfoDialog extends StatelessWidget {
       context: context,
       builder: (_) => Center(
         child: SizedBox(
-          height: 300,
+          height: 315,
           child: OpeningHoursDialog(
             daysOpeningHours: openingHours,
           ),

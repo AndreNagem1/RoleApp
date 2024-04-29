@@ -17,7 +17,7 @@ class OpeningHoursDialog extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
-        height: 380,
+        height: 410,
         width: double.infinity,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -54,40 +54,41 @@ class OpeningHoursDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: SizedBox(
-                height: 200,
+                height: 215,
                 child: ListView(
                   children: [
                     HourItem(
-                      hour: daysOpeningHours?[0].replaceAll('Monday', 'Seg.') ??
+                      hour: daysOpeningHours?[0].replaceAll('Monday', 'Seg.').replaceAll('Closed', 'Fechado') ??
                           '',
                     ),
                     HourItem(
                       hour:
-                          daysOpeningHours?[1].replaceAll('Tuesday', 'Ter.') ??
+                          daysOpeningHours?[1].replaceAll('Tuesday', 'Ter.').replaceAll('Closed', 'Fechado') ??
                               '',
                     ),
                     HourItem(
                       hour: daysOpeningHours?[2]
-                              .replaceAll('Wednesday', 'Quart.') ??
+                              .replaceAll('Wednesday', 'Quart.').replaceAll('Closed', 'Fechado') ??
                           '',
                     ),
                     HourItem(
                       hour: daysOpeningHours?[3]
-                              .replaceAll('Thursday', 'Quint.') ??
+                              .replaceAll('Thursday', 'Quint.').replaceAll('Closed', 'Fechado') ??
                           '',
                     ),
                     HourItem(
-                      hour: daysOpeningHours?[4].replaceAll('Friday', 'Sex.') ??
+                      hour: daysOpeningHours?[4].replaceAll('Friday', 'Sex.').replaceAll('Closed', 'Fechado') ??
                           '',
                     ),
                     HourItem(
                       hour:
-                          daysOpeningHours?[5].replaceAll('Saturday', 'Sab.') ??
+                          daysOpeningHours?[5].replaceAll('Saturday', 'Sab.').replaceAll('Closed', 'Fechado') ??
                               '',
                     ),
                     HourItem(
-                      hour: daysOpeningHours?[6].replaceAll('Sunday', 'Dom.') ??
+                      hour: daysOpeningHours?[6].replaceAll('Sunday', 'Dom.').replaceAll('Closed', 'Fechado') ??
                           '',
+                      showBottomDivider: false,
                     ),
                   ],
                 ),
