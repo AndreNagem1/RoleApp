@@ -8,8 +8,8 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="rolesp"
-        android:roundIcon="@mipmap/ic_launcher">
+        android:roundIcon="@mipmap/ic_launcher"
+        android:label="rolesp">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884" />
