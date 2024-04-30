@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rolesp/screens/map_screen/data/entity/GoogleApiController.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
-import 'package:rolesp/globals.dart' as globals;
 
 import '../../../../models/nearby_places_response.dart';
 
@@ -41,6 +40,10 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
         apiController.add(newEvent);
       }
     });
+
+    if (apiController.isEmpty) {
+      return false;
+    }
 
     return apiController[0].allowApiCall;
   }
