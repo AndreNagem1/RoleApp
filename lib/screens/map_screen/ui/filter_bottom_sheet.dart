@@ -168,26 +168,30 @@ class FilterDistanceDraggable extends StatefulWidget {
 
 class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
   var offSetAxisX = 0.0;
+  var draggablePosition = 1;
 
   @override
   Widget build(BuildContext context) {
     const screenWidth = 330.0;
 
     if (offSetAxisX < screenWidth / 4) {
+      draggablePosition = 1;
       offSetAxisX = 0.0;
     }
 
     if (offSetAxisX > screenWidth / 4 && offSetAxisX < screenWidth * 3 / 4) {
+      draggablePosition = 2;
       offSetAxisX = (screenWidth / 2) - 10;
     }
 
     if (offSetAxisX > screenWidth * 3 / 4) {
+      draggablePosition = 3;
       offSetAxisX = screenWidth - 18;
     }
 
     return Stack(
       children: [
-        const DraggableInitialState(),
+        DraggableInitialState(postion: draggablePosition),
         Positioned(
           left: offSetAxisX,
           child: Draggable(
@@ -207,8 +211,6 @@ class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
             ),
             onDragEnd: (dragDetails) {
               setState(() {
-                print('MEEEU PRRINT');
-                print(dragDetails.offset.dx);
                 offSetAxisX = dragDetails.offset.dx;
               });
             },
@@ -221,10 +223,16 @@ class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
 }
 
 class DraggableInitialState extends StatelessWidget {
-  const DraggableInitialState({super.key});
+  const DraggableInitialState({super.key, required this.postion});
+
+  final int postion;
 
   @override
   Widget build(BuildContext context) {
+    final isPositionOne = postion == 1;
+    final isPositionTwo = postion == 2;
+    final isPositionThree = postion == 3;
+
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Column(
@@ -236,27 +244,63 @@ class DraggableInitialState extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '5 Km',
-                style: GoogleFonts.notoSans(
-                    color: ColorsRoleSp.whiteLetterNew,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400),
-              ),
-              Text(
-                '10 Km',
-                style: GoogleFonts.notoSans(
-                    color: ColorsRoleSp.whiteLetterNew,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400),
-              ),
-              Text(
-                '15 Km',
-                style: GoogleFonts.notoSans(
-                    color: ColorsRoleSp.whiteLetterNew,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400),
-              ),
+              if (isPositionOne)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    '5 Km',
+                    style: GoogleFonts.notoSans(
+                        color: ColorsRoleSp.whiteLetterNew,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              if (!isPositionOne)
+                Text(
+                  '5 Km',
+                  style: GoogleFonts.notoSans(
+                      color: ColorsRoleSp.unselectedLetter,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                ),
+              if (isPositionTwo)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    '10 Km',
+                    style: GoogleFonts.notoSans(
+                        color: ColorsRoleSp.whiteLetterNew,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              if (!isPositionTwo)
+                Text(
+                  '10 Km',
+                  style: GoogleFonts.notoSans(
+                      color: ColorsRoleSp.unselectedLetter,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400),
+                ),
+              if (isPositionThree)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    '15 Km',
+                    style: GoogleFonts.notoSans(
+                        color: ColorsRoleSp.whiteLetterNew,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              if (!isPositionThree)
+                Text(
+                  '15 Km',
+                  style: GoogleFonts.notoSans(
+                      color: ColorsRoleSp.unselectedLetter,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                ),
             ],
           )
         ],
