@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/filter_cubit.dart';
 import 'package:rolesp/screens/map_screen/domain/states/filter_state.dart';
 
@@ -14,10 +15,10 @@ class FilterBottomSheet extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      height: screenHeight * 0.8,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
-        borderRadius: const BorderRadius.only(
+      height: screenHeight * 0.72,
+      decoration: const BoxDecoration(
+        color: ColorsRoleSp.filterBackGround,
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
@@ -27,20 +28,38 @@ class FilterBottomSheet extends StatelessWidget {
           builder: (context, state) {
             if (state is ListFilters) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 14),
+                    Container(
+                      width: double.infinity,
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        child: Text(
+                          'Limpar filtro',
+                          style: GoogleFonts.notoSans(
+                              color: ColorsRoleSp.whiteLetterNew,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center,
+                        ),
+                        onTap: () {
+                          filterCubit.cleanFilters();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.0, bottom: 15.0),
+                      padding: const EdgeInsets.only(bottom: 15.0),
                       child: Text(
                         'Por tipo',
-                        style: GoogleFonts.righteous(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 18,
-                        ),
+                        style: GoogleFonts.notoSans(
+                            color: ColorsRoleSp.whiteLetterNew,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     FilterItemType(
@@ -97,54 +116,17 @@ class FilterBottomSheet extends StatelessWidget {
                         filterCubit.addFilterType(selectedFilter);
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, top: 15, bottom: 15),
-                      child: Text(
-                        'Por proximidade',
-                        style: GoogleFonts.righteous(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 18,
-                        ),
-                      ),
+                    const SizedBox(height: 45),
+                    Text(
+                      'Distância',
+                      style: GoogleFonts.notoSans(
+                          color: ColorsRoleSp.whiteLetterNew,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
-                    FilterItemDistance(
-                      filterName: '2 Km',
-                      isChecked: state.listFilterDistance
-                          .contains(FiltersDistance.twoKm),
-                      filtersDistance: FiltersDistance.twoKm,
-                      onTap: (selectedFilter) {
-                        filterCubit.addFilterDistance(selectedFilter);
-                      },
-                    ),
-                    FilterItemDistance(
-                      filterName: '5 Km',
-                      isChecked: state.listFilterDistance
-                          .contains(FiltersDistance.fiveKm),
-                      filtersDistance: FiltersDistance.fiveKm,
-                      onTap: (selectedFilter) {
-                        filterCubit.addFilterDistance(selectedFilter);
-                      },
-                    ),
-                    FilterItemDistance(
-                      filterName: '10 Km',
-                      isChecked: state.listFilterDistance
-                          .contains(FiltersDistance.tenKm),
-                      filtersDistance: FiltersDistance.tenKm,
-                      onTap: (selectedFilter) {
-                        filterCubit.addFilterDistance(selectedFilter);
-                      },
-                    ),
-                    FilterItemDistance(
-                      filterName: '25 Km',
-                      isChecked: state.listFilterDistance
-                          .contains(FiltersDistance.twentyFiveKm),
-                      filtersDistance: FiltersDistance.twentyFiveKm,
-                      onTap: (selectedFilter) {
-                        filterCubit.addFilterDistance(selectedFilter);
-                      },
-                    ),
-                    const Spacer(),
+                    const SizedBox(height: 35),
+                    const FilterDistanceDraggable(),
+                    const SizedBox(height: 65),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: SizedBox(
@@ -152,55 +134,18 @@ class FilterBottomSheet extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text(
                             'Filtrar',
-                            style: GoogleFonts.righteous(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: 12,
-                            ),
+                            style: GoogleFonts.notoSans(
+                                color: ColorsRoleSp.whiteLetterNew,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
                           ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.resolveWith((states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Theme.of(context).colorScheme.surface;
-                              }
-                              return Theme.of(context).colorScheme.secondary;
-                            }),
-                          ),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorsRoleSp.secondaryColorDark,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              )),
                           onPressed: () => Navigator.pop(context),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: ElevatedButton(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            'Limpar filtro',
-                            style: GoogleFonts.righteous(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontSize: 12,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        style: ButtonStyle(
-                          elevation:
-                              MaterialStateProperty.resolveWith((states) {
-                            return 0.0;
-                          }),
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith((states) {
-                            if (states.contains(MaterialState.pressed)) {
-                              return Colors.white38;
-                            }
-                            return Theme.of(context).colorScheme.background;
-                          }),
-                        ),
-                        onPressed: () {
-                          filterCubit.cleanFilters();
-                          Navigator.pop(context);
-                        },
                       ),
                     ),
                   ],
@@ -212,6 +157,73 @@ class FilterBottomSheet extends StatelessWidget {
     );
   }
 }
+
+class FilterDistanceDraggable extends StatefulWidget {
+  const FilterDistanceDraggable({super.key});
+
+  @override
+  State<FilterDistanceDraggable> createState() =>
+      _FilterDistanceDraggableState();
+}
+
+class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
+  var offSetAxisX = 0.0;
+  var alignment = Alignment.centerLeft;
+
+  @override
+  Widget build(BuildContext context) {
+    if(offSetAxisX > 10){
+      alignment = Alignment.centerLeft;
+    }
+
+    if(offSetAxisX > 100){
+      alignment = Alignment.centerRight;
+    }
+      return Draggable(
+      child:  DraggableInitialState(
+          alignment: alignment
+      ),
+      feedback: Container(
+        width: 32,
+        height: 32,
+        decoration: const BoxDecoration(
+            shape: BoxShape.circle, color: ColorsRoleSp.secondaryColorDark),
+      ),
+      onDragEnd: (dragDetails) {
+        setState(() {
+          offSetAxisX = dragDetails.offset.dx;
+        });
+      },
+      axis: Axis.horizontal,
+    );
+  }
+}
+
+class DraggableInitialState extends StatelessWidget {
+  const DraggableInitialState({super.key, required this.alignment});
+
+  final Alignment alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return  Stack(
+      alignment: alignment,
+      children: [
+        const Divider(
+          color: ColorsRoleSp.secondaryColorDark,
+          thickness: 4.0,
+        ),
+        Container(
+          width: 32,
+          height: 32,
+          decoration: const BoxDecoration(
+              shape: BoxShape.circle, color: ColorsRoleSp.secondaryColorDark),
+        ),
+      ],
+    );
+  }
+}
+
 
 class FilterItemType extends StatelessWidget {
   const FilterItemType({
@@ -229,29 +241,31 @@ class FilterItemType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            filterName,
-            style: GoogleFonts.righteous(
-              color: Theme.of(context).colorScheme.secondary,
-              fontSize: 14,
-            ),
-          ),
-          const Spacer(),
-          SizedBox(
-            height: 35,
-            child: Checkbox(
-                value: isChecked,
-                onChanged: (_) {
-                  onTap(filtersType);
-                }),
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        Text(
+          filterName,
+          style: GoogleFonts.notoSans(
+              color: ColorsRoleSp.whiteLetterNew,
+              fontSize: 16,
+              fontWeight: FontWeight.w400),
+        ),
+        const Spacer(),
+        SizedBox(
+          height: 35,
+          child: Checkbox(
+              value: isChecked,
+              fillColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return ColorsRoleSp.whiteLetterNew;
+                }
+                return Colors.transparent;
+              }),
+              onChanged: (_) {
+                onTap(filtersType);
+              }),
+        ),
+      ],
     );
   }
 }

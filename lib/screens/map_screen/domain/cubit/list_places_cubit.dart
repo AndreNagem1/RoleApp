@@ -16,6 +16,8 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   var listPlaces = <PlaceInfo>[];
+  var radiusSearch = '500';
+  var listTypesSearch = [];
 
   void setListPlaces(List<PlaceInfo> listPlaces) {
     if (listPlaces.isNotEmpty) {
@@ -62,7 +64,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
           "places.displayName,places.formattedAddress,places.types,places.location,places.photos,places.rating,places.currentOpeningHours,places.priceLevel,places.userRatingCount,places.nationalPhoneNumber";
 
       var response = await dio.post(url, data: {
-        'includedTypes': ["restaurant"],
+        'includedTypes': listTypesSearch,
         "maxResultCount": "10",
         "locationRestriction": {
           "circle": {
@@ -70,7 +72,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
               "latitude": position.latitude.toString(),
               "longitude": position.longitude.toString()
             },
-            "radius": "500"
+            "radius": radiusSearch
           }
         }
       });
@@ -92,5 +94,13 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
       emit(ApiOff());
       return [];
     }
+  }
+
+  void setRadiusSearch(String newRadius) {
+    radiusSearch = newRadius;
+  }
+
+  void setListPlacesTypes(List<String> newPlacesTypesSearch) {
+    listTypesSearch = newPlacesTypesSearch;
   }
 }
