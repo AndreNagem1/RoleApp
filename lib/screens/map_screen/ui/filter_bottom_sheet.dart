@@ -15,7 +15,7 @@ class FilterBottomSheet extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      height: screenHeight * 0.72,
+      height: screenHeight * 0.75,
       decoration: const BoxDecoration(
         color: ColorsRoleSp.filterBackGround,
         borderRadius: BorderRadius.only(
@@ -168,62 +168,102 @@ class FilterDistanceDraggable extends StatefulWidget {
 
 class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
   var offSetAxisX = 0.0;
-  var alignment = Alignment.centerLeft;
 
   @override
   Widget build(BuildContext context) {
-    if(offSetAxisX > 10){
-      alignment = Alignment.centerLeft;
+    const screenWidth = 330.0;
+
+    if (offSetAxisX < screenWidth / 4) {
+      offSetAxisX = 0.0;
     }
 
-    if(offSetAxisX > 100){
-      alignment = Alignment.centerRight;
+    if (offSetAxisX > screenWidth / 4 && offSetAxisX < screenWidth * 3 / 4) {
+      offSetAxisX = (screenWidth / 2) - 10;
     }
-      return Draggable(
-      child:  DraggableInitialState(
-          alignment: alignment
-      ),
-      feedback: Container(
-        width: 32,
-        height: 32,
-        decoration: const BoxDecoration(
-            shape: BoxShape.circle, color: ColorsRoleSp.secondaryColorDark),
-      ),
-      onDragEnd: (dragDetails) {
-        setState(() {
-          offSetAxisX = dragDetails.offset.dx;
-        });
-      },
-      axis: Axis.horizontal,
-    );
-  }
-}
 
-class DraggableInitialState extends StatelessWidget {
-  const DraggableInitialState({super.key, required this.alignment});
+    if (offSetAxisX > screenWidth * 3 / 4) {
+      offSetAxisX = screenWidth - 18;
+    }
 
-  final Alignment alignment;
-
-  @override
-  Widget build(BuildContext context) {
-    return  Stack(
-      alignment: alignment,
+    return Stack(
       children: [
-        const Divider(
-          color: ColorsRoleSp.secondaryColorDark,
-          thickness: 4.0,
-        ),
-        Container(
-          width: 32,
-          height: 32,
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle, color: ColorsRoleSp.secondaryColorDark),
+        const DraggableInitialState(),
+        Positioned(
+          left: offSetAxisX,
+          child: Draggable(
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ColorsRoleSp.secondaryColorDark),
+            ),
+            feedback: Container(
+              width: 32,
+              height: 32,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ColorsRoleSp.secondaryColorDark),
+            ),
+            onDragEnd: (dragDetails) {
+              setState(() {
+                print('MEEEU PRRINT');
+                print(dragDetails.offset.dx);
+                offSetAxisX = dragDetails.offset.dx;
+              });
+            },
+            axis: Axis.horizontal,
+          ),
         ),
       ],
     );
   }
 }
 
+class DraggableInitialState extends StatelessWidget {
+  const DraggableInitialState({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Column(
+        children: [
+          const Divider(
+            color: ColorsRoleSp.secondaryColorDark,
+            thickness: 4.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '5 Km',
+                style: GoogleFonts.notoSans(
+                    color: ColorsRoleSp.whiteLetterNew,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+              Text(
+                '10 Km',
+                style: GoogleFonts.notoSans(
+                    color: ColorsRoleSp.whiteLetterNew,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400),
+              ),
+              Text(
+                '15 Km',
+                style: GoogleFonts.notoSans(
+                    color: ColorsRoleSp.whiteLetterNew,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
 
 class FilterItemType extends StatelessWidget {
   const FilterItemType({
