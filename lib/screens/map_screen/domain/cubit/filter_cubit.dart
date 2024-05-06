@@ -37,17 +37,22 @@ class FilterCubit extends Cubit<FilterState> {
 }
 
 enum FiltersType {
-  restaurant,
-  ar_livre,
-  coffee,
-  fastfood,
-  veggie,
-  balad,
+  restaurant(['restaurant']),
+  outside(['tourist_attraction','national_park','park', 'zoo','dog_park']),
+  coffee(['bakery', 'cafe', 'coffee_shop']),
+  fastFood(['fast_food_restaurant']),
+  veggie(['vegan_restaurant', 'vegetarian_restaurant']),
+  nightClub(['bar', 'night_club']);
+
+  const FiltersType(this.filtersList);
+  final List<String> filtersList;
 }
 
 enum FiltersDistance {
-  twoKm,
-  fiveKm,
-  tenKm,
-  twentyFiveKm,
+  fiveKm('5000'),
+  tenKm('10000'),
+  twentyFiveKm('15000');
+
+  const FiltersDistance(this.distance);
+  final String distance;
 }

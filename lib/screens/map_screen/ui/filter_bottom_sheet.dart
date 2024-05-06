@@ -74,8 +74,8 @@ class FilterBottomSheet extends StatelessWidget {
                     FilterItemType(
                       filterName: 'Ar Livre',
                       isChecked:
-                          state.listFilterType.contains(FiltersType.ar_livre),
-                      filtersType: FiltersType.ar_livre,
+                          state.listFilterType.contains(FiltersType.outside),
+                      filtersType: FiltersType.outside,
                       onTap: (selectedFilter) {
                         filterCubit.addFilterType(selectedFilter);
                       },
@@ -92,8 +92,8 @@ class FilterBottomSheet extends StatelessWidget {
                     FilterItemType(
                       filterName: 'Fastfood',
                       isChecked:
-                          state.listFilterType.contains(FiltersType.fastfood),
-                      filtersType: FiltersType.fastfood,
+                          state.listFilterType.contains(FiltersType.fastFood),
+                      filtersType: FiltersType.fastFood,
                       onTap: (selectedFilter) {
                         filterCubit.addFilterType(selectedFilter);
                       },
@@ -110,8 +110,8 @@ class FilterBottomSheet extends StatelessWidget {
                     FilterItemType(
                       filterName: 'Role',
                       isChecked:
-                          state.listFilterType.contains(FiltersType.balad),
-                      filtersType: FiltersType.balad,
+                          state.listFilterType.contains(FiltersType.nightClub),
+                      filtersType: FiltersType.nightClub,
                       onTap: (selectedFilter) {
                         filterCubit.addFilterType(selectedFilter);
                       },

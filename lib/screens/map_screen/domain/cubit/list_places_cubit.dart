@@ -17,7 +17,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
 
   var listPlaces = <PlaceInfo>[];
   var radiusSearch = '500';
-  var listTypesSearch = [];
+  var listTypesSearch = ['cafe'];
 
   void setListPlaces(List<PlaceInfo> listPlaces) {
     if (listPlaces.isNotEmpty) {
