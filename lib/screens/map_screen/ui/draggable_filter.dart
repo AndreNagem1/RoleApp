@@ -56,13 +56,29 @@ class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
     }
 
     if (offSetAxisX > screenWidth * 3 / 4) {
-      draggablePosition = 3;
-      offSetAxisX = screenWidth - 18;
+
     }
 
     return Stack(
       children: [
-        DraggableInitialState(postion: draggablePosition),
+        DraggableInitialState(
+          postion: draggablePosition,
+          setFirstPosition: () {
+            draggablePosition = 1;
+            offSetAxisX = 0.0;
+            widget.setNewDistance(500);
+          },
+          setSecondPosition: () {
+            draggablePosition = 2;
+            offSetAxisX = (screenWidth / 2) - 10;
+            widget.setNewDistance(1000);
+          },
+          setThirdPosition: () {
+            draggablePosition = 3;
+            offSetAxisX = screenWidth - 18;
+            widget.setNewDistance(1500);
+          },
+        ),
         Positioned(
           left: offSetAxisX,
           child: Draggable(
@@ -107,7 +123,16 @@ class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
 }
 
 class DraggableInitialState extends StatelessWidget {
-  const DraggableInitialState({super.key, required this.postion});
+  const DraggableInitialState(
+      {super.key,
+      required this.postion,
+      required this.setFirstPosition,
+      required this.setSecondPosition,
+      required this.setThirdPosition});
+
+  final void Function() setFirstPosition;
+  final void Function() setSecondPosition;
+  final void Function() setThirdPosition;
 
   final int postion;
 
@@ -140,12 +165,15 @@ class DraggableInitialState extends StatelessWidget {
                   ),
                 ),
               if (!isPositionOne)
-                Text(
-                  '5 Km',
-                  style: GoogleFonts.notoSans(
-                      color: ColorsRoleSp.unselectedLetter,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
+                GestureDetector(
+                  onTap: setFirstPosition,
+                  child: Text(
+                    '5 Km',
+                    style: GoogleFonts.notoSans(
+                        color: ColorsRoleSp.unselectedLetter,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               if (isPositionTwo)
                 Padding(
@@ -159,12 +187,15 @@ class DraggableInitialState extends StatelessWidget {
                   ),
                 ),
               if (!isPositionTwo)
-                Text(
-                  '10 Km',
-                  style: GoogleFonts.notoSans(
-                      color: ColorsRoleSp.unselectedLetter,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400),
+                GestureDetector(
+                  onTap: setSecondPosition,
+                  child: Text(
+                    '10 Km',
+                    style: GoogleFonts.notoSans(
+                        color: ColorsRoleSp.unselectedLetter,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               if (isPositionThree)
                 Padding(
@@ -178,12 +209,15 @@ class DraggableInitialState extends StatelessWidget {
                   ),
                 ),
               if (!isPositionThree)
-                Text(
-                  '15 Km',
-                  style: GoogleFonts.notoSans(
-                      color: ColorsRoleSp.unselectedLetter,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
+                GestureDetector(
+                  onTap: setThirdPosition,
+                  child: Text(
+                    '15 Km',
+                    style: GoogleFonts.notoSans(
+                        color: ColorsRoleSp.unselectedLetter,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
             ],
           )

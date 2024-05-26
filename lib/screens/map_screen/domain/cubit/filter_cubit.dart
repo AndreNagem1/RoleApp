@@ -20,7 +20,9 @@ class FilterCubit extends Cubit<FilterState> {
 
   addFilterType(FiltersType selectedFilter) {
     if (listFiltersTypeOnScreen.contains(selectedFilter)) {
-      listFiltersTypeOnScreen.remove(selectedFilter);
+      if (listFiltersTypeOnScreen.length > 1) {
+        listFiltersTypeOnScreen.remove(selectedFilter);
+      }
     } else {
       listFiltersTypeOnScreen.add(selectedFilter);
     }
