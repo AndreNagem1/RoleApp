@@ -2,57 +2,76 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rolesp/screens/map_screen/domain/states/filter_state.dart';
 
 class FilterCubit extends Cubit<FilterState> {
-  FilterCubit(
-      super.initialState, this.listFiltersType, this.listFiltersDistance);
+  FilterCubit(super.initialState);
 
-  List<FiltersType> listFiltersType = [];
-  List<FiltersDistance> listFiltersDistance = [];
+  List<FiltersType> listFiltersType = [FiltersType.restaurant];
+  var distanceFilter = 500.0;
 
-  addFilterType(FiltersType selectedFilter) {
-    if (listFiltersType.contains(selectedFilter)) {
-      listFiltersType.remove(selectedFilter);
-    } else {
-      listFiltersType.add(selectedFilter);
-    }
+  List<FiltersType> listFiltersTypeOnScreen = [FiltersType.restaurant];
+  var distanceFilterOnScreen = 500.0;
 
-    emit(ListFilters(listFiltersType, listFiltersDistance));
+  var isMakingRequest = false;
+
+  setFiltersOnScreen() {
+    listFiltersTypeOnScreen = List.from(listFiltersType);
+    distanceFilterOnScreen = distanceFilter;
+    emit(InitialState());
   }
 
-  addFilterDistance(FiltersDistance selectedFilter) {
-    if (listFiltersDistance.contains(selectedFilter)) {
-      listFiltersDistance.remove(selectedFilter);
+  addFilterType(FiltersType selectedFilter) {
+    if (listFiltersTypeOnScreen.contains(selectedFilter)) {
+      listFiltersTypeOnScreen.remove(selectedFilter);
     } else {
-      listFiltersDistance.add(selectedFilter);
+      listFiltersTypeOnScreen.add(selectedFilter);
     }
 
-    emit(ListFilters(listFiltersType, listFiltersDistance));
+    emit(AddOrRemoveFilter(listFiltersTypeOnScreen, distanceFilterOnScreen));
+  }
+
+  addFilterDistance(double selectedFilter) {
+    distanceFilterOnScreen = selectedFilter;
+
+    emit(AddOrRemoveFilter(listFiltersTypeOnScreen, distanceFilterOnScreen));
   }
 
   cleanFilters() {
-    listFiltersType = [];
-    listFiltersDistance = [];
+    listFiltersType = [FiltersType.restaurant];
+    distanceFilter = 500.0;
 
-    emit(ListFilters(listFiltersType, listFiltersDistance));
+    listFiltersTypeOnScreen = [FiltersType.restaurant];
+    distanceFilterOnScreen = 500.0;
+
+    emit(AddOrRemoveFilter(listFiltersTypeOnScreen, distanceFilterOnScreen));
+  }
+
+  filter() {
+    isMakingRequest = true;
+    listFiltersType = List.from(listFiltersTypeOnScreen);
+    distanceFilter = distanceFilterOnScreen;
+
+    emit(MakePlacesRequest(listFiltersType, distanceFilter));
   }
 }
 
 enum FiltersType {
   restaurant(['restaurant']),
-  outside(['tourist_attraction','national_park','park', 'zoo','dog_park']),
+  outside(['tourist_attraction', 'national_park', 'park', 'zoo', 'dog_park']),
   coffee(['bakery', 'cafe', 'coffee_shop']),
   fastFood(['fast_food_restaurant']),
   veggie(['vegan_restaurant', 'vegetarian_restaurant']),
   nightClub(['bar', 'night_club']);
 
   const FiltersType(this.filtersList);
+
   final List<String> filtersList;
 }
 
 enum FiltersDistance {
-  fiveKm('5000'),
-  tenKm('10000'),
-  twentyFiveKm('15000');
+  fiveKm(500.0),
+  tenKm(1000.0),
+  twentyFiveKm(1500.0);
 
   const FiltersDistance(this.distance);
-  final String distance;
+
+  final double distance;
 }

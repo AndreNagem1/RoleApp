@@ -26,113 +26,116 @@ class PlacesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ListPlacesCubit, ListPlacesState>(
-        bloc: listPlacesCubit,
-        builder: (context, state) {
-          if (state is ListPlaces) {
-            mapController.setShouldGenerateNewListPlaces(false);
-            mapController.listPlaces = state.listPlaces;
+      bloc: listPlacesCubit,
+      builder: (context, state) {
+        if (state is ListPlaces) {
+          mapController.setShouldGenerateNewListPlaces(false);
+          mapController.listPlaces = state.listPlaces;
 
-            return Container(
-              height: double.infinity,
-              width: double.infinity,
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                height: 330,
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: (scrollNotification) {
-                    if (scrollNotification is ScrollEndNotification) {
-                      final position = listController.position.pixels / 360;
+          return Container(
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 330,
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollEndNotification) {
+                    final position = listController.position.pixels / 360;
 
-                      mapController.showInfoFromMarker(
-                          mapController.listPlaces?[position.ceil()]);
-                    }
-                    return false;
+                    mapController.showInfoFromMarker(
+                        mapController.listPlaces?[position.ceil()]);
+                  }
+                  return false;
+                },
+                child: ListView.builder(
+                  physics: const CustomScrollPhysics(snapSize: 360),
+                  scrollDirection: Axis.horizontal,
+                  controller: listController,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  itemBuilder: (context, position) {
+                    return _getRow(
+                      position,
+                      listController,
+                      state,
+                      context,
+                      mapController,
+                    );
                   },
-                  child: ListView.builder(
-                    physics: const CustomScrollPhysics(snapSize: 360),
-                    scrollDirection: Axis.horizontal,
-                    controller: listController,
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(bottom: 30.0),
-                    itemBuilder: (context, position) {
-                      return _getRow(
-                        position,
-                        listController,
-                        state,
-                        context,
-                        mapController,
-                      );
-                    },
-                    itemCount: state.listPlaces.length,
-                  ),
+                  itemCount: state.listPlaces.length,
                 ),
               ),
-            );
-          }
-          if (state is Loading) {
-            return Container(
-                height: double.infinity,
-                width: double.infinity,
-                color: Colors.black26,
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator());
-          }
-          if (state is ApiOff) {
-            return GestureDetector(
-              onTap: () {
-                listPlacesCubit.setInitialState();
-              },
+            ),
+          );
+        }
+        if (state is Loading) {
+          mapController.cleanPlaces();
+
+          return Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.black26,
+              alignment: Alignment.center,
+              child: const CircularProgressIndicator());
+        }
+        if (state is ApiOff) {
+          return GestureDetector(
+            onTap: () {
+              listPlacesCubit.setInitialState();
+            },
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.black26,
+              alignment: Alignment.center,
               child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                color: Colors.black26,
-                alignment: Alignment.center,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
-                    ),
-                    color: Theme.of(context).colorScheme.surface,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'API Desligada',
-                      style: GoogleFonts.righteous(
-                        textStyle:  TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'API Desligada',
+                    style: GoogleFonts.righteous(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
                 ),
               ),
-            );
-          }
-          mapController.setShouldGenerateNewListPlaces(true);
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 120),
-              Row(
-                children: [
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      getNearbyPlaces(context, mapController, listPlacesCubit);
-                    },
-                    child: const MapButton(icon: Icons.refresh_sharp),
-                  ),
-                  const SizedBox(width: 35),
-                ],
-              ),
-            ],
+            ),
           );
-        });
+        }
+        mapController.setShouldGenerateNewListPlaces(true);
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 120),
+            Row(
+              children: [
+                const Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    getNearbyPlaces(context, mapController, listPlacesCubit);
+                  },
+                  child: const MapButton(icon: Icons.refresh_sharp),
+                ),
+                const SizedBox(width: 35),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _getRow(

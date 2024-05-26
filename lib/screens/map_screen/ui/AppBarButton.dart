@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolesp/screens/map_screen/domain/cubit/filter_cubit.dart';
 import 'package:rolesp/screens/map_screen/ui/filter_bottom_sheet.dart';
@@ -7,22 +6,29 @@ class AppbarButton extends StatelessWidget {
   final IconData icon;
   final FilterCubit filterCubit;
 
-  const AppbarButton({Key? key, required this.icon, required this.filterCubit})
-      : super(key: key);
+  const AppbarButton({
+    Key? key,
+    required this.icon,
+    required this.filterCubit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
-            isScrollControlled: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            backgroundColor: Colors.transparent,
-            context: context,
-            builder: (BuildContext context) {
-              return FilterBottomSheet(filterCubit: filterCubit);
+          isScrollControlled: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: Colors.transparent,
+          context: context,
+          builder: (BuildContext context) {
+            return FilterBottomSheet(filterCubit: filterCubit);
+          },
+        ).whenComplete(() => {
+              if (!filterCubit.isMakingRequest)
+                {filterCubit.setFiltersOnScreen()}
             });
       },
       child: SizedBox(

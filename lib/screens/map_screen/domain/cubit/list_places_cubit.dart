@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +9,7 @@ import 'package:rolesp/screens/map_screen/data/entity/GoogleApiController.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
 
 import '../../../../models/nearby_places_response.dart';
+import 'filter_cubit.dart';
 
 class ListPlacesCubit extends Cubit<ListPlacesState> {
   ListPlacesCubit() : super(ListPlacesInitialState());
@@ -16,8 +19,8 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   var listPlaces = <PlaceInfo>[];
-  var radiusSearch = '500';
-  var listTypesSearch = ['cafe'];
+  var distanceFilter = 500.0;
+  var listTypesFilter = [FiltersType.restaurant];
 
   void setListPlaces(List<PlaceInfo> listPlaces) {
     if (listPlaces.isNotEmpty) {
@@ -63,8 +66,17 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
       dio.options.headers["X-Goog-FieldMask"] =
           "places.displayName,places.formattedAddress,places.types,places.location,places.photos,places.rating,places.currentOpeningHours,places.priceLevel,places.userRatingCount,places.nationalPhoneNumber";
 
+      var listTypes = [];
+
+      for (var filterType in listTypesFilter) {
+        listTypes.addAll(filterType.filtersList);
+      }
+
+      print('FILTER - PlacesFilters: $listTypes');
+      print('FILTER - Radius: $distanceFilter');
+
       var response = await dio.post(url, data: {
-        'includedTypes': listTypesSearch,
+        'includedTypes': listTypes,
         "maxResultCount": "10",
         "locationRestriction": {
           "circle": {
@@ -72,7 +84,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
               "latitude": position.latitude.toString(),
               "longitude": position.longitude.toString()
             },
-            "radius": radiusSearch
+            "radius": distanceFilter
           }
         }
       });
@@ -88,6 +100,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
         emit(ListPlacesInitialState());
         return [];
       } else {
+        emit(ApiOff());
         throw Exception();
       }
     } else {
@@ -96,11 +109,11 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     }
   }
 
-  void setRadiusSearch(String newRadius) {
-    radiusSearch = newRadius;
+  void setRadiusSearch(double newRadius) {
+    distanceFilter = newRadius;
   }
 
-  void setListPlacesTypes(List<String> newPlacesTypesSearch) {
-    listTypesSearch = newPlacesTypesSearch;
+  void setListPlacesTypes(List<FiltersType> newPlacesTypesSearch) {
+    listTypesFilter = List.from(newPlacesTypesSearch);
   }
 }
