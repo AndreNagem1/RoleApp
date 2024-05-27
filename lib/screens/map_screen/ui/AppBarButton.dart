@@ -27,7 +27,7 @@ class AppbarButton extends StatelessWidget {
             return FilterBottomSheet(filterCubit: filterCubit);
           },
         ).whenComplete(() => {
-              if (!filterCubit.isMakingRequest)
+              if (filterCubit.shouldSetFiltersOnBottomSheetDispose)
                 {filterCubit.setFiltersOnScreen()}
             });
       },

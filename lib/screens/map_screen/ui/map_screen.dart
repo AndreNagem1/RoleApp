@@ -41,6 +41,17 @@ class MapScreen extends StatelessWidget {
           BlocBuilder<FilterCubit, FilterState>(
             bloc: filterCubit,
             builder: (context, state) {
+              if (state is CleanFilters) {
+                listPlacesCubit.setRadiusSearch(state.distanceFilter);
+                listPlacesCubit.setListPlacesTypes(state.listFilterType);
+
+                getNearbyPlaces(
+                  context,
+                  controller,
+                  listPlacesCubit,
+                  listController,
+                );
+              }
               if (state is MakePlacesRequest) {
                 listPlacesCubit.setRadiusSearch(state.distanceFilter);
                 listPlacesCubit.setListPlacesTypes(state.listFilterType);

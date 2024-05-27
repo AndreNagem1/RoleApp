@@ -10,7 +10,7 @@ class FilterCubit extends Cubit<FilterState> {
   List<FiltersType> listFiltersTypeOnScreen = [FiltersType.restaurant];
   var distanceFilterOnScreen = 500.0;
 
-  var isMakingRequest = false;
+  var shouldSetFiltersOnBottomSheetDispose = true;
 
   setFiltersOnScreen() {
     listFiltersTypeOnScreen = List.from(listFiltersType);
@@ -37,17 +37,18 @@ class FilterCubit extends Cubit<FilterState> {
   }
 
   cleanFilters() {
+    shouldSetFiltersOnBottomSheetDispose = false;
     listFiltersType = [FiltersType.restaurant];
     distanceFilter = 500.0;
 
     listFiltersTypeOnScreen = [FiltersType.restaurant];
     distanceFilterOnScreen = 500.0;
 
-    emit(AddOrRemoveFilter(listFiltersTypeOnScreen, distanceFilterOnScreen));
+    emit(CleanFilters(listFiltersTypeOnScreen, distanceFilterOnScreen));
   }
 
   filter() {
-    isMakingRequest = true;
+    shouldSetFiltersOnBottomSheetDispose = false;
     listFiltersType = List.from(listFiltersTypeOnScreen);
     distanceFilter = distanceFilterOnScreen;
 

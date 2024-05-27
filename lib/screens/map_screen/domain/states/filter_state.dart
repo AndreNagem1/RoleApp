@@ -27,3 +27,13 @@ class AddOrRemoveFilter extends FilterState {
 
   List<Object> get props => [listFilterTypeOnScreen, distanceFilterOnScreen];
 }
+
+class CleanFilters extends FilterState {
+  CleanFilters(this.listFilterType, this.distanceFilter);
+
+  final List<FiltersType> listFilterType;
+
+  final double distanceFilter;
+
+  List<Object> get props => [listFilterType, distanceFilter];
+}

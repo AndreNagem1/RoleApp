@@ -20,7 +20,7 @@ class FilterBottomSheet extends StatelessWidget {
     var selectedDistanceFilterOnScreen = filterCubit.distanceFilter;
     var selectedTypeFilterListOnScreen = filterCubit.listFiltersType;
 
-    filterCubit.isMakingRequest = false;
+    filterCubit.shouldSetFiltersOnBottomSheetDispose = true;
 
     return Container(
       height: screenHeight * 0.75,
@@ -175,8 +175,6 @@ class FilterBottomSheet extends StatelessWidget {
           }),
     );
   }
-
-  setFiltersInitialState() {}
 }
 
 class FilterItemType extends StatelessWidget {

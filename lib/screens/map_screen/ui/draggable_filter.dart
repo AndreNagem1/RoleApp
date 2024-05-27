@@ -56,7 +56,8 @@ class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
     }
 
     if (offSetAxisX > screenWidth * 3 / 4) {
-
+      draggablePosition = 3;
+      offSetAxisX = screenWidth - 18;
     }
 
     return Stack(
