@@ -13,6 +13,8 @@ import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../common_utils.dart';
+
 class PlaceDetailsBottomSheet extends StatelessWidget {
   final PlaceInfo? place;
   final MapController mapController;
@@ -127,7 +129,35 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
+                Row(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      height: 15,
+                      width: 75,
+                      child:
+                      Image.asset(getPriceLevel(place?.priceLevel ?? '')),
+                    ),
+                    if (place?.priceLevel == null)
+                      Text(
+                        ' • Sem informação de preço',
+                        style: GoogleFonts.roboto(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 11,
+                        ),
+                      ),
+                    if (place?.priceLevel?.contains('FREE') == true)
+                      Text(
+                        ' • Sem valor associado',
+                        style: GoogleFonts.roboto(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 11,
+                        ),
+                      )
+                  ],
+                ),
+                const SizedBox(height: 5),
                 GestureDetector(
                   onTap: () {
                     showReviews(context, []);
