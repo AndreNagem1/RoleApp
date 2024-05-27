@@ -103,6 +103,11 @@ flutter:
     - assets/gif/splash.gif
     - assets/images/fox.png
     - assets/images/rest.jpg
+    - assets/images/priceLevel0.png
+    - assets/images/priceLevel1.png
+    - assets/images/priceLevel2.png
+    - assets/images/priceLevel3.png
+    - assets/images/priceLevel4.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

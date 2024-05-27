@@ -29,19 +29,18 @@ class PlacesListItem extends StatelessWidget {
     var imageUrl = '';
 
     if (place?.photos?[0] != null) {
-      imageUrl =
-          'https://places.googleapis.com/v1/' +
-              place!.photos![0].name! +
-              '/media?key=' +
-              apiKey +
-             '&maxHeightPx=400';
+      imageUrl = 'https://places.googleapis.com/v1/' +
+          place!.photos![0].name! +
+          '/media?key=' +
+          apiKey +
+          '&maxHeightPx=400';
     }
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 350,
-        height: 350,
+        height: 375,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
@@ -101,9 +100,9 @@ class PlacesListItem extends StatelessWidget {
                             context,
                             FavoritePlaceInfo(
                                 name: place?.displayName?.text ?? '',
-                                phoneNumber: place?.phoneNumber ??  '',
+                                phoneNumber: place?.phoneNumber ?? '',
                                 openHours: getCurrentOpeningHour(place),
-                                description:  place?.phoneNumber ?? ''),
+                                description: place?.phoneNumber ?? ''),
                           );
                         },
                         child: Container(
@@ -142,44 +141,66 @@ class PlacesListItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      '',
-                      style: GoogleFonts.acme(
-                        textStyle: TextStyle(
-                          fontSize: 15,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        height: 15,
+                        width: 75,
+                        child:
+                            Image.asset(getPriceLevel(place?.priceLevel ?? '')),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          width: 100,
-                          child: Image.asset(getRating(place?.rating ?? 0)),
+                      if (place?.priceLevel == null)
+                        Text(
+                          ' • Sem informação de preço',
+                          style: GoogleFonts.roboto(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 11,
+                          ),
                         ),
-                        const SizedBox(width: 5),
-                        Text(' • ' + (place?.userRatingCount?.toString() ?? '0') + ' avaliações')
-                      ],
-                    ),
+                      if (place?.priceLevel?.contains('FREE') == true)
+                        Text(
+                          ' • Sem valor associado',
+                          style: GoogleFonts.roboto(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 11,
+                          ),
+                        )
+                    ],
                   ),
                   const SizedBox(height: 5),
                   Row(
                     children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        height: 15,
+                        width: 75,
+                        child: Image.asset(getRating(place?.rating ?? 0)),
+                      ),
+                      const SizedBox(width: 5),
                       Text(
-                        getPlaceStatus(place?.currentOpeningHours?.openNow ?? true),
+                        ' • ' +
+                            (place?.userRatingCount?.toString() ?? '0') +
+                            ' avaliações',
+                        style: GoogleFonts.roboto(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text(
+                        getPlaceStatus(
+                            place?.currentOpeningHours?.openNow ?? true),
                         style: GoogleFonts.roboto(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
-                      if(place?.currentOpeningHours?.openNow ?? true)
+                      if (place?.currentOpeningHours?.openNow ?? true)
                         Text(
                           getCurrentOpeningHour(place),
                           style: GoogleFonts.roboto(
@@ -270,48 +291,75 @@ class PlacesListItem extends StatelessWidget {
 
   String getCurrentOpeningHour(PlaceInfo? place) {
     final today = DateTime.now().weekday;
-    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
+    final openingHour =
+        place?.currentOpeningHours?.weekdayDescriptions?[today - 1];
     final startIndexOpeningHour = openingHour?.indexOf(':');
-    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
+    final openingHourFormatted =
+        openingHour?.substring(startIndexOpeningHour ?? 0);
 
     return openingHourFormatted ?? '';
+  }
+
+  String getPriceLevel(String priceLevel) {
+    var priceLevelResource = 'assets/images/priceLevel0.png';
+
+    if (priceLevel.contains('FREE')) {
+      priceLevelResource = 'assets/images/priceLevel0.png';
+    }
+    if (priceLevel.contains('INEXPENSIVE')) {
+      priceLevelResource = 'assets/images/priceLevel1.png';
+    }
+
+    if (priceLevel.contains('MODERATE')) {
+      priceLevelResource = 'assets/images/priceLevel2.png';
+    }
+
+    if (priceLevel.contains('PRICE_LEVEL_EXPENSIVE')) {
+      priceLevelResource = 'assets/images/priceLevel3.png';
+    }
+
+    if (priceLevel.contains('PRICE_LEVEL_VERY_EXPENSIVE	')) {
+      priceLevelResource = 'assets/images/priceLevel4.png';
+    }
+
+    return priceLevelResource;
   }
 
   String getRating(num rating) {
     var ratingResource = 'assets/images/avaliations0.png';
 
-    if(rating <= 5.0){
+    if (rating <= 5.0) {
       ratingResource = 'assets/images/avaliations10.png';
     }
-    if(rating <= 4.5){
+    if (rating <= 4.5) {
       ratingResource = 'assets/images/avaliations9.png';
     }
-    if(rating <= 4.0){
+    if (rating <= 4.0) {
       ratingResource = 'assets/images/avaliations8.png';
     }
 
-    if(rating <= 3.5){
+    if (rating <= 3.5) {
       ratingResource = 'assets/images/avaliations7.png';
     }
-    if(rating <= 3.0){
+    if (rating <= 3.0) {
       ratingResource = 'assets/images/avaliations6.png';
     }
-    if(rating <= 2.5){
+    if (rating <= 2.5) {
       ratingResource = 'assets/images/avaliations5.png';
     }
-    if(rating <= 2.0){
+    if (rating <= 2.0) {
       ratingResource = 'assets/images/avaliations4.png';
     }
-    if(rating <= 1.5){
+    if (rating <= 1.5) {
       ratingResource = 'assets/images/avaliations3.png';
     }
-    if(rating <= 1.0){
+    if (rating <= 1.0) {
       ratingResource = 'assets/images/avaliations2.png';
     }
-    if(rating <= 0.5){
+    if (rating <= 0.5) {
       ratingResource = 'assets/images/avaliations1.png';
     }
-    if(rating == 0.0){
+    if (rating == 0.0) {
       ratingResource = 'assets/images/avaliations0.png';
     }
     return ratingResource;
@@ -383,5 +431,4 @@ class PlacesListItem extends StatelessWidget {
     }
     return type;
   }
-
 }

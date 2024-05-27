@@ -15,7 +15,11 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   ListPlacesCubit() : super(ListPlacesInitialState());
 
   final db = FirebaseFirestore.instance;
-  final Dio dio = Dio();
+  final Dio dio = Dio(
+    BaseOptions(
+      receiveTimeout: const Duration(seconds: 10)
+    )
+  );
   final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   var listPlaces = <PlaceInfo>[];
@@ -63,17 +67,27 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
 
       dio.options.headers['content-Type'] = 'application/json';
       dio.options.headers["X-Goog-Api-Key"] = apiKey;
-      dio.options.headers["X-Goog-FieldMask"] =
-          "places.displayName,places.formattedAddress,places.types,places.location,places.photos,places.rating,places.currentOpeningHours,places.priceLevel,places.userRatingCount,places.nationalPhoneNumber";
+      dio.options.headers["X-Goog-FieldMask"] = "places.displayName," +
+          "places.formattedAddress," +
+          "places.types," +
+          "places.location," +
+          "places.photos," +
+          "places.rating," +
+          "places.currentOpeningHours," +
+          "places.priceLevel," +
+          "places.userRatingCount," +
+          "places.nationalPhoneNumber," +
+          "places.accessibilityOptions," +
+          "places.allowsDogs," +
+          "places.goodForChildren," +
+          "places.liveMusic," +
+          "places.servesVegetarianFood";
 
       var listTypes = [];
 
       for (var filterType in listTypesFilter) {
         listTypes.addAll(filterType.filtersList);
       }
-
-      print('FILTER - PlacesFilters: $listTypes');
-      print('FILTER - Radius: $distanceFilter');
 
       var response = await dio.post(url, data: {
         'includedTypes': listTypes,
