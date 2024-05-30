@@ -207,6 +207,9 @@ class PlacesListItem extends StatelessWidget {
                           getCurrentOpeningHour(place),
                           style: GoogleFonts.roboto(
                             color: Theme.of(context).colorScheme.onSurface,
+                            textStyle: const TextStyle(
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       const Spacer(),
@@ -241,9 +244,10 @@ class PlacesListItem extends StatelessWidget {
                               return const Align(
                                 alignment: Alignment.center,
                                 child: SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator()),
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(),
+                                ),
                               );
                             }),
                       ),
@@ -301,7 +305,6 @@ class PlacesListItem extends StatelessWidget {
 
     return openingHourFormatted ?? '';
   }
-
 
   String getPlaceStatus(bool? open) {
     var status = 'Aberto ';

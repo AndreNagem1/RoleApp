@@ -59,6 +59,7 @@ class PlaceInfo {
   bool? allowsDogs;
   bool? goodForGroups;
   bool? goodForWatchingSports;
+  bool? servesVegetarianFood;
   PaymentOptions? paymentOptions;
   ParkingOptions? parkingOptions;
   AccessibilityOptions? accessibilityOptions;
@@ -101,6 +102,7 @@ class PlaceInfo {
       this.allowsDogs,
       this.goodForGroups,
       this.goodForWatchingSports,
+      this.servesVegetarianFood,
       this.paymentOptions,
       this.parkingOptions,
       this.accessibilityOptions});
@@ -166,6 +168,7 @@ class PlaceInfo {
     allowsDogs = json['allowsDogs'];
     goodForGroups = json['goodForGroups'];
     goodForWatchingSports = json['goodForWatchingSports'];
+    servesVegetarianFood = json['servesVegetarianFood'];
     paymentOptions = json['paymentOptions'] != null
         ? PaymentOptions.fromJson(json['paymentOptions'])
         : null;
@@ -235,6 +238,7 @@ class PlaceInfo {
     data['allowsDogs'] = allowsDogs;
     data['goodForGroups'] = goodForGroups;
     data['goodForWatchingSports'] = goodForWatchingSports;
+    data['servesVegetarianFood'] = servesVegetarianFood;
     if (paymentOptions != null) {
       data['paymentOptions'] = paymentOptions!.toJson();
     }

@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/Controllers/map_controller.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
-import '../../../BottomSheets/place_details_bottom_sheet.dart';
+import '../../../BottomSheets/place_details_bottom_sheet/place_details_bottom_sheet.dart';
 import '../../../models/nearby_places_response.dart';
 import '../../../widgets/custom_scroll.dart';
 import '../../../widgets/places_list_item.dart';

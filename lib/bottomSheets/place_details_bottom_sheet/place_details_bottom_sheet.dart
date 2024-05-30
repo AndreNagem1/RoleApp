@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,7 @@ import 'package:rolesp/models/place_details_response.dart';
 import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../common_utils.dart';
+import '../../common_utils.dart';
 
 class PlaceDetailsBottomSheet extends StatelessWidget {
   final PlaceInfo? place;
@@ -26,19 +27,10 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageUrl = '';
-
-    if (place?.photos?[0] != null) {
-      imageUrl =
-          'https://places.googleapis.com/v1/' +
-              place!.photos![0].name! +
-              '/media?key=' +
-              apiKey +
-              '&maxHeightPx=400';
-    }
+    final lisPhotos = place?.photos ?? [];
 
     return Container(
-      height: 416,
+      height: 430,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -50,23 +42,30 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: CachedNetworkImage(
-              fit: BoxFit.fitWidth,
-              imageUrl: imageUrl,
-              placeholder: (context, url) => const Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-              errorWidget: (context, url, error) =>
-                  Image.asset('assets/images/blackHorse.jpg'),
-            ),
+          CarouselSlider(
+            items: lisPhotos
+                .map(
+                  (photo) => SizedBox(
+                    height: 200,
+                    width: double.infinity,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.fitWidth,
+                      imageUrl: getPhotoUrl(photo.name ?? '', apiKey),
+                      placeholder: (context, url) => const Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/images/blackHorse.jpg'),
+                    ),
+                  ),
+                )
+                .toList(),
+            options: CarouselOptions(),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -129,7 +128,61 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    if (place?.goodForChildren == true)
+                      const Icon(
+                        Icons.family_restroom_outlined,
+                        size: 15,
+                      ),
+                    if (place?.accessibilityOptions
+                        ?.wheelchairAccessibleEntrance ==
+                        true)
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(
+                          Icons.accessible,
+                          size: 15,
+                        ),
+                      ),
+                    if (place?.allowsDogs == true)
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(
+                          Icons.pets_outlined,
+                          size: 15,
+                        ),
+                      ),
+                    if (place?.liveMusic == true)
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Row(
+                          children: [
+                            Text('Música ao vivo'),
+                            Icon(
+                              Icons.music_note_outlined,
+                              size: 15,
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (place?.servesVegetarianFood == true)
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Row(
+                          children: [
+                            Text('Opções vegetarianas'),
+                            Icon(
+                              Icons.energy_savings_leaf_outlined,
+                              size: 15,
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Container(
@@ -137,7 +190,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       height: 15,
                       width: 75,
                       child:
-                      Image.asset(getPriceLevel(place?.priceLevel ?? '')),
+                          Image.asset(getPriceLevel(place?.priceLevel ?? '')),
                     ),
                     if (place?.priceLevel == null)
                       Text(
@@ -204,7 +257,9 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     openOpenHoursDialog(
-                        context, place?.currentOpeningHours?.weekdayDescriptions ?? ['']);
+                        context,
+                        place?.currentOpeningHours?.weekdayDescriptions ??
+                            ['']);
                   },
                   child: SizedBox(
                     child: Padding(
@@ -255,7 +310,9 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                           place?.formattedAddress ?? '',
                           place?.phoneNumber ?? 'Sem telefone',
                           place,
-                          place?.currentOpeningHours!.weekdayDescriptions?[DateTime.now().weekday -1] ?? '',
+                          place?.currentOpeningHours!.weekdayDescriptions?[
+                                  DateTime.now().weekday - 1] ??
+                              '',
                         );
                       },
                       child: Text(
@@ -287,9 +344,11 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
 
   String getCurrentOpeningHour(PlaceInfo? place) {
     final today = DateTime.now().weekday;
-    final openingHour = place?.currentOpeningHours?.weekdayDescriptions?[today -1];
+    final openingHour =
+        place?.currentOpeningHours?.weekdayDescriptions?[today - 1];
     final startIndexOpeningHour = openingHour?.indexOf(':');
-    final openingHourFormatted = openingHour?.substring(startIndexOpeningHour ?? 0);
+    final openingHourFormatted =
+        openingHour?.substring(startIndexOpeningHour ?? 0);
 
     return openingHourFormatted ?? '';
   }
@@ -456,8 +515,8 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     );
   }
 
-  openAddInfoDialog(
-      BuildContext context, String address, String phone, PlaceInfo? placeInfo, String functioningHours) {
+  openAddInfoDialog(BuildContext context, String address, String phone,
+      PlaceInfo? placeInfo, String functioningHours) {
     showDialog(
       context: context,
       builder: (_) => Center(
@@ -465,7 +524,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
           height: 300,
           child: InfoDialog(
             vicinity: address,
-            functioningHours:functioningHours,
+            functioningHours: functioningHours,
             phone: phone,
             place: placeInfo,
           ),
@@ -486,5 +545,13 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getPhotoUrl(String photoName, String apiKey) {
+    return 'https://places.googleapis.com/v1/' +
+        photoName +
+        '/media?key=' +
+        apiKey +
+        '&maxHeightPx=400';
   }
 }
