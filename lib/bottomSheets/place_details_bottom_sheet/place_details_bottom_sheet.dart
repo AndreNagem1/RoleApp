@@ -42,13 +42,12 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          CarouselSlider(
-            items: lisPhotos
-                .map(
-                  (photo) => SizedBox(
-                    height: 200,
-                    width: double.infinity,
-                    child: CachedNetworkImage(
+          SizedBox(
+            height: 200,
+            child: CarouselSlider(
+              items: lisPhotos
+                  .map(
+                    (photo) => CachedNetworkImage(
                       fit: BoxFit.fitWidth,
                       imageUrl: getPhotoUrl(photo.name ?? '', apiKey),
                       placeholder: (context, url) => const Align(
@@ -62,10 +61,10 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                       errorWidget: (context, url, error) =>
                           Image.asset('assets/images/blackHorse.jpg'),
                     ),
-                  ),
-                )
-                .toList(),
-            options: CarouselOptions(),
+                  )
+                  .toList(),
+              options: CarouselOptions(),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
