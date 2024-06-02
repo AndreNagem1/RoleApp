@@ -4,6 +4,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rolesp/main_cubit.dart';
 import 'package:rolesp/main_state.dart';
+import 'package:rolesp/services/firebase_messaging_service.dart';
+import 'package:rolesp/services/notification_service.dart';
 
 import 'app_module.dart';
 import 'theme/roleTheme.dart';
@@ -19,12 +21,18 @@ void main() async {
   );
 }
 
+
 class RoleApp extends StatelessWidget {
   const RoleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final cubit = Modular.get<MainCubit>();
+    final fireBaseMessagingService = Modular.get<FirebaseMessagingService>();
+    final notificationService = Modular.get<NotificationService>();
+
+    fireBaseMessagingService.initialize();
+    notificationService.checkForNotifications();
     cubit.getTheme();
 
     return BlocBuilder<MainCubit, MainState>(
