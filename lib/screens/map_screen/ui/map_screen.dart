@@ -145,7 +145,7 @@ class MapScreen extends StatelessWidget {
     controller.setListPlacesCubit(listPlacesCubit);
     controller.setListPlacesController(listController);
 
-    List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context);
+    List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context, mapController.position);
     mapController.addPlaceMarker(context, listPlaces);
   }
 }

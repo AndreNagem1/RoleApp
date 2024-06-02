@@ -179,7 +179,7 @@ class PlacesList extends StatelessWidget {
     MapController mapController,
     ListPlacesCubit listPlacesCubit,
   ) async {
-    List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context);
+    List<PlaceInfo> listPlaces = await listPlacesCubit.getNearByPlaces(context, mapController.position);
     mapController.addPlaceMarker(context, listPlaces);
   }
 

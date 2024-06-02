@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/screens/map_screen/data/entity/GoogleApiController.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
 
@@ -57,12 +58,12 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     return apiController[0].allowApiCall;
   }
 
-  Future<List<PlaceInfo>> getNearByPlaces(BuildContext context) async {
+  Future<List<PlaceInfo>> getNearByPlaces(BuildContext context, LatLng currentPosition) async {
     emit(Loading());
     final googleApiEnabled = await getApiController();
 
     if (googleApiEnabled) {
-      var position = await Geolocator.getCurrentPosition();
+      var position = currentPosition;
       var url = 'https://places.googleapis.com/v1/places:searchNearby';
 
       dio.options.headers['content-Type'] = 'application/json';
@@ -72,7 +73,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
           "places.types," +
           "places.location," +
           "places.photos," +
-          "places.rating," +
+          "places.rating," + 
           "places.currentOpeningHours," +
           "places.priceLevel," +
           "places.userRatingCount," +
