@@ -25,7 +25,6 @@ class AddFavoritePlaceDialog extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
-        height: 180,
         width: double.infinity,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -80,108 +79,84 @@ class AddFavoritePlaceDialog extends StatelessWidget {
                     const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Deseja adicionar ',
-                            style: GoogleFonts.righteous(
-                              textStyle: const TextStyle(
-                                fontSize: 15,
-                                color: ColorsRoleSp.smoothLetter,
-                              ),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: GoogleFonts.righteous(
+                            textStyle: const TextStyle(
+                              fontSize: 15,
+                              color: ColorsRoleSp.smoothLetter,
                             ),
                           ),
-                          Text(
-                            placeInfo.name,
-                            style: GoogleFonts.righteous(
-                              textStyle: const TextStyle(
+                          children: <TextSpan>[
+                            const TextSpan(text: 'Deseja adicionar '),
+                            TextSpan(
+                              text: placeInfo.name,
+                              style: const TextStyle(
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15,
                                 color: Colors.black87,
                               ),
                             ),
-                          ),
-                          Text(
-                            ' a sua lista',
-                            style: GoogleFonts.righteous(
-                              textStyle: const TextStyle(
-                                fontSize: 15,
-                                color: ColorsRoleSp.smoothLetter,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'de favoritos?',
-                      style: GoogleFonts.righteous(
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                          color: ColorsRoleSp.smoothLetter,
+                            const TextSpan(text: ' a sua lista de favoritos?'),
+                          ],
                         ),
-                      ),
+                      )
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 80,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: ColorsRoleSp.perfectPurple,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                                border: Border.all(
-                                    color: Colors.black38, width: 2)),
-                            child: GestureDetector(
-                              onTap: () {
-                                cubit.savePlaceAsFavorite(FavoritePlaceInfo(
-                                  name: placeInfo.name,
-                                  phoneNumber: placeInfo.phoneNumber,
-                                  openHours: placeInfo.openHours,
-                                  description: placeInfo.description,
-                                ));
-                              },
-                              child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    'Adicionar',
-                                    style: GoogleFonts.righteous(
-                                      textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(width: 50),
-                          GestureDetector(
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              color: ColorsRoleSp.perfectPurple,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                              border: Border.all(
+                                  color: Colors.black38, width: 2)),
+                          child: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop();
+                              cubit.savePlaceAsFavorite(FavoritePlaceInfo(
+                                name: placeInfo.name,
+                                phoneNumber: placeInfo.phoneNumber,
+                                openHours: placeInfo.openHours,
+                                description: placeInfo.description,
+                              ));
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Cancelar',
-                                style: GoogleFonts.righteous(
-                                  textStyle: const TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black87,
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  'Adicionar',
+                                  style: GoogleFonts.righteous(
+                                    textStyle: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    ),
                                   ),
+                                )),
+                          ),
+                        ),
+                        const SizedBox(width: 50),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Cancelar',
+                              style: GoogleFonts.righteous(
+                                textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black87,
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     )
                   ],
                 );
