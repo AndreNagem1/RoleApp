@@ -105,6 +105,18 @@ class FavoriteScreen extends StatelessWidget {
       iconColor = Theme.of(context).colorScheme.secondary;
     }
 
+    var titleFontSize = 15.0;
+
+    if (placeInfo.name.length > 18) {
+      titleFontSize = 12.0;
+    }
+
+    var title = placeInfo.name;
+
+    if (placeInfo.name.length > 18) {
+      title = placeInfo.name.substring(17) + ' ...';
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: Container(
@@ -135,39 +147,44 @@ class FavoriteScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 10),
                 Text(
-                  placeInfo.name,
+                  title,
                   style: GoogleFonts.roboto(
                     textStyle: TextStyle(
-                      fontSize: 16,
+                      fontSize: titleFontSize,
                       color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  children: [
-                    if (isOpen == true)
-                      Text(
-                        'Aberto',
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      if (isOpen == true) ...[
+                        TextSpan(
+                          text: 'Aberto',
+                          style: GoogleFonts.roboto(
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                      if (isOpen == false) ...[
+                        TextSpan(
+                          text: 'Fechado',
+                          style: GoogleFonts.roboto(
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                      TextSpan(
+                        text: ' ' + placeInfo.openHours,
                         style: GoogleFonts.roboto(
-                          color: Colors.green,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
-                    if (isOpen == false)
-                      Text(
-                        'Fechado',
-                        style: GoogleFonts.roboto(
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                    Text(
-                      ' ' + placeInfo.openHours,
-                      style: GoogleFonts.roboto(
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
                 Text(
