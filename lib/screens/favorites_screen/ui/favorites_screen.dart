@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rolesp/models/favorite_place_info.dart';
 import 'package:rolesp/models/places_nearby_response.dart';
 import 'package:rolesp/screens/favorites_screen/ui/add_new_number_dialog.dart';
+import 'package:rolesp/screens/favorites_screen/ui/delete_number_dialog.dart';
 import 'package:rolesp/widgets/Swipeable.dart';
 import 'package:rolesp/widgets/app_title.dart';
 
@@ -66,13 +67,12 @@ class FavoriteScreen extends StatelessWidget {
                   final sweapable = Sweapeble();
 
                   sweapable.child = favoriteListItem(
-                    context,
-                    state.listFavoritePlaces[position],
-                    isOpen,
-                    position,
-                    state.selectedItemToDelete,
-                    cubit,
-                  );
+                      context,
+                      state.listFavoritePlaces[position],
+                      isOpen,
+                      position,
+                      state.selectedItemToDelete,
+                      cubit);
                   return sweapable;
                 },
                 itemCount: state.listFavoritePlaces.length,
@@ -90,13 +90,12 @@ class FavoriteScreen extends StatelessWidget {
   }
 
   Widget favoriteListItem(
-    BuildContext context,
-    FavoritePlaceInfo placeInfo,
-    bool isOpen,
-    int position,
-    int selectedItemToDelete,
-    FavoriteScreenCubit cubit,
-  ) {
+      BuildContext context,
+      FavoritePlaceInfo placeInfo,
+      bool isOpen,
+      int position,
+      int selectedItemToDelete,
+      FavoriteScreenCubit cubit) {
     final phoneIsEmpty = placeInfo.phoneNumber.isEmpty;
 
     var iconColor = Theme.of(context).colorScheme.onSurface;
@@ -117,132 +116,140 @@ class FavoriteScreen extends StatelessWidget {
       title = placeInfo.name.substring(17) + ' ...';
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-      child: Container(
-        height: 100,
-        clipBehavior: Clip.hardEdge,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(15),
-          ),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.onSurface,
-            width: 0.5,
-          ),
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 10),
-            SizedBox(
-              height: 100,
-              width: 130,
-              child: Image.asset('assets/images/blackHorse.jpg'),
+    return GestureDetector(
+      onTap: () {
+        cubit.selectItemToBeDeleted(-1);
+      },
+      onLongPress: () {
+        cubit.selectItemToBeDeleted(position);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+        child: Container(
+          height: 100,
+          clipBehavior: Clip.hardEdge,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(15),
             ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 10),
-                Text(
-                  title,
-                  style: GoogleFonts.roboto(
-                    textStyle: TextStyle(
-                      fontSize: titleFontSize,
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontWeight: FontWeight.bold,
+            border: Border.all(
+              color: Theme.of(context).colorScheme.onSurface,
+              width: 0.5,
+            ),
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              SizedBox(
+                height: 100,
+                width: 130,
+                child: Image.asset('assets/images/blackHorse.jpg'),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    title,
+                    style: GoogleFonts.roboto(
+                      textStyle: TextStyle(
+                        fontSize: titleFontSize,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                RichText(
-                  text: TextSpan(
+                  const SizedBox(height: 5),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        if (isOpen == true) ...[
+                          TextSpan(
+                            text: 'Aberto',
+                            style: GoogleFonts.roboto(
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                        if (isOpen == false) ...[
+                          TextSpan(
+                            text: 'Fechado',
+                            style: GoogleFonts.roboto(
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                        ],
+                        TextSpan(
+                          text: ' ' + placeInfo.openHours,
+                          style: GoogleFonts.roboto(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ],
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    placeInfo.description,
+                    style: GoogleFonts.roboto(
+                      textStyle: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              if (position != selectedItemToDelete)
+                GestureDetector(
+                  onTap: () {
+                    onPhoneTap(
+                      placeInfo,
+                      cubit,
+                      context,
+                    );
+                  },
+                  child: Row(
                     children: [
-                      if (isOpen == true) ...[
-                        TextSpan(
-                          text: 'Aberto',
-                          style: GoogleFonts.roboto(
-                            color: Colors.green,
-                          ),
+                      if (phoneIsEmpty == true)
+                        Icon(
+                          Icons.add,
+                          size: 25,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
-                      ],
-                      if (isOpen == false) ...[
-                        TextSpan(
-                          text: 'Fechado',
-                          style: GoogleFonts.roboto(
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                      ],
-                      TextSpan(
-                        text: ' ' + placeInfo.openHours,
-                        style: GoogleFonts.roboto(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                      Icon(
+                        Icons.phone,
+                        size: 33,
+                        color: iconColor,
                       ),
                     ],
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  placeInfo.description,
-                  style: GoogleFonts.roboto(
-                    textStyle: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            if (position != selectedItemToDelete)
-              GestureDetector(
-                onTap: () {
-                  onPhoneTap(
-                    placeInfo,
-                    cubit,
-                    context,
-                  );
-                },
-                child: Row(
-                  children: [
-                    if (phoneIsEmpty == true)
-                      Icon(
-                        Icons.add,
-                        size: 25,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    Icon(
-                      Icons.phone,
+              if (position != selectedItemToDelete) const SizedBox(width: 20),
+              if (position == selectedItemToDelete)
+                GestureDetector(
+                  onTap: () {
+                    openDeleteNumber(context, cubit, placeInfo, position);
+                  },
+                  child: Container(
+                    height: double.infinity,
+                    width: 60,
+                    color: Colors.red,
+                    child: Icon(
+                      Icons.delete,
                       size: 33,
-                      color: iconColor,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
-                  ],
-                ),
-              ),
-            if (position != selectedItemToDelete) const SizedBox(width: 20),
-            if (position == selectedItemToDelete)
-              GestureDetector(
-                onTap: () {
-                  cubit.deleteItem(placeInfo.name, position);
-                },
-                child: Container(
-                  height: double.infinity,
-                  width: 80,
-                  color: Colors.red,
-                  child: Icon(
-                    Icons.delete,
-                    size: 33,
-                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -268,6 +275,26 @@ class FavoriteScreen extends StatelessWidget {
     }
     status = status?.replaceAll('Closed', '');
     return status ??= '';
+  }
+
+  openDeleteNumber(BuildContext context, FavoriteScreenCubit cubit,
+      FavoritePlaceInfo placeInfo, int index) {
+    showDialog(
+      context: context,
+      builder: (_) => Center(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 80.0),
+          child: SizedBox(
+            height: 250,
+            child: DeleteNumberDialog(
+              onDeleteNumber: () {
+                cubit.deleteItem(placeInfo.name, index);
+              },
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   openAddNewNumber(BuildContext context, FavoriteScreenCubit cubit,

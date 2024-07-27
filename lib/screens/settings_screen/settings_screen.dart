@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rolesp/Resources/ColorsRoleSp.dart';
 import 'package:rolesp/screens/settings_screen/settings_cubit.dart';
 import 'package:rolesp/screens/settings_screen/settings_screen_state.dart';
 import 'package:rolesp/theme/roleTheme.dart';
@@ -13,32 +14,27 @@ class SettingsScreen extends StatelessWidget {
   SettingsScreen({Key? key}) : super(key: key);
 
   final bloc = SettingsCubit();
+  final mainCubit = Modular.get<MainCubit>();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: BlocBuilder<SettingsCubit, SettingsScreenState>(
         bloc: bloc,
         builder: (context, state) {
           var showConfig = false;
-          var showAboutUs = false;
           var showHelp = false;
 
           if (state is OptionSelected) {
             if (state.selectedOption == SelectedOption.configurations) {
               showConfig = true;
             }
-            if (state.selectedOption == SelectedOption.aboutUs) {
-              showAboutUs = true;
-            }
             if (state.selectedOption == SelectedOption.help) {
               showHelp = true;
             }
             if (state.selectedOption == SelectedOption.none) {
               showConfig = false;
-              showAboutUs = false;
               showHelp = false;
             }
           }
@@ -52,15 +48,72 @@ class SettingsScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Column(
                   children: [
-                    profileOption('Configurações', context, showConfig, () {
-                      bloc.selectOption(SelectedOption.configurations);
-                    }),
-                    if (showConfig) configurations(context),
+                    Column(
+                      children: [
+                        profileOption('Configurações', context),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Switch(
+                              activeColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              inactiveThumbColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              value: mainCubit.currentTheme == ThemeMode.dark,
+                              onChanged: (newValue) {
+                                mainCubit.toggleTheme(newValue);
+                              },
+                            ),
+                            const SizedBox(width: 5),
+                            if (mainCubit.currentTheme == ThemeMode.dark)
+                              Text(
+                                'Dark mode',
+                                style: GoogleFonts.righteous(
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                            if (mainCubit.currentTheme != ThemeMode.dark)
+                              Text(
+                                'Light mode',
+                                style: GoogleFonts.righteous(
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 15),
-                    profileOption('Contato', context, showHelp, () {
-                      bloc.selectOption(SelectedOption.help);
-                    }),
-                    if (showHelp) contactContent(context),
+                    Column(
+                      children: [
+                        profileOption('Info', context),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'contato@rolesp.com.br',
+                                style: GoogleFonts.righteous(
+                                  textStyle: TextStyle(
+                                    fontSize: 14,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 250),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,88 +157,34 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-Widget profileOption(
-    String title, BuildContext context, bool isSelected, VoidCallback onTap) {
-  var icon = Icons.chevron_right_outlined;
-
-  if (isSelected) {
-    icon = Icons.arrow_drop_down;
-  }
-
-  return GestureDetector(
-    onTap: onTap,
-    child: Container(
-      color: Colors.transparent,
-      child: Column(
-        children: [
-          Row(children: [
-            Text(title),
-            const Spacer(),
-            Icon(
-              icon,
-              size: 33,
-              color: Theme.of(context).colorScheme.onSurface,
+Widget profileOption(String title, BuildContext context) {
+  return Container(
+    color: Colors.transparent,
+    child: Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.roboto(
+                textStyle: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
-          ]),
-          const SizedBox(height: 10),
-          Container(
-            height: 0.5,
-            width: double.infinity,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ],
-      ),
+            const Spacer(),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Container(
+          height: 0.5,
+          width: double.infinity,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+        const SizedBox(height: 10),
+      ],
     ),
-  );
-}
-
-Widget configurations(BuildContext context) {
-  final mainCubit = Modular.get<MainCubit>();
-
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      Switch(
-          activeColor: Theme.of(context).colorScheme.onSurface,
-          inactiveThumbColor: Theme.of(context).colorScheme.onSurface,
-          value: mainCubit.currentTheme == ThemeMode.dark,
-          onChanged: (newValue) {
-            mainCubit.toggleTheme(newValue);
-          })
-    ],
-  );
-}
-
-Widget aboutUsContent(BuildContext context) {
-  return const Column(
-    children: [
-      SizedBox(height: 10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-                'Quem nós somos ahsudhsau ashdaushxl,zncaos saoidh alxzkjdlhxc aljsda oaisjd aoauhsdas ohsa .'),
-          ),
-        ],
-      ),
-    ],
-  );
-}
-
-Widget contactContent(BuildContext context) {
-  return const Column(
-    children: [
-      SizedBox(height: 10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-                'Para falar conosco aisuhsaio coaishd oaisd aoiad oiasd oaishdoias oaihdoias oasihdaois oaushd a.'),
-          ),
-        ],
-      ),
-    ],
   );
 }
