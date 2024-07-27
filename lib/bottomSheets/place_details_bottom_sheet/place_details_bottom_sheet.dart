@@ -30,7 +30,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
     final lisPhotos = place?.photos ?? [];
 
     return Container(
-      height: 430,
+      height: 470,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -127,59 +127,80 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    if (place?.goodForChildren == true)
-                      const Icon(
-                        Icons.family_restroom_outlined,
-                        size: 15,
-                      ),
-                    if (place?.accessibilityOptions
-                        ?.wheelchairAccessibleEntrance ==
-                        true)
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Icon(
-                          Icons.accessible,
-                          size: 15,
-                        ),
-                      ),
-                    if (place?.allowsDogs == true)
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Icon(
-                          Icons.pets_outlined,
-                          size: 15,
-                        ),
-                      ),
-                    if (place?.liveMusic == true)
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Row(
-                          children: [
-                            Text('Música ao vivo'),
-                            Icon(
-                              Icons.music_note_outlined,
+                const SizedBox(height: 10),
+                Container(
+                  height: 45,
+                  alignment: Alignment.bottomLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        if (place?.goodForChildren == true) ...[
+                          const WidgetSpan(
+                            child: Icon(
+                              Icons.family_restroom_outlined,
                               size: 15,
                             ),
-                          ],
-                        ),
-                      ),
-                    if (place?.servesVegetarianFood == true)
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Row(
-                          children: [
-                            Text('Opções vegetarianas'),
-                            Icon(
-                              Icons.energy_savings_leaf_outlined,
-                              size: 15,
+                          ),
+                          const TextSpan(text: ' Family'), // Space after the icon
+                        ],
+                        if (place?.accessibilityOptions?.wheelchairAccessibleEntrance == true) ...[
+                          const WidgetSpan(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.accessible,
+                                size: 15,
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                  ],
+                          ),
+                          const TextSpan(text: ' Acessibilidade'), // Space after the icon
+                        ],
+                        if (place?.allowsDogs == true) ...[
+                          const WidgetSpan(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.pets_outlined,
+                                size: 15,
+                              ),
+                            ),
+                          ),
+                          const TextSpan(text: ' Per friendly'), // Space after the icon
+                        ],
+                        if (place?.liveMusic == true) ...[
+                          const WidgetSpan(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.music_note_outlined,
+                                  size: 15,
+                                ),
+                                Text('Música ao vivo'),
+                              ],
+                            ),
+                          ),
+                        ],
+                        if (place?.servesVegetarianFood == true) ...[
+                          const WidgetSpan(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.energy_savings_leaf_outlined,
+                                    size: 15,
+                                  ),
+                                  Text(' Opções vegetarianas'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Row(
