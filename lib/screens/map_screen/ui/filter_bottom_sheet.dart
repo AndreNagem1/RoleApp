@@ -24,9 +24,9 @@ class FilterBottomSheet extends StatelessWidget {
 
     return Container(
       height: screenHeight * 0.75,
-      decoration: const BoxDecoration(
-        color: ColorsRoleSp.filterBackGround,
-        borderRadius: BorderRadius.only(
+      decoration:  BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceVariant,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
@@ -53,7 +53,7 @@ class FilterBottomSheet extends StatelessWidget {
                       child: Text(
                         'Limpar filtro',
                         style: GoogleFonts.notoSans(
-                            color: ColorsRoleSp.whiteLetterNew,
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontSize: 16,
                             fontWeight: FontWeight.w400),
                         textAlign: TextAlign.center,
@@ -69,7 +69,7 @@ class FilterBottomSheet extends StatelessWidget {
                     child: Text(
                       'Por tipo',
                       style: GoogleFonts.notoSans(
-                          color: ColorsRoleSp.whiteLetterNew,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
@@ -132,7 +132,7 @@ class FilterBottomSheet extends StatelessWidget {
                   Text(
                     'Distância',
                     style: GoogleFonts.notoSans(
-                        color: ColorsRoleSp.whiteLetterNew,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -158,7 +158,7 @@ class FilterBottomSheet extends StatelessWidget {
                               fontWeight: FontWeight.w400),
                         ),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorsRoleSp.secondaryColorDark,
+                            backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
                             )),
@@ -198,7 +198,7 @@ class FilterItemType extends StatelessWidget {
         Text(
           filterName,
           style: GoogleFonts.notoSans(
-              color: ColorsRoleSp.whiteLetterNew,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 16,
               fontWeight: FontWeight.w400),
         ),
@@ -209,11 +209,11 @@ class FilterItemType extends StatelessWidget {
               value: isChecked,
               fillColor: MaterialStateProperty.resolveWith((states) {
                 if (states.contains(MaterialState.selected)) {
-                  return ColorsRoleSp.whiteLetterNew;
+                  return Theme.of(context).colorScheme.onSurface;
                 }
                 return Colors.transparent;
               }),
-              checkColor: ColorsRoleSp.secondaryColorDark,
+              checkColor:Theme.of(context).colorScheme.onSurfaceVariant,
               onChanged: (_) {
                 onTap(filtersType);
               }),

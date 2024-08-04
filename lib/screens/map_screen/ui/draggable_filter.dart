@@ -86,16 +86,16 @@ class _FilterDistanceDraggableState extends State<FilterDistanceDraggable> {
             child: Container(
               width: 32,
               height: 32,
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                   shape: BoxShape.circle,
-                  color: ColorsRoleSp.secondaryColorDark),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
             feedback: Container(
               width: 32,
               height: 32,
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                   shape: BoxShape.circle,
-                  color: ColorsRoleSp.secondaryColorDark),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
             onDragEnd: (dragDetails) {
               setState(() {
@@ -147,8 +147,8 @@ class DraggableInitialState extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         children: [
-          const Divider(
-            color: ColorsRoleSp.secondaryColorDark,
+           Divider(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             thickness: 4.0,
           ),
           Row(
@@ -160,7 +160,7 @@ class DraggableInitialState extends StatelessWidget {
                   child: Text(
                     '5 Km',
                     style: GoogleFonts.notoSans(
-                        color: ColorsRoleSp.whiteLetterNew,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),
                   ),
@@ -182,7 +182,7 @@ class DraggableInitialState extends StatelessWidget {
                   child: Text(
                     '10 Km',
                     style: GoogleFonts.notoSans(
-                        color: ColorsRoleSp.whiteLetterNew,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 15,
                         fontWeight: FontWeight.w500),
                   ),
@@ -204,7 +204,7 @@ class DraggableInitialState extends StatelessWidget {
                   child: Text(
                     '15 Km',
                     style: GoogleFonts.notoSans(
-                        color: ColorsRoleSp.whiteLetterNew,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),
                   ),

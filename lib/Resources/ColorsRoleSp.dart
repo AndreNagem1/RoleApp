@@ -41,4 +41,9 @@ class ColorsRoleSp {
   static const Color whiteLetterNew = Color(0xFFF8F8F8);
   static const Color unselectedLetter = Color(0xFFB8B7BA);
   static const Color secondaryColorDark = Color(0xFF9345FF);
+
+
+  static const Color secondaryColorLight = Color(0xFF328C59);
+  static const Color filterBackGroundLight = Color(0xFFF8F8F8);
 }
+

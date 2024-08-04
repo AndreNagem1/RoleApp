@@ -51,6 +51,10 @@ class PlacesListItem extends StatelessWidget {
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
           ),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 0.5,
+          ),
           color: Theme.of(context).colorScheme.surface,
         ),
         child: Column(
@@ -301,7 +305,7 @@ class PlacesListItem extends StatelessWidget {
         place?.currentOpeningHours?.weekdayDescriptions?[today - 1];
     var startIndexOpeningHour = openingHour?.indexOf(':');
 
-    if(startIndexOpeningHour ==-1){
+    if (startIndexOpeningHour == -1) {
       startIndexOpeningHour = 0;
     }
     final openingHourFormatted =
