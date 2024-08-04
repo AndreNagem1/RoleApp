@@ -1,0 +1,1 @@
+const appTag = 'TAG-ROLE - ';

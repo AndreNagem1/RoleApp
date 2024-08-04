@@ -299,7 +299,11 @@ class PlacesListItem extends StatelessWidget {
     final today = DateTime.now().weekday;
     final openingHour =
         place?.currentOpeningHours?.weekdayDescriptions?[today - 1];
-    final startIndexOpeningHour = openingHour?.indexOf(':');
+    var startIndexOpeningHour = openingHour?.indexOf(':');
+
+    if(startIndexOpeningHour ==-1){
+      startIndexOpeningHour = 0;
+    }
     final openingHourFormatted =
         openingHour?.substring(startIndexOpeningHour ?? 0);
 

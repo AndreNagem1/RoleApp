@@ -21,6 +21,53 @@ class NearbyPlacesResponse {
   }
 }
 
+class DaysOffWeekJson {
+  String? seg;
+  String? ter;
+  String? qua;
+  String? qui;
+  String? sex;
+  String? sab;
+  String? dom;
+
+  // Constructor
+  DaysOffWeekJson({
+    this.seg,
+    this.ter,
+    this.qua,
+    this.qui,
+    this.sex,
+    this.sab,
+    this.dom,
+  });
+
+  // Factory constructor to create an instance from a JSON map
+  factory DaysOffWeekJson.fromJson(Map<String, dynamic> json) {
+    return DaysOffWeekJson(
+      seg: json['seg'] as String?,
+      ter: json['ter'] as String?,
+      qua: json['qua'] as String?,
+      qui: json['qui'] as String?,
+      sex: json['sex'] as String?,
+      sab: json['sab'] as String?,
+      dom: json['dom'] as String?,
+    );
+  }
+
+  // Method to convert an instance into a JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      'seg': seg,
+      'ter': ter,
+      'qua': qua,
+      'qui': qui,
+      'sex': sex,
+      'sab': sab,
+      'dom': dom,
+    };
+  }
+}
+
 
 
 class PlaceInfo {

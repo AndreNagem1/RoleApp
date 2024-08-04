@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:math';
 
@@ -10,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolesp/screens/map_screen/data/entity/GoogleApiController.dart';
 import 'package:rolesp/screens/map_screen/domain/states/list_places_state.dart';
 
+import '../../../../constants.dart';
 import '../../../../models/nearby_places_response.dart';
 import 'filter_cubit.dart';
 
@@ -57,8 +59,22 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
 
   Future<List<PlaceInfo>> getNearByPlaces(
       BuildContext context, LatLng currentPosition) async {
-
     emit(Loading());
+    final listPLacesFromDB = await getNearbyPlacesFromDB(
+        currentPosition.latitude, currentPosition.longitude);
+
+    if (listPLacesFromDB.isNotEmpty) {
+      emit(ListPlaces(listPLacesFromDB));
+      print('$appTag veio do DB');
+      return listPLacesFromDB;
+    } else {
+      print('$appTag veio da API');
+      return getNearByPlacesGoogleApi(context, currentPosition);
+    }
+  }
+
+  Future<List<PlaceInfo>> getNearByPlacesGoogleApi(
+      BuildContext context, LatLng currentPosition) async {
     final googleApiEnabled = await getApiController();
 
     if (googleApiEnabled) {
@@ -126,6 +142,67 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     }
   }
 
+  Future<List<PlaceInfo>> getNearbyPlacesFromDB(double lat, double lon) async {
+    final zone = getPosition(lat, lon);
+    List<PlaceInfo> listPlaces = [];
+
+    try {
+      await db.collection(zone).get().then((event) {
+        for (var doc in event.docs) {
+          final daysOfWeek =
+              DaysOffWeekJson.fromJson(jsonDecode(doc['openingHours']));
+
+          List<Photos> listPhotos = [];
+
+          List<String> listPhotosUrl = doc['photos'].toString().split(',');
+
+          var counter = 0;
+          while (counter < listPhotosUrl.length) {
+            listPhotos.add(Photos(name: listPhotosUrl[counter]));
+            counter++;
+          }
+
+          final placeInfo = PlaceInfo(
+              displayName: DisplayName(
+                text: doc['name'],
+              ),
+              phoneNumber: doc['phoneNumber'],
+              location: Location(
+                  latitude: doc['latitude'], longitude: doc['longitude']),
+              rating: doc['rating'],
+              websiteUri: doc['websiteUri'],
+              businessStatus: doc['businessStatus'],
+              priceLevel: doc['priceLevel'],
+              userRatingCount: doc['userRatingCount'],
+              liveMusic: doc['liveMusic'],
+              goodForChildren: doc['goodForChildren'],
+              allowsDogs: doc['allowsDogs'],
+              servesVegetarianFood: doc['servesVegetarianFood'],
+              accessibilityOptions: AccessibilityOptions(
+                  wheelchairAccessibleEntrance:
+                      doc['wheelchairAccessibleEntrance']),
+              formattedAddress: doc['formattedAddress'],
+              photos: listPhotos,
+              currentOpeningHours: RegularOpeningHours(weekdayDescriptions: [
+                daysOfWeek.seg ?? "",
+                daysOfWeek.ter ?? "",
+                daysOfWeek.qua ?? "",
+                daysOfWeek.qui ?? "",
+                daysOfWeek.sex ?? "",
+                daysOfWeek.sab ?? "",
+                daysOfWeek.dom ?? "",
+              ]));
+
+          listPlaces.add(placeInfo);
+        }
+      });
+    } catch (error) {
+      print('$appTag Failed to update document: $error');
+    }
+
+    return listPlaces;
+  }
+
   void setRadiusSearch(double newRadius) {
     distanceFilter = newRadius;
   }
@@ -135,16 +212,22 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   }
 
   void sendPlacesToDB(List<PlaceInfo> places) {
-    const appTag = 'TAG-ROLE - ';
-
     places.forEach((place) async {
       final neighborhood = getPosition(
           place.location?.latitude ?? 0.0, place.location?.longitude ?? 0.0);
 
-      print('$appTag $neighborhood');
+      List<String> listPhotosUrl = [];
+      var counter = 0;
+
+      final size = place.photos?.length ?? 0.0;
+      while (size > counter) {
+        listPhotosUrl.add(place.photos?[counter].name ?? '');
+        counter++;
+      }
 
       Map<String, dynamic> data = {
         'name': place.displayName?.text,
+        'formattedAddress': place.formattedAddress ?? '',
         'phoneNumber': place.phoneNumber,
         'latitude': place.location?.latitude,
         'longitude': place.location?.longitude,
@@ -160,13 +243,13 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
         'neighborhood': neighborhood,
         'wheelchairAccessibleEntrance':
             place.accessibilityOptions?.wheelchairAccessibleEntrance,
-        'openingHours': getOpeningHours(place)
+        'openingHours': getOpeningHours(place),
+        'photos': listPhotosUrl.join(','),
       };
 
       if (neighborhood != 'Out of bounds' && place.id?.isNotEmpty == true) {
         try {
           await db.collection(neighborhood).doc(place.id).set(data);
-          print('$appTag Update successful');
         } catch (error) {
           print('$appTag Failed to update document: $error');
         }
