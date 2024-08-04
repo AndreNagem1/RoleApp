@@ -21,6 +21,8 @@ class NearbyPlacesResponse {
   }
 }
 
+
+
 class PlaceInfo {
   String? name;
   String? id;
@@ -63,6 +65,7 @@ class PlaceInfo {
   PaymentOptions? paymentOptions;
   ParkingOptions? parkingOptions;
   AccessibilityOptions? accessibilityOptions;
+  List<AddressComponents>? addressComponents;
 
   PlaceInfo(
       {this.name,
@@ -105,7 +108,8 @@ class PlaceInfo {
       this.servesVegetarianFood,
       this.paymentOptions,
       this.parkingOptions,
-      this.accessibilityOptions});
+      this.accessibilityOptions,
+      this.addressComponents});
 
   PlaceInfo.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -178,6 +182,12 @@ class PlaceInfo {
     accessibilityOptions = json['accessibilityOptions'] != null
         ? AccessibilityOptions.fromJson(json['accessibilityOptions'])
         : null;
+    if (json['addressComponents'] != null) {
+      addressComponents = <AddressComponents>[];
+      json['addressComponents'].forEach((v) {
+        addressComponents!.add(AddressComponents.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -247,6 +257,10 @@ class PlaceInfo {
     }
     if (accessibilityOptions != null) {
       data['accessibilityOptions'] = accessibilityOptions!.toJson();
+    }
+    if (addressComponents != null) {
+      data['addressComponents'] =
+          addressComponents!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -636,6 +650,33 @@ class GeoBias {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['lat'] = lat;
     data['lon'] = lon;
+    return data;
+  }
+}
+
+
+class AddressComponents {
+  String? longText;
+  String? shortText;
+  List<String>? types;
+  String? languageCode;
+
+  AddressComponents(
+      {this.longText, this.shortText, this.types, this.languageCode});
+
+  AddressComponents.fromJson(Map<String, dynamic> json) {
+    longText = json['longText'];
+    shortText = json['shortText'];
+    types = json['types'].cast<String>();
+    languageCode = json['languageCode'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['longText'] = longText;
+    data['shortText'] = shortText;
+    data['types'] = types;
+    data['languageCode'] = languageCode;
     return data;
   }
 }

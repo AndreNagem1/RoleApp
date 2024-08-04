@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
@@ -16,11 +17,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   ListPlacesCubit() : super(ListPlacesInitialState());
 
   final db = FirebaseFirestore.instance;
-  final Dio dio = Dio(
-    BaseOptions(
-      receiveTimeout: const Duration(seconds: 10)
-    )
-  );
+  final Dio dio = Dio(BaseOptions(receiveTimeout: const Duration(seconds: 10)));
   final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   var listPlaces = <PlaceInfo>[];
@@ -58,7 +55,9 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
     return apiController[0].allowApiCall;
   }
 
-  Future<List<PlaceInfo>> getNearByPlaces(BuildContext context, LatLng currentPosition) async {
+  Future<List<PlaceInfo>> getNearByPlaces(
+      BuildContext context, LatLng currentPosition) async {
+
     emit(Loading());
     final googleApiEnabled = await getApiController();
 
@@ -73,7 +72,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
           "places.types," +
           "places.location," +
           "places.photos," +
-          "places.rating," + 
+          "places.rating," +
           "places.currentOpeningHours," +
           "places.priceLevel," +
           "places.userRatingCount," +
@@ -82,7 +81,8 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
           "places.allowsDogs," +
           "places.goodForChildren," +
           "places.liveMusic," +
-          "places.servesVegetarianFood";
+          "places.servesVegetarianFood," +
+          "places.id,";
 
       var listTypes = [];
 
@@ -108,6 +108,8 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
         var nearbyPlacesResponse = NearbyPlacesResponse.fromJson(response.data);
 
         if (nearbyPlacesResponse.places != null) {
+          sendPlacesToDB(nearbyPlacesResponse.places!);
+
           listPlaces = nearbyPlacesResponse.places!;
           emit(ListPlaces(nearbyPlacesResponse.places!));
           return nearbyPlacesResponse.places!;
@@ -131,4 +133,122 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
   void setListPlacesTypes(List<FiltersType> newPlacesTypesSearch) {
     listTypesFilter = List.from(newPlacesTypesSearch);
   }
+
+  void sendPlacesToDB(List<PlaceInfo> places) {
+    const appTag = 'TAG-ROLE - ';
+
+    places.forEach((place) async {
+      final neighborhood = getPosition(
+          place.location?.latitude ?? 0.0, place.location?.longitude ?? 0.0);
+
+      print('$appTag $neighborhood');
+
+      Map<String, dynamic> data = {
+        'name': place.displayName?.text,
+        'phoneNumber': place.phoneNumber,
+        'latitude': place.location?.latitude,
+        'longitude': place.location?.longitude,
+        'rating': place.rating,
+        'websiteUri': place.websiteUri,
+        'businessStatus': place.businessStatus,
+        'priceLevel': place.priceLevel,
+        'userRatingCount': place.userRatingCount,
+        'liveMusic': place.liveMusic,
+        'goodForChildren': place.goodForChildren,
+        'allowsDogs': place.allowsDogs,
+        'servesVegetarianFood': place.servesVegetarianFood,
+        'neighborhood': neighborhood,
+        'wheelchairAccessibleEntrance':
+            place.accessibilityOptions?.wheelchairAccessibleEntrance,
+        'openingHours': getOpeningHours(place)
+      };
+
+      if (neighborhood != 'Out of bounds' && place.id?.isNotEmpty == true) {
+        try {
+          await db.collection(neighborhood).doc(place.id).set(data);
+          print('$appTag Update successful');
+        } catch (error) {
+          print('$appTag Failed to update document: $error');
+        }
+      }
+    });
+  }
+}
+
+String getOpeningHours(PlaceInfo place) {
+  final daysOpeningHours = place.currentOpeningHours?.weekdayDescriptions;
+  return '''
+  {
+    "seg": "${daysOpeningHours?[0].replaceAll('Monday', 'Seg.').replaceAll('Closed', 'Fechado')}",
+    "ter": "${daysOpeningHours?[1].replaceAll('Tuesday', 'Ter.').replaceAll('Closed', 'Fechado')}",
+    "qua": "${daysOpeningHours?[2].replaceAll('Wednesday', 'Quart.').replaceAll('Closed', 'Fechado')}",
+    "qui": "${daysOpeningHours?[3].replaceAll('Thursday', 'Quint.').replaceAll('Closed', 'Fechado')}",
+    "sex": "${daysOpeningHours?[4].replaceAll('Friday', 'Sex.').replaceAll('Closed', 'Fechado')}",
+    "sab": "${daysOpeningHours?[5].replaceAll('Saturday', 'Sab.').replaceAll('Closed', 'Fechado')}",
+    "dom": "${daysOpeningHours?[6].replaceAll('Sunday', 'Dom.').replaceAll('Closed', 'Fechado')}"
+  }
+  ''';
+}
+
+const double fiveKmInLong = 0.04901;
+const double fiveKmInLat = 0.04497;
+
+const double initialLatPosition = -23.716101;
+
+const double initialLongPosition = -46.970144;
+
+String getPosition(double lat, double lon) {
+  // Check if the latitude and longitude are within the valid range
+  if (lat < initialLatPosition ||
+      lat > (initialLatPosition + fiveKmInLat * 9) ||
+      lon < initialLongPosition ||
+      lon > (initialLongPosition + fiveKmInLong * 12)) {
+    return 'Out of bounds';
+  }
+
+  // Calculate the latitude and longitude indices
+  int latIndex = ((lat - initialLatPosition) / fiveKmInLat).floor();
+  int lonIndex = ((lon - initialLongPosition) / fiveKmInLong).floor();
+
+  // Ensure indices are within the valid range
+  if (latIndex < 0 || latIndex >= 7 || lonIndex < 0 || lonIndex >= 10) {
+    return 'Out of bounds';
+  }
+
+  // Map latitude index to letter
+  String latArea = (latIndex + 1).toString();
+
+  // Map longitude index to number
+  String lonArea = String.fromCharCode('A'.codeUnitAt(0) + lonIndex);
+
+  return '$lonArea$latArea';
+}
+
+const double R = 6371.0;
+
+double haversine(double lat1, double lon1, double lat2, double lon2) {
+  double dLat = (lat2 - lat1) * pi / 180.0;
+  double dLon = (lon2 - lon1) * pi / 180.0;
+
+  double a = sin(dLat / 2) * sin(dLat / 2) +
+      cos(lat1 * pi / 180.0) *
+          cos(lat2 * pi / 180.0) *
+          sin(dLon / 2) *
+          sin(dLon / 2);
+  double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+  return R * c;
+}
+
+// Function to sort a list of places by distance from a given point
+List<PlaceInfo> sortPlacesByDistance(
+    double currentLat, double currentLon, List<PlaceInfo> places) {
+  places.sort((place1, place2) {
+    double distance1 = haversine(currentLat, currentLon,
+        place1.location?.latitude ?? 0.0, place1.location?.longitude ?? 0.0);
+    double distance2 = haversine(currentLat, currentLon,
+        place2.location?.latitude ?? 0.0, place2.location?.longitude ?? 0.0);
+    return distance1.compareTo(distance2);
+  });
+  return places;
 }

@@ -165,7 +165,7 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const TextSpan(text: ' Per friendly'), // Space after the icon
+                          const TextSpan(text: ' Pet friendly'), // Space after the icon
                         ],
                         if (place?.liveMusic == true) ...[
                           const WidgetSpan(
