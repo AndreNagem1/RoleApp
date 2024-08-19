@@ -40,7 +40,7 @@ class EventsScreen extends StatelessWidget {
                   cubit.loadEvents();
                 });
               }
-        
+
               if (state is EventsLoadedSuccessState) {
                 return ListView.builder(
                   itemBuilder: (context, position) {
@@ -52,22 +52,26 @@ class EventsScreen extends StatelessWidget {
                           children: [
                             const SizedBox(height: 15),
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  openDetails(state.eventsList[position], context);
+                                  openDetails(
+                                      state.eventsList[position], context);
                                 },
                                 child: Container(
                                   height: 200,
                                   width: 320,
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).colorScheme.surface,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(15),
                                     ),
                                     border: Border.all(
-                                      color:
-                                          Theme.of(context).colorScheme.onSurface,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
                                       width: 1,
                                     ),
                                   ),
@@ -77,15 +81,16 @@ class EventsScreen extends StatelessWidget {
                                       Container(
                                         height: 160,
                                         width: 100,
-                                        color:
-                                            Theme.of(context).colorScheme.surface,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              getDay(
-                                                  state.eventsList[position].data),
+                                              getDay(state
+                                                  .eventsList[position].data),
                                               style: GoogleFonts.roboto(
                                                 textStyle: TextStyle(
                                                   fontSize: 30,
@@ -98,8 +103,8 @@ class EventsScreen extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
-                                              getMonth(
-                                                  state.eventsList[position].data),
+                                              getMonth(state
+                                                  .eventsList[position].data),
                                               style: GoogleFonts.roboto(
                                                 textStyle: TextStyle(
                                                   fontSize: 18,
@@ -127,19 +132,17 @@ class EventsScreen extends StatelessWidget {
                                             alignment: Alignment.centerLeft,
                                             child: CachedNetworkImage(
                                               fit: BoxFit.fill,
-                                              imageUrl:
-                                                  state.eventsList[position].imagem,
+                                              imageUrl: state
+                                                  .eventsList[position].imagem,
                                               placeholder: (context, url) =>
-                                                  const Align(
-                                                alignment: Alignment.center,
-                                                child: SizedBox(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                ),
+                                                  const SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child:
+                                                    CircularProgressIndicator(),
                                               ),
-                                              errorWidget: (context, url, error) =>
+                                              errorWidget: (context, url,
+                                                      error) =>
                                                   Image.asset(
                                                       'assets/images/city.jpg'),
                                             ),
@@ -156,7 +159,8 @@ class EventsScreen extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 5),
                                           Text(
-                                            state.eventsList[position].desciption,
+                                            state.eventsList[position]
+                                                .desciption,
                                             style: GoogleFonts.roboto(
                                               fontSize: 12,
                                               color: Theme.of(context)
@@ -189,7 +193,7 @@ class EventsScreen extends StatelessWidget {
                   itemCount: state.eventsList.length,
                 );
               }
-        
+
               return const EventsLoadingScreen();
             }),
       ),

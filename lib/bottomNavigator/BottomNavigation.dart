@@ -42,17 +42,17 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
     switch (_index) {
       case 0:
+        currentScreen = const EventsScreen();
+        break;
+      case 1:
+        currentScreen = const FavoriteScreen();
+        break;
+      case 2:
         currentScreen = MapScreen(
           filterCubit: filterCubit,
           listPlacesCubit: listPlacesCubit,
           controller: controller,
         );
-        break;
-      case 1:
-        currentScreen = const EventsScreen();
-        break;
-      case 2:
-        currentScreen = const FavoriteScreen();
         break;
       case 3:
         currentScreen = SettingsScreen();
@@ -70,10 +70,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
         fixedColor: Theme.of(context).colorScheme.onSurface,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.map_outlined), label: "Mapa"),
-          BottomNavigationBarItem(
               icon: Icon(Icons.event_available), label: "Eventos"),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: "Favoritos"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map_outlined), label: "Mapa"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
         ],
       ),

@@ -120,6 +120,12 @@ class FavoriteScreen extends StatelessWidget {
       title = placeInfo.name.substring(0, 17) + '...';
     }
 
+    var openHoursFontSize = 14.0;
+
+    if (placeInfo.openHours.length > 15) {
+      openHoursFontSize = 10.0;
+    }
+
     final imageUrl = 'https://places.googleapis.com/v1/' +
         placeInfo.imageUrl +
         '/media?key=' +
@@ -211,6 +217,7 @@ class FavoriteScreen extends StatelessWidget {
                           text: ' ' + placeInfo.openHours,
                           style: GoogleFonts.roboto(
                             color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: openHoursFontSize,
                           ),
                         ),
                       ],
