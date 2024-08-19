@@ -78,31 +78,31 @@ class AddFavoritePlaceDialog extends StatelessWidget {
                     ),
                     const SizedBox(height: 15),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: GoogleFonts.righteous(
-                            textStyle: const TextStyle(
-                              fontSize: 15,
-                              color: ColorsRoleSp.smoothLetter,
-                            ),
-                          ),
-                          children: <TextSpan>[
-                            const TextSpan(text: 'Deseja adicionar '),
-                            TextSpan(
-                              text: placeInfo.name,
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: GoogleFonts.righteous(
+                              textStyle: const TextStyle(
+                                fontSize: 15,
+                                color: ColorsRoleSp.smoothLetter,
                               ),
                             ),
-                            const TextSpan(text: ' a sua lista de favoritos?'),
-                          ],
-                        ),
-                      )
-                    ),
+                            children: <TextSpan>[
+                              const TextSpan(text: 'Deseja adicionar '),
+                              TextSpan(
+                                text: placeInfo.name,
+                                style: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const TextSpan(
+                                  text: ' a sua lista de favoritos?'),
+                            ],
+                          ),
+                        )),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -114,16 +114,19 @@ class AddFavoritePlaceDialog extends StatelessWidget {
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(5),
                               ),
-                              border: Border.all(
-                                  color: Colors.black38, width: 2)),
+                              border:
+                                  Border.all(color: Colors.black38, width: 2)),
                           child: GestureDetector(
                             onTap: () {
-                              cubit.savePlaceAsFavorite(FavoritePlaceInfo(
-                                name: placeInfo.name,
-                                phoneNumber: placeInfo.phoneNumber,
-                                openHours: placeInfo.openHours,
-                                description: placeInfo.description,
-                              ));
+                              cubit.savePlaceAsFavorite(
+                                FavoritePlaceInfo(
+                                  name: placeInfo.name,
+                                  phoneNumber: placeInfo.phoneNumber,
+                                  openHours: placeInfo.openHours,
+                                  description: placeInfo.description,
+                                  imageUrl: placeInfo.imageUrl,
+                                ),
+                              );
                             },
                             child: Padding(
                                 padding: const EdgeInsets.all(10.0),

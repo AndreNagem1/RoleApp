@@ -16,7 +16,8 @@ class EventsScreenCubit extends Cubit<EventsScreenState> {
         final newEvent = Event(
             name: doc['nome'],
             desciption: doc['descricao'],
-            longDescription: 'ahsuhauhsau asuh sauhuashuash usahasuh uhsuah uhsau shauashsa asuh uasuh uhasuhasu ',
+            longDescription: 'ahsuhauhsau asuh sauhuashuash usahasuh uhsuah uhsau shauashsa asuh uasuh uhasuhasu\n '
+                + 'ahsuhauhsau asuh sauhuashuash usahasuh uhsuah uhsau shauashsa asuh uasuh uhasuhasu\n',
             data: doc['data'],
             imagem: doc['imagem'],
             address: doc['endereco']);

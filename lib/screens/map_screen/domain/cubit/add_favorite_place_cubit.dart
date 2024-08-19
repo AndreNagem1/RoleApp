@@ -16,6 +16,7 @@ class AddFavoritePlaceCubit extends Cubit<AddFavoritePlaceDialogState> {
       'openHours': placeInfo.openHours,
       'description': placeInfo.description,
       'phoneNumber': placeInfo.phoneNumber,
+      'imageUrl': placeInfo.imageUrl
     };
 
     await db.collection('favorites').doc(placeInfo.name).set(data);

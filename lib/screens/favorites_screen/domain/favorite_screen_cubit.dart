@@ -21,7 +21,9 @@ class FavoriteScreenCubit extends Cubit<FavoritsScreenState> {
             name: doc['name'],
             description: doc['description'],
             phoneNumber: doc['phoneNumber'],
-            openHours: doc['openHours']);
+            openHours: doc['openHours'],
+            imageUrl: doc['imageUrl'] ?? ''
+        );
 
         favoritePlaceInfoList.add(placeInfo);
       }

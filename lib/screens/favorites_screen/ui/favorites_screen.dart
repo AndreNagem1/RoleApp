@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,12 +9,16 @@ import 'package:rolesp/screens/favorites_screen/ui/add_new_number_dialog.dart';
 import 'package:rolesp/screens/favorites_screen/ui/delete_number_dialog.dart';
 import 'package:rolesp/widgets/Swipeable.dart';
 import 'package:rolesp/widgets/app_title.dart';
+import 'package:vibration/vibration.dart';
 
+import '../../events_screen/ui/events_background.dart';
 import '../domain/favorite_screen_cubit.dart';
 import '../domain/favorite_screen_state.dart';
+import 'favorites_loading_screen.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
+  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
 
   @override
   Widget build(BuildContext context) {
@@ -28,64 +33,63 @@ class FavoriteScreen extends StatelessWidget {
         elevation: 0.0,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: BlocBuilder<FavoriteScreenCubit, FavoritsScreenState>(
-          bloc: cubit,
-          builder: (context, state) {
-            if (state is UpdatedPhoneSuccess) {
-              updatedPhoneSuccessMessage(context);
-              cubit.loadFavoritesPlaces();
-            }
-            if (state is EmptyListState) {
-              return Container(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    'Você não tem nenhum lugar salvo como favorito, conheça lugares especiais para salva-los aqui :)',
-                    style: GoogleFonts.roboto(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 18,
+      body: CustomPaint(
+        size: const Size(double.infinity, double.infinity),
+        painter: VectorBackgroundPainter(context),
+        child: BlocBuilder<FavoriteScreenCubit, FavoritsScreenState>(
+            bloc: cubit,
+            builder: (context, state) {
+              if (state is UpdatedPhoneSuccess) {
+                updatedPhoneSuccessMessage(context);
+                cubit.loadFavoritesPlaces();
+              }
+              if (state is EmptyListState) {
+                return Container(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Você não tem nenhum lugar salvo como favorito, conheça lugares especiais para salva-los aqui :)',
+                      style: GoogleFonts.roboto(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
-              );
-            }
+                );
+              }
 
-            if (state is SuccessState) {
-              return ListView.separated(
-                separatorBuilder: (context, position) {
-                  return const SizedBox(height: 15);
-                },
-                itemBuilder: (context, position) {
-                  var isOpen = true;
+              if (state is SuccessState) {
+                return ListView.separated(
+                  separatorBuilder: (context, position) {
+                    return const SizedBox(height: 15);
+                  },
+                  itemBuilder: (context, position) {
+                    var isOpen = true;
 
-                  if (position == 3 || position == 6 || position == 7) {
-                    isOpen = false;
-                  }
+                    if (position == 3 || position == 6 || position == 7) {
+                      isOpen = false;
+                    }
 
-                  final sweapable = Sweapeble();
+                    final sweapable = Sweapeble();
 
-                  sweapable.child = favoriteListItem(
-                      context,
-                      state.listFavoritePlaces[position],
-                      isOpen,
-                      position,
-                      state.selectedItemToDelete,
-                      cubit);
-                  return sweapable;
-                },
-                itemCount: state.listFavoritePlaces.length,
-              );
-            }
+                    sweapable.child = favoriteListItem(
+                        context,
+                        state.listFavoritePlaces[position],
+                        isOpen,
+                        position,
+                        state.selectedItemToDelete,
+                        cubit);
+                    return sweapable;
+                  },
+                  itemCount: state.listFavoritePlaces.length,
+                );
+              }
 
-            return Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            );
-          }),
+              return const FavoritesLoadingScreen();
+            }),
+      ),
     );
   }
 
@@ -113,8 +117,14 @@ class FavoriteScreen extends StatelessWidget {
     var title = placeInfo.name;
 
     if (placeInfo.name.length > 18) {
-      title = placeInfo.name.substring(17) + ' ...';
+      title = placeInfo.name.substring(0, 17) + '...';
     }
+
+    final imageUrl = 'https://places.googleapis.com/v1/' +
+        placeInfo.imageUrl +
+        '/media?key=' +
+        apiKey +
+        '&maxHeightPx=400';
 
     return GestureDetector(
       onTap: () {
@@ -122,6 +132,7 @@ class FavoriteScreen extends StatelessWidget {
       },
       onLongPress: () {
         cubit.selectItemToBeDeleted(position);
+        vibratePhone();
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -136,7 +147,7 @@ class FavoriteScreen extends StatelessWidget {
             ),
             border: Border.all(
               color: Theme.of(context).colorScheme.onSurface,
-              width: 0.5,
+              width: 1,
             ),
           ),
           child: Row(
@@ -145,7 +156,21 @@ class FavoriteScreen extends StatelessWidget {
               SizedBox(
                 height: 100,
                 width: 130,
-                child: Image.asset('assets/images/blackHorse.jpg'),
+                child: CachedNetworkImage(
+                  fit: BoxFit.fitWidth,
+                  imageUrl: imageUrl,
+                  placeholder: (context, url) => const Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => CustomPaint(
+                    painter: VectorBackgroundPainter(context),
+                  ),
+                ),
               ),
               const SizedBox(width: 10),
               Column(
@@ -253,6 +278,16 @@ class FavoriteScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void vibratePhone() async {
+    if (await Vibration.hasCustomVibrationsSupport() == true) {
+      Vibration.vibrate(duration: 60);
+    } else {
+      Vibration.vibrate();
+      await Future.delayed(const Duration(milliseconds: 60));
+      Vibration.vibrate();
+    }
   }
 
   void onPhoneTap(FavoritePlaceInfo placeInfo, FavoriteScreenCubit cubit,

@@ -12,6 +12,7 @@ import 'package:rolesp/models/nearby_places_response.dart';
 import 'package:rolesp/screens/map_screen/ui/add_favorite_place_dialog.dart';
 
 import '../common_utils.dart';
+import '../screens/events_screen/ui/events_background.dart';
 
 class PlacesListItem extends StatelessWidget {
   final PlaceInfo? place;
@@ -74,8 +75,9 @@ class PlacesListItem extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 ),
-                errorWidget: (context, url, error) =>
-                    Image.asset('assets/images/blackHorse.jpg'),
+                errorWidget: (context, url, error) => CustomPaint(
+                  painter: VectorBackgroundPainter(context),
+                ),
               ),
             ),
             Padding(
@@ -105,10 +107,12 @@ class PlacesListItem extends StatelessWidget {
                           openFavoritePlaceDialog(
                             context,
                             FavoritePlaceInfo(
-                                name: place?.displayName?.text ?? '',
-                                phoneNumber: place?.phoneNumber ?? '',
-                                openHours: getCurrentOpeningHour(place),
-                                description: place?.phoneNumber ?? ''),
+                              name: place?.displayName?.text ?? '',
+                              phoneNumber: place?.phoneNumber ?? '',
+                              openHours: getCurrentOpeningHour(place),
+                              description: place?.phoneNumber ?? '',
+                              imageUrl: place?.photos?[0].name ?? '',
+                            ),
                           );
                         },
                         child: Container(
@@ -182,7 +186,7 @@ class PlacesListItem extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         height: 15,
                         width: 75,
-                        child: Image.asset(getRating(place?.rating ?? 0)),
+                        child: getRating(place?.rating ?? 0, context),
                       ),
                       const SizedBox(width: 5),
                       Text(

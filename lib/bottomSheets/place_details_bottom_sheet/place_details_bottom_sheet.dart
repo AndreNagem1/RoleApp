@@ -15,6 +15,7 @@ import 'package:rolesp/widgets/opening_hours_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../common_utils.dart';
+import '../../screens/events_screen/ui/events_background.dart';
 
 class PlaceDetailsBottomSheet extends StatelessWidget {
   final PlaceInfo? place;
@@ -58,8 +59,9 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         ),
                       ),
-                      errorWidget: (context, url, error) =>
-                          Image.asset('assets/images/blackHorse.jpg'),
+                      errorWidget: (context, url, error) => CustomPaint(
+                        painter: VectorBackgroundPainter(context),
+                      ),
                     ),
                   )
                   .toList(),
@@ -141,9 +143,12 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                               size: 15,
                             ),
                           ),
-                          const TextSpan(text: ' Family'), // Space after the icon
+                          const TextSpan(text: ' Family'),
+                          // Space after the icon
                         ],
-                        if (place?.accessibilityOptions?.wheelchairAccessibleEntrance == true) ...[
+                        if (place?.accessibilityOptions
+                                ?.wheelchairAccessibleEntrance ==
+                            true) ...[
                           const WidgetSpan(
                             child: Padding(
                               padding: EdgeInsets.only(left: 8.0),
@@ -153,7 +158,8 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const TextSpan(text: ' Acessibilidade'), // Space after the icon
+                          const TextSpan(text: ' Acessibilidade'),
+                          // Space after the icon
                         ],
                         if (place?.allowsDogs == true) ...[
                           const WidgetSpan(
@@ -165,7 +171,8 @@ class PlaceDetailsBottomSheet extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const TextSpan(text: ' Pet friendly'), // Space after the icon
+                          const TextSpan(text: ' Pet friendly'),
+                          // Space after the icon
                         ],
                         if (place?.liveMusic == true) ...[
                           const WidgetSpan(

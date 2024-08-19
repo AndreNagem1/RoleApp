@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:rolesp/screens/events_screen/ui/events_background.dart';
+
 String getPriceLevel(String priceLevel) {
   var priceLevelResource = 'assets/images/priceLevel0.png';
 
@@ -23,42 +26,21 @@ String getPriceLevel(String priceLevel) {
   return priceLevelResource;
 }
 
-String getRating(num rating) {
-  var ratingResource = 'assets/images/avaliations0.png';
+Widget getRating(num rating, BuildContext context) {
+  if (rating <= 5.0) {}
+  if (rating <= 4.5) {}
+  if (rating <= 4.0) {}
 
-  if (rating <= 5.0) {
-    ratingResource = 'assets/images/avaliations10.png';
-  }
-  if (rating <= 4.5) {
-    ratingResource = 'assets/images/avaliations9.png';
-  }
-  if (rating <= 4.0) {
-    ratingResource = 'assets/images/avaliations8.png';
-  }
+  if (rating <= 3.5) {}
+  if (rating <= 3.0) {}
+  if (rating <= 2.5) {}
+  if (rating <= 2.0) {}
+  if (rating <= 1.5) {}
+  if (rating <= 1.0) {}
+  if (rating <= 0.5) {}
+  if (rating == 0.0) {}
 
-  if (rating <= 3.5) {
-    ratingResource = 'assets/images/avaliations7.png';
-  }
-  if (rating <= 3.0) {
-    ratingResource = 'assets/images/avaliations6.png';
-  }
-  if (rating <= 2.5) {
-    ratingResource = 'assets/images/avaliations5.png';
-  }
-  if (rating <= 2.0) {
-    ratingResource = 'assets/images/avaliations4.png';
-  }
-  if (rating <= 1.5) {
-    ratingResource = 'assets/images/avaliations3.png';
-  }
-  if (rating <= 1.0) {
-    ratingResource = 'assets/images/avaliations2.png';
-  }
-  if (rating <= 0.5) {
-    ratingResource = 'assets/images/avaliations1.png';
-  }
-  if (rating == 0.0) {
-    ratingResource = 'assets/images/avaliations0.png';
-  }
-  return ratingResource;
+  return CustomPaint(
+    painter: VectorBackgroundPainter(context),
+  );
 }

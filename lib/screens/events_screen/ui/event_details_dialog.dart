@@ -17,7 +17,7 @@ class EventDetailsDialog extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
-        height: 300,
+        height: 400,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
@@ -27,16 +27,10 @@ class EventDetailsDialog extends StatelessWidget {
             bottomRight: Radius.circular(30),
           ),
           border: Border.all(
-            color: Theme
-                .of(context)
-                .colorScheme
-                .onSurface,
-            width: 0.5,
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 2.5,
           ),
-          color: Theme
-              .of(context)
-              .colorScheme
-              .surface,
+          color: Theme.of(context).colorScheme.surface,
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -47,18 +41,14 @@ class EventDetailsDialog extends StatelessWidget {
               children: [
                 const SizedBox(height: 5),
                 Container(
-                  color:  Theme
-                      .of(context)
-                      .colorScheme
-                      .surface,
+                  color: Theme.of(context).colorScheme.surface,
                   height: 105,
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: CachedNetworkImage(
                     fit: BoxFit.fitWidth,
                     imageUrl: event.imagem,
-                    placeholder: (context, url) =>
-                    const Align(
+                    placeholder: (context, url) => const Align(
                       alignment: Alignment.center,
                       child: SizedBox(
                         height: 20,
@@ -74,42 +64,45 @@ class EventDetailsDialog extends StatelessWidget {
                 Column(
                   children: [
                     SizedBox(
-                      height: 15,
+                      height: 30,
                       width: double.infinity,
                       child: Text(
                         event.name,
                         style: GoogleFonts.righteous(
-                          textStyle: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
                     SizedBox(
-                      height: 15,
-                      width: double.infinity,
-                      child: Text(
-                        getDateString(event.data.toDate()),
-                        style: GoogleFonts.righteous(
-                          textStyle: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 15,
-                      width: double.infinity,
+                      height: 100,
                       child: Text(
                         event.longDescription,
                         style: GoogleFonts.righteous(
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                             fontSize: 12,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        height: 23,
+                        width: double.infinity,
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          getDateString(event.data.toDate()),
+                          style: GoogleFonts.righteous(
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                           ),
                         ),
                       ),
@@ -126,10 +119,13 @@ class EventDetailsDialog extends StatelessWidget {
 }
 
 String getDateString(DateTime date) {
-  return date.day.toString() + '/' + date.month.toString() + '/' +
-      date.year.toString() + ' (${getWeekDay(date.weekday)})';
+  return date.day.toString() +
+      '/' +
+      date.month.toString() +
+      '/' +
+      date.year.toString() +
+      ' (${getWeekDay(date.weekday)})';
 }
-
 
 String getWeekDay(int weekday) {
   if (weekday == 1) {
