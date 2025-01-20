@@ -28,3 +28,5 @@ The project uses flutter with, bloc/cubit, DIO, GetIT, Coil, Google Maps, among 
 <img width="394" alt="Captura de Tela 2025-01-20 às 09 37 59" src="https://github.com/user-attachments/assets/fc81b5b1-6ff7-42fd-8548-9d9d1ed85276" />
 
 <img width="394" alt="Captura de Tela 2025-01-20 às 09 38 11" src="https://github.com/user-attachments/assets/ff6fb22d-e5b8-4af7-9610-8ea563d9abdb" />
+
+<img width="394" alt="Captura de Tela 2025-01-20 às 09 39 28" src="https://github.com/user-attachments/assets/e24694aa-3366-491c-bbda-ccf0907dd4bd" />
