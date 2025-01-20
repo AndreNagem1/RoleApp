@@ -18,7 +18,7 @@ import 'favorites_loading_screen.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
-  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
+  final apiKey = 'apiKey';
 
   @override
   Widget build(BuildContext context) {

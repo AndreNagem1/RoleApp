@@ -20,7 +20,7 @@ class ListPlacesCubit extends Cubit<ListPlacesState> {
 
   final db = FirebaseFirestore.instance;
   final Dio dio = Dio(BaseOptions(receiveTimeout: const Duration(seconds: 10)));
-  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
+  final apiKey = 'apiKey';
 
   var listPlaces = <PlaceInfo>[];
   var distanceFilter = 500.0;

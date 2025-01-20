@@ -13,7 +13,7 @@
         android:label="rolesp">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884" />
+            android:value="apiKey" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

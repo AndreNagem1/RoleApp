@@ -20,7 +20,7 @@ import '../../screens/events_screen/ui/events_background.dart';
 class PlaceDetailsBottomSheet extends StatelessWidget {
   final PlaceInfo? place;
   final MapController mapController;
-  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
+  final apiKey = 'apiKey';
 
   const PlaceDetailsBottomSheet(
       {required Key key, required this.place, required this.mapController})

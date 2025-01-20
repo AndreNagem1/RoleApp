@@ -4,7 +4,7 @@ import 'package:rolesp/screens/map_screen/data/datasources/auto_complete_datasou
 import 'dart:convert';
 
 class GoogleAutoCompleteDatasource implements AutoCompleteDataSource {
-  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
+  final apiKey = 'apiKey';
   final Dio dio = Dio();
 
   GoogleAutoCompleteDatasource();

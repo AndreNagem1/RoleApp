@@ -18,7 +18,7 @@ class PlacesListItem extends StatelessWidget {
   final PlaceInfo? place;
   final MapController mapController;
   final VoidCallback onTap;
-  final apiKey = 'AIzaSyDHqcABOOAoDDqR-UnJA5W7YwDVAa2t884';
+  final apiKey = 'apiKey';
 
   const PlacesListItem({
     Key? key,
